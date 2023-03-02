@@ -17,11 +17,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-
+    Object hashVal = "yongbin@gmail.com";
+    HashQR hashQR = new HashQR();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Object hash = hashQR.hashObject(hashVal);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         user.put("first", "Ada");
         user.put("last", "Lovelace");
         user.put("born", 1815);
+        user.put("Hash?", hash);
 
         // Add a new document with a generated ID
         db.collection("users")
