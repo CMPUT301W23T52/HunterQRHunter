@@ -17,6 +17,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+
+
+
+    int a = 1;
     Object hashVal = "yongbin@gmail.com";
     HashQR hashQR = new HashQR();
     @Override
