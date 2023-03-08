@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         // Create a new user with a first and last name
-        Map<String, Object> user = new HashMap<>();
+        Map<String, Object> user = new HashMap<>();  Map<String, Object> user = new HashMap<>(
         user.put("first", "Ada");
         user.put("last", "Lovelace");
         user.put("born", 1815);
