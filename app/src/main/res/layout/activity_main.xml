@@ -15,11 +15,17 @@
 
 
         <Button
-            android:id="@+id/btn1"
+            android:id="@+id/btn_qr_screen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Next Screen"/>
+            android:text="QR_SCREEN"/>
 
+
+    <Button
+        android:id="@+id/btn_user_screen"
+        android:layout_width="165dp"
+        android:layout_height="wrap_content"
+        android:text="User_screen" />
 
     <Button
         android:id="@+id/button"

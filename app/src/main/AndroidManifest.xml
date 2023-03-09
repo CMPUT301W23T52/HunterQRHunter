@@ -22,6 +22,7 @@
         </activity>
 
         <activity android:name=".NextScreen"/>
+        <activity android:name=".LoginScreen"/>
     </application>
 
 </manifest>
