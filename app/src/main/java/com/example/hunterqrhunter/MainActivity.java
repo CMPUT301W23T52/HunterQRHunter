@@ -55,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
                 fb.createQR(qrCreature);
             }
         });
-        
-        
 
         Button imageButton = (Button) findViewById(R.id.btn1);
         imageButton.setOnClickListener(new View.OnClickListener() {
