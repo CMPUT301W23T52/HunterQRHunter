@@ -13,6 +13,19 @@ import static android.content.ContentValues.TAG;
 
 import android.util.Log;
 
+import com.example.hunterqrhunter.model.QRCreature;
+import com.example.hunterqrhunter.model.User;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Map;
+
+//package com.example.hunterqrhunter.data;
+
+import android.util.Log;
+
+import com.example.hunterqrhunter.model.QRCreature;
 import com.example.hunterqrhunter.model.User;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -32,13 +45,20 @@ public class FbRepository {
     }
 
     public DocumentReference getDocumentRef(String colName, String docName) {
-
         return db.collection(colName).document(docName);
     }
 
     public void createUser(User user) {
         Map<String, Object> userValues = user.toMap();
-        db.collection("users").add(user).addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId()))
-                .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
+        db.collection("users").add(userValues)
+                .addOnSuccessListener(documentReference -> Log.d("FbRepository", "DocumentSnapshot added with ID: " + documentReference.getId()))
+                .addOnFailureListener(e -> Log.w("FbRepository", "Error adding document", e));
+    }
+
+    public void createQR(QRCreature qrCreature) {
+        Map<String, Object> qrValues = qrCreature.toMap();
+        db.collection(qrCreature.getCollectionName()).add(qrValues)
+                .addOnSuccessListener(documentReference -> Log.d("FbRepository", "DocumentSnapshot added with ID: " + documentReference.getId()))
+                .addOnFailureListener(e -> Log.w("FbRepository", "Error adding document", e));
     }
 }
