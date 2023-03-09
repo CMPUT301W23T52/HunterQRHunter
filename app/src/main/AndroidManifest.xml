@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".NextScreen"/>
+        <activity android:name=".QRScreen"/>
         <activity android:name=".LoginScreen"/>
         <activity android:name=".MapScreen"/>
     </application>
