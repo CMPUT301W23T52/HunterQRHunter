@@ -23,6 +23,7 @@
 
         <activity android:name=".NextScreen"/>
         <activity android:name=".LoginScreen"/>
+        <activity android:name=".MapScreen"/>
     </application>
 
 </manifest>
