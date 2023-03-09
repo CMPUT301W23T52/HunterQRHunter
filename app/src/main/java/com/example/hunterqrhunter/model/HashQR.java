@@ -1,4 +1,4 @@
-package com.example.hunterqrhunter;
+package com.example.hunterqrhunter.model;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

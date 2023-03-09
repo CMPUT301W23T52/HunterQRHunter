@@ -6,26 +6,19 @@
     android:orientation="vertical"
     android:gravity="center"
     tools:context=".MainActivity">
-    <TextView
-        android:layout_width="wrap_content"
+
+
+    <Button
+        android:id="@+id/btn_signup"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="First Screen"
-        android:textSize="50sp"/>
-
-
-
-        <Button
-            android:id="@+id/btn1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Next Screen"/>
-
+        android:text="signup" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Send Data"
         tools:layout_editor_absoluteX="158dp"
         tools:layout_editor_absoluteY="239dp"
         tools:ignore="MissingConstraints" />
