@@ -5,8 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import java.util.Random;
-
 public class HashQR {
     public int hash;
     public String HashName;
@@ -50,8 +48,8 @@ public class HashQR {
     public Bitmap generateImageFromHashcode(int hashcode) {
 
         //default size of the image
-        int width = 100;
-        int height = 100;
+        int width = 350;
+        int height = 350;
 
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
@@ -67,8 +65,17 @@ public class HashQR {
         paint.setColor(color);
         canvas.drawRect(0, 0, width, height, paint);
 
-        // Return the generated image
+//        int[] pixels = new int[width * height];
+//
+//        bitmap.getPixels(pixels, 0, width, 0, 0 , width, height);
+//
+//        // Return the generated image
+//        List<Integer> bitmapList = new ArrayList<Integer>();
+//        for (int i = 0; i < pixels.length; i++) {
+//            bitmapList.add(pixels[i]);
+//        }
         return bitmap;
     }
+
 }
 

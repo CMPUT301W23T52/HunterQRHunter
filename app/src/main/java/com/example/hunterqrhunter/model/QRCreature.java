@@ -5,12 +5,16 @@ import android.graphics.Bitmap;
 import com.google.firebase.firestore.Exclude;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class QRCreature {
     String name;
     int hashcode;
     Bitmap bitmap;
+
+    List<Integer> inverseTransform;
+
 
 
     public QRCreature(String name, int hashcode, Bitmap bitmap){
@@ -26,6 +30,9 @@ public class QRCreature {
         result.put("QR Hash", this.hashcode);
         result.put("QR Creature", this.bitmap);
         return result;
+    }
+    public void setInverseTransform(List<Integer> inverseTransform) {
+        this.inverseTransform = inverseTransform;
     }
 
     public String getCollectionName() {

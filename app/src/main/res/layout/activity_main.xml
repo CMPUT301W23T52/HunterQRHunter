@@ -7,21 +7,28 @@
     android:gravity="center"
     tools:context=".MainActivity">
 
-
+    <ImageView
+        android:id="@+id/QrCreatureImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:srcCompat="@tools:sample/avatars" />
     <Button
         android:id="@+id/btn_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="signup" />
 
-    <Button
-        android:id="@+id/button"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send Data"
-        tools:layout_editor_absoluteX="158dp"
-        tools:layout_editor_absoluteY="239dp"
-        tools:ignore="MissingConstraints" />
+        android:text="First Screen"
+        android:textSize="50sp"/>
+    <Button
+        android:id="@+id/btn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next Screen"/>
+
 </LinearLayout>
 
 
