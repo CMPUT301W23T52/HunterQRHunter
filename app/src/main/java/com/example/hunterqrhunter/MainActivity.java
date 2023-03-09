@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         qrScreenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), NextScreen.class);
+                Intent intent = new Intent(getApplicationContext(), QRScreen.class);
                 startActivity(intent);
             }
         });
