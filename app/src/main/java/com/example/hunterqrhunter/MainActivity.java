@@ -9,6 +9,10 @@ import android.widget.Button;
 
 import com.example.hunterqrhunter.data.FbRepository;
 import com.example.hunterqrhunter.model.QRCreature;
+import com.example.hunterqrhunter.page.HashQR;
+import com.example.hunterqrhunter.page.LoginScreen;
+import com.example.hunterqrhunter.page.MapScreen;
+import com.example.hunterqrhunter.page.QRScreen;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {

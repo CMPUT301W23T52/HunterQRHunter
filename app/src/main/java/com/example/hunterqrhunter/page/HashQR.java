@@ -1,4 +1,4 @@
-package com.example.hunterqrhunter;
+package com.example.hunterqrhunter.page;
 
 public class HashQR {
     public int hash;

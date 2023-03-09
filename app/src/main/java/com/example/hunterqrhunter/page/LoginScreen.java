@@ -1,8 +1,10 @@
-package com.example.hunterqrhunter;
+package com.example.hunterqrhunter.page;
 
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.hunterqrhunter.R;
 
 public class LoginScreen extends AppCompatActivity {
     @Override
