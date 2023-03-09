@@ -1,27 +1,14 @@
 package com.example.hunterqrhunter;
 
-import static android.content.ContentValues.TAG;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.hunterqrhunter.R;
-import com.example.hunterqrhunter.HashQR;
 import com.example.hunterqrhunter.data.FbRepository;
 import com.example.hunterqrhunter.model.QRCreature;
-import com.example.hunterqrhunter.model.User;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     Object hashVal = "yongbin@gmail.com";
@@ -47,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Generate hash and hash name
                 int hash = hashQR.hashObject(hashVal);
-                String HashName = hashQR.nameGen(hash);
+                String HashName = hashQR.giveQrName(hash);
 
                 // Create a new user with a first and last name, born year, hash, and hash name
                 QRCreature qrCreature = new QRCreature(HashName, hash);

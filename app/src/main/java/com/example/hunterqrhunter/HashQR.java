@@ -18,7 +18,7 @@ public class HashQR {
     }
 
     //NameGen() is a method that gets a hashed integer and generate a readable name out of that
-    public static String nameGen(int hash) {
+    public static String giveQrName(int hash) {
         // Define an array of syllables that can be used to generate the random name
         String[] syllables = {"a", "an", "ba", "be", "ca", "ce", "da", "de", "el", "en", "fa", "fe", "ga", "ge", "ha", "he", "ia", "ie", "ja", "je", "ka", "ke", "la", "le", "ma", "me", "na", "ne", "oa", "oe", "pa", "pe", "ra", "re", "sa", "se", "ta", "te", "ua", "ue", "va", "ve", "wa", "we", "xa", "xe", "ya", "ye", "za", "ze"};
 
