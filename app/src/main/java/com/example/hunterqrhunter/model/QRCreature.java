@@ -1,5 +1,7 @@
 package com.example.hunterqrhunter.model;
 
+import android.graphics.Bitmap;
+
 import com.google.firebase.firestore.Exclude;
 
 import java.util.HashMap;
@@ -8,10 +10,13 @@ import java.util.Map;
 public class QRCreature {
     String name;
     int hashcode;
+    Bitmap bitmap;
 
-    public QRCreature(String name, int hashcode){
+
+    public QRCreature(String name, int hashcode, Bitmap bitmap){
         this.name = name;
         this.hashcode = hashcode;
+        this.bitmap = bitmap;
     }
 
     @Exclude
@@ -19,7 +24,7 @@ public class QRCreature {
         HashMap<String, Object> result = new HashMap<>();
         result.put("QR Name", this.name);
         result.put("QR Hash", this.hashcode);
-
+        result.put("QR Creature", this.bitmap);
         return result;
     }
 

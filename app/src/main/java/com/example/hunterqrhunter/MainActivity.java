@@ -2,6 +2,7 @@ package com.example.hunterqrhunter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,9 +36,10 @@ public class MainActivity extends AppCompatActivity {
                 // Generate hash and hash name
                 int hash = hashQR.hashObject(hashVal);
                 String HashName = hashQR.giveQrName(hash);
+                Bitmap HashImage = hashQR.generateImageFromHashcode(hash);
 
                 // Create a new user with a first and last name, born year, hash, and hash name
-                QRCreature qrCreature = new QRCreature(HashName, hash);
+                QRCreature qrCreature = new QRCreature(HashName, hash, HashImage);
                 fb.createQR(qrCreature);
             }
         });
