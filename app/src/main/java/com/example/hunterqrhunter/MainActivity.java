@@ -5,8 +5,11 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.hunterqrhunter.R;
 import com.example.hunterqrhunter.HashQR;
@@ -30,31 +33,19 @@ public class MainActivity extends AppCompatActivity {
 
         int hash = hashQR.hashObject(hashVal);
 
+        Button imageButton = (Button) findViewById(R.id.btn1);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), NextScreen.class);
+                startActivity(intent);
+            }
+        });
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FbRepository fb = new FbRepository(db);
 
-        // Create a new user with a first and last name
-        //Map<String, Object> user = new HashMap<>();
-        //user.put("first", "Ada");
-        //user.put("last", "Lovelace");
-       // user.put("born", 1815);
-        //user.put("Hash?", hash);
 
-        // Add a new document with a generated ID
-        //db.collection("users")
-                //.add(user)
-                //.addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    //@Override
-                    //public void onSuccess(DocumentReference documentReference) {
-                       // Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                   // }
-               // })
-                //.addOnFailureListener(new OnFailureListener() {
-                    //@Override
-                   // public void onFailure(@NonNull Exception e) {
-                        //Log.w(TAG, "Error adding document", e);
-                    //}
-                //});
         User user = new User("5","Lingfeng","Zhu",2001,hash);
         fb.createUser(user);
     }
