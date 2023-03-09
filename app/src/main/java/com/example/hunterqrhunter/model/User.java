@@ -13,6 +13,7 @@ public class User {
     int born;
     int hash;
 
+
     public User(String uid,String fn, String ln, int born, int hash) {
         this.uid = uid;
         this.firstName =  fn;
