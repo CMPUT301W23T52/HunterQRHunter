@@ -14,6 +14,7 @@ import android.widget.Button;
 import com.example.hunterqrhunter.R;
 import com.example.hunterqrhunter.HashQR;
 import com.example.hunterqrhunter.data.FbRepository;
+import com.example.hunterqrhunter.model.QRCreature;
 import com.example.hunterqrhunter.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,12 +27,36 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     Object hashVal = "yongbin@gmail.com";
     HashQR hashQR = new HashQR();
+
+    private Button mButton;
+    private FirebaseFirestore db;
+    private FbRepository fb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        int hash = hashQR.hashObject(hashVal);
+        // Initialize Firebase Firestore and FbRepository
+        db = FirebaseFirestore.getInstance();
+        fb = new FbRepository(db);
+
+        // Initialize the button and set an OnClickListener
+        mButton = findViewById(R.id.button);
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Generate hash and hash name
+                int hash = hashQR.hashObject(hashVal);
+                String HashName = hashQR.nameGen(hash);
+
+                // Create a new user with a first and last name, born year, hash, and hash name
+                QRCreature qrCreature = new QRCreature(HashName, hash);
+                fb.createQR(qrCreature);
+            }
+        });
+        
+        
 
         Button imageButton = (Button) findViewById(R.id.btn1);
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -42,11 +67,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FbRepository fb = new FbRepository(db);
-
-
-        User user = new User("5","Lingfeng","Zhu",2001,hash);
-        fb.createUser(user);
     }
 }
