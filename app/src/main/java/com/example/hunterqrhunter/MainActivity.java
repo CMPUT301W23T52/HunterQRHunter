@@ -33,28 +33,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FbRepository fb = new FbRepository(db);
 
-        // Create a new user with a first and last name
-        //Map<String, Object> user = new HashMap<>();
-        //user.put("first", "Ada");
-        //user.put("last", "Lovelace");
-       // user.put("born", 1815);
-        //user.put("Hash?", hash);
 
-        // Add a new document with a generated ID
-        //db.collection("users")
-                //.add(user)
-                //.addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    //@Override
-                    //public void onSuccess(DocumentReference documentReference) {
-                       // Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                   // }
-               // })
-                //.addOnFailureListener(new OnFailureListener() {
-                    //@Override
-                   // public void onFailure(@NonNull Exception e) {
-                        //Log.w(TAG, "Error adding document", e);
-                    //}
-                //});
         User user = new User("5","Lingfeng","Zhu",2001,hash);
         fb.createUser(user);
     }
