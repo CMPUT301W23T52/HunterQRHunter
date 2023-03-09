@@ -6,32 +6,13 @@
     android:orientation="vertical"
     android:gravity="center"
     tools:context=".MainActivity">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="First Screen"
-        android:textSize="50sp"/>
-
-
-
-        <Button
-            android:id="@+id/btn_qr_screen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="QR_SCREEN"/>
 
 
     <Button
-        android:id="@+id/btn_user_screen"
-        android:layout_width="165dp"
+        android:id="@+id/btn_signup"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="User_screen" />
-
-    <Button
-        android:id="@+id/btn_map_screen"
-        android:layout_width="158dp"
-        android:layout_height="wrap_content"
-        android:text="Map_SCREEN" />
+        android:text="signup" />
 
     <Button
         android:id="@+id/button"

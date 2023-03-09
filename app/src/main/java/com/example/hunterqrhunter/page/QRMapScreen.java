@@ -7,10 +7,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hunterqrhunter.R;
 
-public class MapScreen extends AppCompatActivity {
+public class QRMapScreen extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.map_screen);
+        setContentView(R.layout.activity_qr_map);
     }
 }

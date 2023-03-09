@@ -9,10 +9,11 @@ import android.widget.Button;
 
 import com.example.hunterqrhunter.data.FbRepository;
 import com.example.hunterqrhunter.model.QRCreature;
-import com.example.hunterqrhunter.page.HashQR;
-import com.example.hunterqrhunter.page.LoginScreen;
-import com.example.hunterqrhunter.page.MapScreen;
-import com.example.hunterqrhunter.page.QRScreen;
+import com.example.hunterqrhunter.model.HashQR;
+import com.example.hunterqrhunter.page.MenuScreen;
+import com.example.hunterqrhunter.page.UserScoresScreen;
+import com.example.hunterqrhunter.page.QRMapScreen;
+import com.example.hunterqrhunter.page.QRCameraScreen;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,29 +48,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button qrScreenBtn = (Button) findViewById(R.id.btn_qr_screen);
-        qrScreenBtn.setOnClickListener(new View.OnClickListener() {
+        Button signBtn = (Button) findViewById(R.id.btn_signup);
+        signBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), QRScreen.class);
-                startActivity(intent);
-            }
-        });
-
-        Button userScreenBtn = (Button) findViewById(R.id.btn_user_screen) ;
-        userScreenBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), LoginScreen.class);
-                startActivity(intent);
-            }
-        });
-
-        Button mapScreenBtn = (Button) findViewById(R.id.btn_map_screen);
-        mapScreenBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MapScreen.class);
+                Intent intent = new Intent(getApplicationContext(), MenuScreen.class);
                 startActivity(intent);
             }
         });

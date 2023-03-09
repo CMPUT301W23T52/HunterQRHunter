@@ -20,10 +20,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".page.MenuScreen"/>
+        <activity android:name=".page.QRCameraScreen"/>
+        <activity android:name=".page.UserScoresScreen"/>
+        <activity android:name=".page.QRMapScreen"/>
+        <activity android:name=".page.MyQRScreen"/>
         <activity android:name=".page.QRScreen"/>
-        <activity android:name=".page.LoginScreen"/>
-        <activity android:name=".page.MapScreen"/>
     </application>
 
 </manifest>
