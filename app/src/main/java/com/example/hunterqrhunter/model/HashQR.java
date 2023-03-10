@@ -5,20 +5,26 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class HashQR {
     public int hash;
     public String HashName;
     //HashObject is a method that gets any type of object(QR code) returns hash code
-    public static int hashObject(Object obj) {
+    public static byte[] hashObject(String obj) {
         if (obj == null) {
-            return 0;
+            return null;
         }
-        int hash = obj.hashCode();
-        if (hash == Integer.MIN_VALUE) {
-            hash = 0;
-        } else if (hash < 0) {
-            hash = -hash;
+        MessageDigest messageDigest = null;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256");
+            byte[] data = obj.getBytes("UTF-8");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
+
+        byte[] hash = messageDigest.digest(data);
         return hash;
     }
 
@@ -34,7 +40,7 @@ public class HashQR {
         StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < nameLength; i++) {
-            int index = (hash + i) % syllables.length;
+            int index = (Byte.toUnsignedInt(hash[i]) + i) % syllables.length;
             String syllable = syllables[index];
             // capitalize the first letter of the syllable to make it sound more like a name
             syllable = syllable.substring(0, 1).toUpperCase() + syllable.substring(1);
@@ -77,5 +83,27 @@ public class HashQR {
         return bitmap;
     }
 
+
+    // scoreGen() is a method that takes in a hash value and generates an appropriate score
+    public static int scoreGen(byte[] hash) {
+        byte lastByte = hash[hash.length - 1];
+        int repeatCount = 0;
+        int score = 0;
+
+        for (int i = 0; i < hash.length; i++) {
+            if (hash[i] == lastByte) {
+                repeatCount++;
+                if (i == hash.length - 1) {
+                    score += Byte.toUnsignedInt(lastByte)^repeatCount;
+                }
+            } else {
+                score += Byte.toUnsignedInt(lastByte)^repeatCount;
+                repeatCount = 0;
+            }
+            lastByte = hash[i];
+        }
+
+        return score;
+    }
 }
 

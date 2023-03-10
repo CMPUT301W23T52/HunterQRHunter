@@ -10,14 +10,15 @@ import java.util.Map;
 
 public class QRCreature {
     String name;
-    int hashcode;
+    byte[] hashcode;
     Bitmap bitmap;
 
     List<Integer> inverseTransform;
 
 
 
-    public QRCreature(String name, int hashcode, Bitmap bitmap){
+
+    public QRCreature(String name, byte[] hashcode){
         this.name = name;
         this.hashcode = hashcode;
         this.bitmap = bitmap;

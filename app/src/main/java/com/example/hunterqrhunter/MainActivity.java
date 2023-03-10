@@ -24,7 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    Object hashVal = "yongbin@gmail.com";
+    String hashVal = "yongbin@gmail.com";
     HashQR hashQR = new HashQR();
 
     private Button mButton;
@@ -57,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Generate hash and hash name
+                byte[] hash = hashQR.hashObject(hashVal);
+                String HashName = hashQR.nameGen(hash);
 
                 // Create a new user with a first and last name, born year, hash, and hash name
                 QRCreature qrCreature = new QRCreature(HashName, hash, HashImage);
