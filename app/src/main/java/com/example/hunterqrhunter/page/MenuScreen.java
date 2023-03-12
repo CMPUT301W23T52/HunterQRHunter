@@ -61,7 +61,14 @@ public class MenuScreen extends AppCompatActivity {
             }
         });
 
-
+        Button editProfileButton = findViewById(R.id.edit_profile_button);
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), EditProfileScreen.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
