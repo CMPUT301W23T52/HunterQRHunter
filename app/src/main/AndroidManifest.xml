@@ -12,7 +12,10 @@
         android:theme="@style/Theme.HunterQRHunter"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".page.EditProfileScreen"
+            android:exported="false" />
+        <activity
+            android:name=".LoadingScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,8 +23,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".NextScreen"/>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".page.MenuScreen" />
+        <activity android:name=".page.QRCameraScreen" />
+        <activity android:name=".page.UserScoresScreen" />
+        <activity android:name=".page.QRMapScreen" />
+        <activity android:name=".page.MyQRScreen" />
+        <activity android:name=".page.QRScreen" />
     </application>
 
 </manifest>

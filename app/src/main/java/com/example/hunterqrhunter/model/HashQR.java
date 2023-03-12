@@ -1,4 +1,4 @@
-package com.example.hunterqrhunter;
+package com.example.hunterqrhunter.model;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
