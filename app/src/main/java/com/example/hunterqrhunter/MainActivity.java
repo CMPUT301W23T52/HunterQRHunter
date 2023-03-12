@@ -27,7 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
-    Object hashVal = "yongbin@gmail.com";
+    String hashVal = "yongbin@gmail.com";
     HashQR hashQR = new HashQR();
 
     private Button mButton;
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Generate hash and hash name
-                int hash = hashQR.hashObject(hashVal);
+                byte[] hash = hashQR.hashObject(hashVal);
                 String HashName = hashQR.nameGen(hash);
 
                 // Create a new user with a first and last name, born year, hash, and hash name
