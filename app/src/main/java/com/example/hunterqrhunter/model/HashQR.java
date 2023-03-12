@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -17,10 +19,17 @@ public class HashQR {
             return null;
         }
         MessageDigest messageDigest = null;
+
         try {
             messageDigest = MessageDigest.getInstance("SHA-256");
-            byte[] data = obj.getBytes("UTF-8");
         } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+
+        byte[] data = new byte[0];
+        try {
+            data = obj.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
 
@@ -96,8 +105,14 @@ public class HashQR {
                 if (i == hash.length - 1) {
                     score += Byte.toUnsignedInt(lastByte)^repeatCount;
                 }
+                if (lastByte == 0) {
+                    score += 20^(repeatCount - 1);
+                }
             } else {
                 score += Byte.toUnsignedInt(lastByte)^repeatCount;
+                if (lastByte == 0) {
+                    score += 20^(repeatCount - 1);
+                }
                 repeatCount = 0;
             }
             lastByte = hash[i];
