@@ -29,9 +29,10 @@ import java.util.HashMap;
 public class EditProfileScreen extends AppCompatActivity {
 
     FirebaseFirestore database = FirebaseFirestore.getInstance();
-    CollectionReference usersCollection = database.collection("Users (shafi)");
-    CollectionReference usernameCollection = database.collection("Usernames (shafi)");
     HashQR hashQR = new HashQR();
+    CollectionReference usersCollection = database.collection("User");
+    CollectionReference usernameCollection = database.collection("Usernames");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -64,11 +65,11 @@ public class EditProfileScreen extends AppCompatActivity {
 
                 if (newUsername.length()>0 && newEmail.length()>0) {
 
-                    userData.put("Username", newUsername);
-                    userData.put("Email", newEmail);
-                    userData.put("User ID", userID);
+                    userData.put("username", newUsername);
+                    userData.put("email", newEmail);
+                    userData.put("uid", userID);
 
-                    usernameData.put("Username", newUsername);
+                    usernameData.put("username", newUsername);
 
                     usersCollection.document(userID).set(userData);
                     usernameCollection.document(currentUsername[0]).delete();
@@ -98,14 +99,14 @@ public class EditProfileScreen extends AppCompatActivity {
     // CITE PROPERLY
     private void getUsernameByID(String userID, String[] username) {
 
-        DocumentReference docRef = database.collection("Users (shafi)").document(userID);
+        DocumentReference docRef = database.collection("User").document(userID);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        username[0] = document.getString("Username");
+                        username[0] = document.getString("username");
                     } else {
                         Log.d(TAG, "No such document");
                     }
@@ -118,15 +119,15 @@ public class EditProfileScreen extends AppCompatActivity {
 
     private void setCurrentUserInfo(String userID, EditText username, EditText email) {
 
-        DocumentReference docRef = database.collection("Users (shafi)").document(userID);
+        DocumentReference docRef = database.collection("User").document(userID);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        username.setText(document.getString("Username"));
-                        email.setText(document.getString("Email"));
+                        username.setText(document.getString("username"));
+                        email.setText(document.getString("email"));
                     } else {
                         Log.d(TAG, "No such document");
                     }

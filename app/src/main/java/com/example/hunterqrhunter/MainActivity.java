@@ -17,20 +17,17 @@ import android.widget.ImageView;
 import android.provider.Settings;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.hunterqrhunter.data.FbRepository;
 
 import com.example.hunterqrhunter.data.FbRepository;
 import com.example.hunterqrhunter.model.QRCreature;
 
 import com.example.hunterqrhunter.model.HashQR;
+import com.example.hunterqrhunter.model.QRCreature;
 import com.example.hunterqrhunter.page.MenuScreen;
-import com.example.hunterqrhunter.page.UserScoresScreen;
-import com.example.hunterqrhunter.page.QRMapScreen;
-import com.example.hunterqrhunter.page.QRCameraScreen;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
@@ -90,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
         EditText email = findViewById((R.id.email_sign_up));
 
         // Initializing database collections
-        CollectionReference usersCollection = db.collection("Users (shafi)");
-        CollectionReference usernameCollection = db.collection("Usernames (shafi)");
+        CollectionReference usersCollection = db.collection("User");
+        CollectionReference usernameCollection = db.collection("Usernames");
         signBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,11 +101,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if (usernameStr.length() > 0 && emailStr.length() > 0) {
 
-                    userData.put("Username", usernameStr);
-                    userData.put("Email", emailStr);
-                    userData.put("user ID", userID);
+                    userData.put("username", usernameStr);
+                    userData.put("email", emailStr);
+                    userData.put("uid", userID);
 
-                    usernameData.put("Username", usernameStr);
+                    usernameData.put("username", usernameStr);
 
                     usersCollection.document(userID).set(userData);
                     usernameCollection.document(usernameStr).set(usernameData);
