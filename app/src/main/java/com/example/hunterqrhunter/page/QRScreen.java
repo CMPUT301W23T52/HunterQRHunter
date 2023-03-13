@@ -1,5 +1,4 @@
 package com.example.hunterqrhunter.page;
-
 import static android.content.ContentValues.TAG;
 
 import android.content.Context;
@@ -102,8 +101,5 @@ public class QRScreen extends AppCompatActivity {
 
             }
         });
-
-
-
     }
 }
