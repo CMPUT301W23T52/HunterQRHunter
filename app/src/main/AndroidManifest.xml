@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,6 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HunterQRHunter"
         tools:targetApi="31">
+<<<<<<< HEAD
+=======
+        <activity
+            android:name=".page.EditProfileScreen"
+            android:exported="false" />
+>>>>>>> 2a4ff2b8a78ed886d38fb11bec5f9ab92feda1df
 
         <activity
             android:name=".LoadingScreen"
@@ -29,6 +37,9 @@
         <activity android:name=".page.QRMapScreen" />
         <activity android:name=".page.MyQRScreen" />
         <activity android:name=".page.QRScreen" />
+        <activity android:name=".page.AddQRScreen"/>
+
+
     </application>
 
 </manifest>

@@ -9,6 +9,7 @@
         android:id="@+id/scoreboard_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:text="Scoreboard"
         android:textSize="24sp"
         android:paddingLeft="120dp"
@@ -30,3 +31,10 @@
         android:layout_gravity="left|bottom" />
 
 </LinearLayout>
+=======
+        android:text="user scores screen"
+        tools:layout_editor_absoluteX="150dp"
+        tools:layout_editor_absoluteY="367dp"
+        tools:ignore="MissingConstraints" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+>>>>>>> 2a4ff2b8a78ed886d38fb11bec5f9ab92feda1df

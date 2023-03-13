@@ -11,5 +11,6 @@
         android:layout_height="wrap_content"
         android:text="mapText"
         tools:layout_editor_absoluteX="169dp"
-        tools:layout_editor_absoluteY="356dp" />
+        tools:layout_editor_absoluteY="356dp"
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

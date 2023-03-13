@@ -1,25 +1,49 @@
 package com.example.hunterqrhunter;
 
+<<<<<<< HEAD
+=======
+import static java.sql.DriverManager.println;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.Bitmap;
+>>>>>>> 2a4ff2b8a78ed886d38fb11bec5f9ab92feda1df
 import android.content.Intent;
+import android.graphics.Picture;
 import android.os.Bundle;
-import android.provider.Settings;
+
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.provider.Settings;
 import android.widget.EditText;
 
+<<<<<<< HEAD
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hunterqrhunter.data.FbRepository;
+=======
+
+import com.example.hunterqrhunter.data.FbRepository;
+import com.example.hunterqrhunter.model.QRCreature;
+
+>>>>>>> 2a4ff2b8a78ed886d38fb11bec5f9ab92feda1df
 import com.example.hunterqrhunter.model.HashQR;
 import com.example.hunterqrhunter.model.QRCreature;
 import com.example.hunterqrhunter.page.MenuScreen;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+
 import java.util.HashMap;
 
+
 public class MainActivity extends AppCompatActivity {
-    Object hashVal = "yongbin@gmail.com";
+
+
+    String hashVal = "dragonasf";
     HashQR hashQR = new HashQR();
 
     private Button mButton;
@@ -30,23 +54,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Get a reference to the ImageView
+        ImageView imageView = findViewById(R.id.QrCreatureImage);
+        // Generate hash and hash name
+        byte[] hash = hashQR.hashObject(hashVal);
+        String HashName = hashQR.giveQrName(hash);
+//        Bitmap HashImage = hashQR.generateImageFromHashcode(hash);
+
+// Generate the bitmap from the hash code
+//        Bitmap bitmap = Bitmap.createBitmap(HashImage);
+
+// Set the bitmap on the ImageView
+//        imageView.setImageBitmap(bitmap);
 
         // Initialize Firebase Firestore and FbRepository
         db = FirebaseFirestore.getInstance();
         fb = new FbRepository(db);
 
         // Initialize the button and set an OnClickListener
-        mButton = findViewById(R.id.button);
+        mButton = findViewById(R.id.btn1);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Generate hash and hash name
-                int hash = hashQR.hashObject(hashVal);
-                String HashName = hashQR.nameGen(hash);
+                byte[] hash = hashQR.hashObject(hashVal);
+                String HashName = hashQR.giveQrName(hash);
 
                 // Create a new user with a first and last name, born year, hash, and hash name
-                QRCreature qrCreature = new QRCreature(HashName, hash);
-                fb.createQR(qrCreature);
+//                QRCreature qrCreature = new QRCreature(HashName, hash);
+//                fb.writeQR(qrCreature);
             }
         });
 
