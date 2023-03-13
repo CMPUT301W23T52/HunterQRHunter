@@ -131,7 +131,7 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
                 mMap.addMarker(new MarkerOptions().position(location).icon(getMarkerIcon("#ffe922")));
             }
             else {
-                mMap.addMarker(new MarkerOptions().position(location).title(element.hashName + "Score = " + element.score));
+                mMap.addMarker(new MarkerOptions().position(location).title(element.hashName + " Score = " + element.score));
             }
         }
         // Add a marker based on the lat/long we receieve and plot it
