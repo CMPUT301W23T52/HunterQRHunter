@@ -1,14 +1,11 @@
 package com.example.hunterqrhunter;
 
-<<<<<<< HEAD
-=======
 import static java.sql.DriverManager.println;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
->>>>>>> 2a4ff2b8a78ed886d38fb11bec5f9ab92feda1df
 import android.content.Intent;
 import android.graphics.Picture;
 import android.os.Bundle;
@@ -20,16 +17,13 @@ import android.widget.ImageView;
 import android.provider.Settings;
 import android.widget.EditText;
 
-<<<<<<< HEAD
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hunterqrhunter.data.FbRepository;
-=======
 
 import com.example.hunterqrhunter.data.FbRepository;
 import com.example.hunterqrhunter.model.QRCreature;
 
->>>>>>> 2a4ff2b8a78ed886d38fb11bec5f9ab92feda1df
 import com.example.hunterqrhunter.model.HashQR;
 import com.example.hunterqrhunter.model.QRCreature;
 import com.example.hunterqrhunter.page.MenuScreen;
