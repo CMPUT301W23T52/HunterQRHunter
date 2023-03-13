@@ -31,6 +31,8 @@ public class QRScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_qr);
         ListView listView = findViewById(R.id.qr_qr_comment_list);
         Button addText = (Button) findViewById(R.id.qr_add_button);
@@ -39,43 +41,33 @@ public class QRScreen extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.qr_add_comment);
 
 
-
-        super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
         fb = new FbRepository(db);
-        ArrayList<String> list = new ArrayList<>(Arrays.asList("a"));
-        ArrayList<String> list2 = new ArrayList<>(Arrays.asList("c"));
-        ArrayList<String> list3 = new ArrayList<>(Arrays.asList());
-
-        QRCreature qr = new QRCreature("5", "Lingfeng", 300, 2001, list, list2);
-        fb.writeQR(qr);
-
-        int qr2 = 300;
-        QRCreature qrCreature = new QRCreature("qrlingfeng", "L", 0, 0, list3, list3);
-        ArrayList<String> comments = qrCreature.getComments();
-        ArrayAdapter<String> commentAdapter = new ArrayAdapter<>((Context) this,R.layout.activity_qr_comment, comments);
+        ArrayList<String> commentList = new ArrayList<>();
+        ArrayAdapter<String> commentAdapter = new ArrayAdapter<String>((Context) this,R.layout.activity_qr_comment, commentList);
         listView.setAdapter(commentAdapter);
+        int importCode = 300;//import from the previous page
 
 
 
-        DocumentReference docRef = db.collection("QR Creatures").document(Integer.toString(qr2));
+        DocumentReference docRef = db.collection("QR Creatures").document(Integer.toString(importCode));
         docRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
+                    QRCreature qrCreature = new QRCreature(300);
                     // set QR object
                     qrCreature.setHashName((String) document.get("HashName"));
-                    qrCreature.setHashName((String) document.get("HashImage"));
+                    qrCreature.setHashImage((String) document.get("HashImage"));
                     qrCreature.setHashCode(((Long) Objects.requireNonNull(document.get("HashCode"))).intValue());
                     qrCreature.setScore(((Long) Objects.requireNonNull(document.get("Score"))).intValue());
                     qrCreature.setOwnedBy((ArrayList<String>) document.get("OwnedBy"));
                     qrCreature.setComments((ArrayList<String>) document.get("Comments"));
+                    commentList.addAll((ArrayList<String>) document.get("Comments"));
 
                     score.setText(Integer.toString(qrCreature.getScore()));
                     scanned.setText(Integer.toString(qrCreature.getOwnedBy().size()));
-                    //for (int i = 0; i < (qr.getComments()).size(); i++) {
-                    //comments.set(i, qr.getComments().get(i));
-                    // }
+
                     commentAdapter.notifyDataSetChanged();
 
 
@@ -92,18 +84,13 @@ public class QRScreen extends AppCompatActivity {
         addText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<String> commentList;
-                commentList = qrCreature.getComments();
-                commentList.add(editText.getText().toString());
-                qrCreature.setComments(commentList);
-                fb.writeQR(qrCreature);
-                comments.add(editText.getText().toString());
+                String newComment = editText.getText().toString();
+                if (!newComment.isEmpty()){
+                    commentList.add(newComment);
+                }
+                System.out.println(commentList);
                 commentAdapter.notifyDataSetChanged();
-
+                fb.updateQRComments(importCode, commentList);
             }
         });
-
-
-
-    }
-}
+}}

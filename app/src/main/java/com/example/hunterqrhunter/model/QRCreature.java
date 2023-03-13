@@ -22,6 +22,9 @@ public class QRCreature {
         this.ownedBy = ownedBy;
         this.comments = comments;
     }
+    public  QRCreature(int hashCode){
+        this.hashCode = hashCode;
+    }
 
     @Exclude
     public Map<String, Object> toMap() {
