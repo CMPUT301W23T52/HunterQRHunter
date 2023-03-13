@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -56,7 +55,8 @@
             android:layout_height="wrap_content"
             tools:layout_editor_absoluteX="141dp"
             tools:layout_editor_absoluteY="90dp"
-            tools:srcCompat="@tools:sample/avatars" />
+            tools:srcCompat="@tools:sample/avatars"
+            tools:ignore="MissingConstraints" />
 
         <Button
             android:id="@+id/qr_button1"
