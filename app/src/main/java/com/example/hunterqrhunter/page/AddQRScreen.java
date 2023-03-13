@@ -23,7 +23,7 @@ public class AddQRScreen extends AppCompatActivity {
 
         mLocationUtils = new LocationUtils(this);
         mLocationUtils.requestLocationPermission();
-
+        mLocationUtils.getLocation();
 
         String scannedData = getIntent().getStringExtra("SCANNED_DATA");
         byte[] HashedValue = HashQR.hashObject(scannedData);
@@ -50,8 +50,7 @@ public class AddQRScreen extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                mLocationUtils.getLocation();
+                mLocationUtils.requestLocationPermission();
 
                 double longitude = mLocationUtils.getLongitude();
                 double latitude = mLocationUtils.getLatitude();
