@@ -1,5 +1,7 @@
 package com.example.hunterqrhunter;
 
+import static java.sql.DriverManager.println;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -36,7 +38,9 @@ import java.util.HashMap;
 
 
 public class MainActivity extends AppCompatActivity {
-    String hashVal = "yongbin@gmail.com";
+
+
+    String hashVal = "dragonasf";
     HashQR hashQR = new HashQR();
 
     private Button mButton;
@@ -50,15 +54,15 @@ public class MainActivity extends AppCompatActivity {
         // Get a reference to the ImageView
         ImageView imageView = findViewById(R.id.QrCreatureImage);
         // Generate hash and hash name
-        int hash = hashQR.hashObject(hashVal);
+        byte[] hash = hashQR.hashObject(hashVal);
         String HashName = hashQR.giveQrName(hash);
-        Bitmap HashImage = hashQR.generateImageFromHashcode(hash);
+//        Bitmap HashImage = hashQR.generateImageFromHashcode(hash);
 
 // Generate the bitmap from the hash code
-        Bitmap bitmap = Bitmap.createBitmap(HashImage);
+//        Bitmap bitmap = Bitmap.createBitmap(HashImage);
 
 // Set the bitmap on the ImageView
-        imageView.setImageBitmap(bitmap);
+//        imageView.setImageBitmap(bitmap);
 
         // Initialize Firebase Firestore and FbRepository
         db = FirebaseFirestore.getInstance();
@@ -71,10 +75,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Generate hash and hash name
                 byte[] hash = hashQR.hashObject(hashVal);
-                String HashName = hashQR.nameGen(hash);
+                String HashName = hashQR.giveQrName(hash);
 
                 // Create a new user with a first and last name, born year, hash, and hash name
-                QRCreature qrCreature = new QRCreature(HashName, hash, HashImage);
+                QRCreature qrCreature = new QRCreature(HashName, hash);
                 fb.createQR(qrCreature);
             }
         });

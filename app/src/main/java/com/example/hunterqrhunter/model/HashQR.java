@@ -1,10 +1,5 @@
 package com.example.hunterqrhunter.model;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -38,12 +33,12 @@ public class HashQR {
     }
 
     //giveQrName() is a method that gets a hashed integer and generate a readable name out of that
-    public static String giveQrName(int hash) {
+    public static String giveQrName(byte[] hash) {
         // Define an array of syllables that can be used to generate the random name
-        String[] syllables = {"a", "an", "ba", "be", "ca", "ce", "da", "de", "el", "en", "fa", "fe", "ga", "ge", "ha", "he", "ia", "ie", "ja", "je", "ka", "ke", "la", "le", "ma", "me", "na", "ne", "oa", "oe", "pa", "pe", "ra", "re", "sa", "se", "ta", "te", "ua", "ue", "va", "ve", "wa", "we", "xa", "xe", "ya", "ye", "za", "ze"};
+        String[] syllables = {"cooper", "diana", "charlotte", "jane", "watson", "kensington", "elise", "alexander", "ra", "joy", "callahan", "george", "william", "lemon", "bob", "mo", "lee", "port"};
 
         // Generate a random number to determine the length of the name
-        int nameLength = (int) (Math.random() * 3) + 2; // generate a name with 2 to 4 syllables
+        int nameLength = (int) Byte.toUnsignedInt(hash[0]) % 2 + 2; // generate a name with 2 to 3 syllables
 
         // Use a StringBuilder object to create the random name
         StringBuilder builder = new StringBuilder();
@@ -59,38 +54,39 @@ public class HashQR {
 
         return HashName;
     }
+
     //createQrCreature() method creates Qr code image with bitmap
-    public Bitmap generateImageFromHashcode(int hashcode) {
-
-        //default size of the image
-        int width = 350;
-        int height = 350;
-
-        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-
-        // Set a random color based on the hashcode
-        int red = (hashcode & 0xFF0000) >> 16;
-        int green = (hashcode & 0x00FF00) >> 8;
-        int blue = hashcode & 0x0000FF;
-        int color = Color.rgb(red, green, blue);
-
-        // Draw a rectangle with the random color
-        Paint paint = new Paint();
-        paint.setColor(color);
-        canvas.drawRect(0, 0, width, height, paint);
-
-//        int[] pixels = new int[width * height];
+//    public Bitmap generateImageFromHashcode(int hashcode) {
 //
-//        bitmap.getPixels(pixels, 0, width, 0, 0 , width, height);
+//        //default size of the image
+//        int width = 350;
+//        int height = 350;
 //
-//        // Return the generated image
-//        List<Integer> bitmapList = new ArrayList<Integer>();
-//        for (int i = 0; i < pixels.length; i++) {
-//            bitmapList.add(pixels[i]);
-//        }
-        return bitmap;
-    }
+//        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+//        Canvas canvas = new Canvas(bitmap);
+//
+//        // Set a random color based on the hashcode
+//        int red = (hashcode & 0xFF0000) >> 16;
+//        int green = (hashcode & 0x00FF00) >> 8;
+//        int blue = hashcode & 0x0000FF;
+//        int color = Color.rgb(red, green, blue);
+//
+//        // Draw a rectangle with the random color
+//        Paint paint = new Paint();
+//        paint.setColor(color);
+//        canvas.drawRect(0, 0, width, height, paint);
+//
+////        int[] pixels = new int[width * height];
+////
+////        bitmap.getPixels(pixels, 0, width, 0, 0 , width, height);
+////
+////        // Return the generated image
+////        List<Integer> bitmapList = new ArrayList<Integer>();
+////        for (int i = 0; i < pixels.length; i++) {
+////            bitmapList.add(pixels[i]);
+////        }
+//        return bitmap;
+//    }
 
 
     // scoreGen() is a method that takes in a hash value and generates an appropriate score
