@@ -118,7 +118,9 @@
         android:id="@+id/qr_add_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="add comment" />
-
+        android:text="QR Screen!"
+        tools:layout_editor_absoluteX="105dp"
+        tools:layout_editor_absoluteY="242dp"
+        tools:ignore="MissingConstraints" />
 </LinearLayout>
+
