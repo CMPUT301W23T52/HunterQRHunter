@@ -27,8 +27,8 @@ import java.util.ArrayList;
 
 public class UserScoresScreen extends AppCompatActivity {
     FirebaseFirestore database = FirebaseFirestore.getInstance();
-    CollectionReference usersCollection = database.collection("Users (shafi)");
-    CollectionReference usernameCollection = database.collection("Usernames (shafi)");
+    CollectionReference usersCollection = database.collection("User");
+    CollectionReference usernameCollection = database.collection("Usernames");
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
