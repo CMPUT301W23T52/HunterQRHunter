@@ -1,33 +1,43 @@
 package com.example.hunterqrhunter;
 
+import static java.sql.DriverManager.println;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
 import android.content.Intent;
+import android.graphics.Picture;
 import android.os.Bundle;
-import android.provider.Settings;
+
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.provider.Settings;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.hunterqrhunter.data.FbRepository;
 
 import com.example.hunterqrhunter.data.FbRepository;
 import com.example.hunterqrhunter.model.QRCreature;
+
 import com.example.hunterqrhunter.model.HashQR;
+import com.example.hunterqrhunter.model.QRCreature;
 import com.example.hunterqrhunter.page.MenuScreen;
-import com.example.hunterqrhunter.page.UserScoresScreen;
-import com.example.hunterqrhunter.page.QRMapScreen;
-import com.example.hunterqrhunter.page.QRCameraScreen;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 
 import java.util.HashMap;
 
+
 public class MainActivity extends AppCompatActivity {
-    String hashVal = "yongbin@gmail.com";
+
+
+    String hashVal = "dragonasf";
     HashQR hashQR = new HashQR();
 
     private Button mButton;
@@ -38,23 +48,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Get a reference to the ImageView
+        ImageView imageView = findViewById(R.id.QrCreatureImage);
+        // Generate hash and hash name
+        byte[] hash = hashQR.hashObject(hashVal);
+        String HashName = hashQR.giveQrName(hash);
+//        Bitmap HashImage = hashQR.generateImageFromHashcode(hash);
+
+// Generate the bitmap from the hash code
+//        Bitmap bitmap = Bitmap.createBitmap(HashImage);
+
+// Set the bitmap on the ImageView
+//        imageView.setImageBitmap(bitmap);
 
         // Initialize Firebase Firestore and FbRepository
         db = FirebaseFirestore.getInstance();
         fb = new FbRepository(db);
 
         // Initialize the button and set an OnClickListener
-        mButton = findViewById(R.id.button);
+        mButton = findViewById(R.id.btn1);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Generate hash and hash name
                 byte[] hash = hashQR.hashObject(hashVal);
-                String HashName = hashQR.nameGen(hash);
+                String HashName = hashQR.giveQrName(hash);
 
                 // Create a new user with a first and last name, born year, hash, and hash name
-                QRCreature qrCreature = new QRCreature(HashName, hash);
-                fb.createQR(qrCreature);
+//                QRCreature qrCreature = new QRCreature(HashName, hash);
+//                fb.writeQR(qrCreature);
             }
         });
 
@@ -65,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
         EditText email = findViewById((R.id.email_sign_up));
 
         // Initializing database collections
-        CollectionReference usersCollection = db.collection("Users (shafi)");
-        CollectionReference usernameCollection = db.collection("Usernames (shafi)");
+        CollectionReference usersCollection = db.collection("User");
+        CollectionReference usernameCollection = db.collection("Usernames");
         signBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,11 +101,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if (usernameStr.length() > 0 && emailStr.length() > 0) {
 
-                    userData.put("Username", usernameStr);
-                    userData.put("Email", emailStr);
-                    userData.put("user ID", userID);
+                    userData.put("username", usernameStr);
+                    userData.put("email", emailStr);
+                    userData.put("uid", userID);
 
-                    usernameData.put("Username", usernameStr);
+                    usernameData.put("username", usernameStr);
 
                     usersCollection.document(userID).set(userData);
                     usernameCollection.document(usernameStr).set(usernameData);

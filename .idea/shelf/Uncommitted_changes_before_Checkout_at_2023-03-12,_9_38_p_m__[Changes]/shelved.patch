@@ -1,0 +1,165 @@
+Index: app/src/main/java/com/example/hunterqrhunter/page/QRMapScreen.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.mapcomponent;\n\nimport static android.content.ContentValues.TAG;\n\nimport androidx.annotation.NonNull;\nimport androidx.annotation.Nullable;\nimport androidx.fragment.app.FragmentActivity;\n\nimport android.graphics.Color;\nimport android.os.Bundle;\nimport android.util.Log;\nimport android.widget.ArrayAdapter;\n\nimport com.google.firebase.FirebaseApp;\nimport com.google.firebase.firestore.CollectionReference;\nimport com.google.firebase.firestore.EventListener;\nimport com.google.firebase.firestore.FirebaseFirestore;\nimport com.google.firebase.firestore.FirebaseFirestoreException;\nimport com.google.firebase.firestore.GeoPoint;\nimport com.google.firebase.firestore.QueryDocumentSnapshot;\nimport com.google.firebase.firestore.QuerySnapshot;\nimport com.google.android.gms.maps.CameraUpdateFactory;\nimport com.google.android.gms.maps.GoogleMap;\nimport com.google.android.gms.maps.OnMapReadyCallback;\nimport com.google.android.gms.maps.SupportMapFragment;\nimport com.google.android.gms.maps.model.BitmapDescriptor;\nimport com.google.android.gms.maps.model.BitmapDescriptorFactory;\nimport com.google.android.gms.maps.model.LatLng;\nimport com.google.android.gms.maps.model.MarkerOptions;\nimport com.example.mapcomponent.databinding.ActivityMapsBinding;\n\nimport java.util.ArrayList;\nimport java.util.Arrays;\n\npublic class QRMapScreen extends FragmentActivity implements OnMapReadyCallback {\n\n    private GoogleMap mMap;\n    private ActivityMapsBinding binding;\n    FirebaseFirestore db;\n    ArrayAdapter<Qrcode> QRAdapter;\n    ArrayList<Qrcode> QRDataList;\n    CustomList customList;\n\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n\n        super.onCreate(savedInstanceState);\n        FirebaseApp.initializeApp(this);\n\n        // Initialize arrays with some data\n        int[] hashcodes = { 1, 2, 3 };\n        String[] hashnames = { \"Hash1\", \"Hash2\", \"Hash3\" };\n        String[] hashimages = { \"Image1\", \"Image2\", \"Image3\" };\n        GeoPoint[] locations = { new GeoPoint(0, 0), new GeoPoint(1, 1), new GeoPoint(2, 2) };\n        int[] scores = { 1, 2, 3 };\n        String[][] owners = { { \"Owner1\", \"Owner2\" }, { \"Owner3\" }, {} };\n        String[][] commentarray = { { \"Comment1\", \"Comment2\" }, {}, { \"Comment3\" } };\n\n\n        QRDataList = new ArrayList<>();\n        for(int i=0;i<hashcodes.length;i++){\n            QRDataList.add((new Qrcode(hashcodes[i], hashnames[i], hashimages[i], locations[i], scores[i], owners[i], commentarray[i])));\n        }\n\n        QRAdapter = new CustomList(this, QRDataList);\n\n        db = FirebaseFirestore.getInstance();\n        final CollectionReference collectionReference = db.collection(\"QR Creatures\");\n\n\n        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {\n            @Override\n            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {\n                // Clear the old list\n                QRDataList.clear();\n                for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {\n                    int qrHash = Integer.parseInt(doc.getString(\"QR Hash\"));\n                    Log.d(TAG, \"QR Hash: \" + qrHash);\n\n                    int hashCode = Integer.parseInt(doc.getId());\n\n                    String qrName = doc.getString(\"QR Name\");\n                    Log.d(TAG, \"QR Name: \" + qrName);\n\n                    String qrImage = doc.getString(\"QR Image\");\n                    Log.d(TAG, \"QR Image: \" + qrImage);\n\n                    GeoPoint location = doc.getGeoPoint(\"QR location\");\n                    Log.d(TAG, \"Location: \" + location);\n\n                    int qrScore = doc.getLong(\"QR Score\").intValue();\n                    Log.d(TAG, \"QR Score: \" + qrScore);\n\n                    String[] qrOwnedBy = doc.get(\"QR Ownedby\", String[].class);\n                    Log.d(TAG, \"QR OwnedBy: \" + Arrays.toString(qrOwnedBy));\n\n                    String[] qrComments = doc.get(\"QR comments\", String[].class);\n                    Log.d(TAG, \"QR Comments: \" + Arrays.toString(qrComments));\n\n                    Qrcode qrCode = new Qrcode(qrHash, qrName, qrImage, location, qrScore, qrOwnedBy, qrComments);\n                    QRDataList.add(qrCode);\n                }\n                QRAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetched from the cloud\n            } });\n        binding = ActivityMapsBinding.inflate(getLayoutInflater());\n        setContentView(binding.getRoot());\n\n        // Obtain the SupportMapFragment and get notified when the map is ready to be used.\n        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()\n                .findFragmentById(R.id.map);\n        mapFragment.getMapAsync(this);\n    }\n\n\n\n    @Override\n    public void onMapReady(@NonNull GoogleMap googleMap) {\n        mMap = googleMap;\n        Qrcode highestScore = QRDataList.get(0);\n        for (Qrcode element : QRDataList) {\n            if (element.score > highestScore.score) {\n                highestScore = element;\n            }\n        }\n        for (Qrcode element : QRDataList) {\n            LatLng location = new LatLng(element.location.getLatitude(), element.location.getLongitude());\n            if (element == highestScore) {\n                mMap.addMarker(new MarkerOptions().position(location).icon(getMarkerIcon(\"#ffe922\")));\n            }\n            else {\n                mMap.addMarker(new MarkerOptions().position(location).title(\"New QR code location added\"));\n            }\n        }\n        // Add a marker based on the lat/long we receieve and plot it\n        LatLng highestscorelocation = new LatLng(highestScore.location.getLatitude(), highestScore.location.getLongitude());\n        mMap.moveCamera(CameraUpdateFactory.newLatLng(highestscorelocation));\n    }\n    // method definition\n    public BitmapDescriptor getMarkerIcon(String color) {\n        float[] hsv = new float[3];\n        Color.colorToHSV(Color.parseColor(color), hsv);\n        return BitmapDescriptorFactory.defaultMarker(hsv[0]);\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/hunterqrhunter/page/QRMapScreen.java b/app/src/main/java/com/example/hunterqrhunter/page/QRMapScreen.java
+--- a/app/src/main/java/com/example/hunterqrhunter/page/QRMapScreen.java	
++++ b/app/src/main/java/com/example/hunterqrhunter/page/QRMapScreen.java	
+@@ -1,145 +1,16 @@
+-package com.example.mapcomponent;
+-
+-import static android.content.ContentValues.TAG;
++package com.example.hunterqrhunter.page;
+ 
+-import androidx.annotation.NonNull;
+-import androidx.annotation.Nullable;
+-import androidx.fragment.app.FragmentActivity;
+-
+-import android.graphics.Color;
+ import android.os.Bundle;
+-import android.util.Log;
+-import android.widget.ArrayAdapter;
+-
+-import com.google.firebase.FirebaseApp;
+-import com.google.firebase.firestore.CollectionReference;
+-import com.google.firebase.firestore.EventListener;
+-import com.google.firebase.firestore.FirebaseFirestore;
+-import com.google.firebase.firestore.FirebaseFirestoreException;
+-import com.google.firebase.firestore.GeoPoint;
+-import com.google.firebase.firestore.QueryDocumentSnapshot;
+-import com.google.firebase.firestore.QuerySnapshot;
+-import com.google.android.gms.maps.CameraUpdateFactory;
+-import com.google.android.gms.maps.GoogleMap;
+-import com.google.android.gms.maps.OnMapReadyCallback;
+-import com.google.android.gms.maps.SupportMapFragment;
+-import com.google.android.gms.maps.model.BitmapDescriptor;
+-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+-import com.google.android.gms.maps.model.LatLng;
+-import com.google.android.gms.maps.model.MarkerOptions;
+-import com.example.mapcomponent.databinding.ActivityMapsBinding;
+ 
+-import java.util.ArrayList;
+-import java.util.Arrays;
++import androidx.annotation.Nullable;
++import androidx.appcompat.app.AppCompatActivity;
+ 
+-public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback {
++import com.example.hunterqrhunter.R;
+ 
+-    private GoogleMap mMap;
+-    private ActivityMapsBinding binding;
+-    FirebaseFirestore db;
+-    ArrayAdapter<Qrcode> QRAdapter;
+-    ArrayList<Qrcode> QRDataList;
+-    CustomList customList;
+-
+-
++public class QRMapScreen extends AppCompatActivity {
+     @Override
+-    protected void onCreate(Bundle savedInstanceState) {
+-
++    protected void onCreate(@Nullable Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+-        FirebaseApp.initializeApp(this);
+-
+-        // Initialize arrays with some data
+-        int[] hashcodes = { 1, 2, 3 };
+-        String[] hashnames = { "Hash1", "Hash2", "Hash3" };
+-        String[] hashimages = { "Image1", "Image2", "Image3" };
+-        GeoPoint[] locations = { new GeoPoint(0, 0), new GeoPoint(1, 1), new GeoPoint(2, 2) };
+-        int[] scores = { 1, 2, 3 };
+-        String[][] owners = { { "Owner1", "Owner2" }, { "Owner3" }, {} };
+-        String[][] commentarray = { { "Comment1", "Comment2" }, {}, { "Comment3" } };
+-
+-
+-        QRDataList = new ArrayList<>();
+-        for(int i=0;i<hashcodes.length;i++){
+-            QRDataList.add((new Qrcode(hashcodes[i], hashnames[i], hashimages[i], locations[i], scores[i], owners[i], commentarray[i])));
+-        }
+-
+-        QRAdapter = new CustomList(this, QRDataList);
+-
+-        db = FirebaseFirestore.getInstance();
+-        final CollectionReference collectionReference = db.collection("QR Creatures");
+-
+-
+-        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+-            @Override
+-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+-                // Clear the old list
+-                QRDataList.clear();
+-                for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+-                    int qrHash = Integer.parseInt(doc.getString("QR Hash"));
+-                    Log.d(TAG, "QR Hash: " + qrHash);
+-
+-                    int hashCode = Integer.parseInt(doc.getId());
+-
+-                    String qrName = doc.getString("QR Name");
+-                    Log.d(TAG, "QR Name: " + qrName);
+-
+-                    String qrImage = doc.getString("QR Image");
+-                    Log.d(TAG, "QR Image: " + qrImage);
+-
+-                    GeoPoint location = doc.getGeoPoint("QR location");
+-                    Log.d(TAG, "Location: " + location);
+-
+-                    int qrScore = doc.getLong("QR Score").intValue();
+-                    Log.d(TAG, "QR Score: " + qrScore);
+-
+-                    String[] qrOwnedBy = doc.get("QR Ownedby", String[].class);
+-                    Log.d(TAG, "QR OwnedBy: " + Arrays.toString(qrOwnedBy));
+-
+-                    String[] qrComments = doc.get("QR comments", String[].class);
+-                    Log.d(TAG, "QR Comments: " + Arrays.toString(qrComments));
+-
+-                    Qrcode qrCode = new Qrcode(qrHash, qrName, qrImage, location, qrScore, qrOwnedBy, qrComments);
+-                    QRDataList.add(qrCode);
+-                }
+-                QRAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetched from the cloud
+-            } });
+-        binding = ActivityMapsBinding.inflate(getLayoutInflater());
+-        setContentView(binding.getRoot());
+-
+-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+-                .findFragmentById(R.id.map);
+-        mapFragment.getMapAsync(this);
++        setContentView(R.layout.activity_qr_map);
+     }
+-
+-
+-
+-    @Override
+-    public void onMapReady(@NonNull GoogleMap googleMap) {
+-        mMap = googleMap;
+-        Qrcode highestScore = QRDataList.get(0);
+-        for (Qrcode element : QRDataList) {
+-            if (element.score > highestScore.score) {
+-                highestScore = element;
+-            }
+-        }
+-        for (Qrcode element : QRDataList) {
+-            LatLng location = new LatLng(element.location.getLatitude(), element.location.getLongitude());
+-            if (element == highestScore) {
+-                mMap.addMarker(new MarkerOptions().position(location).icon(getMarkerIcon("#ffe922")));
+-            }
+-            else {
+-                mMap.addMarker(new MarkerOptions().position(location).title("New QR code location added"));
+-            }
+-        }
+-        // Add a marker based on the lat/long we receieve and plot it
+-        LatLng highestscorelocation = new LatLng(highestScore.location.getLatitude(), highestScore.location.getLongitude());
+-        mMap.moveCamera(CameraUpdateFactory.newLatLng(highestscorelocation));
+-    }
+-    // method definition
+-    public BitmapDescriptor getMarkerIcon(String color) {
+-        float[] hsv = new float[3];
+-        Color.colorToHSV(Color.parseColor(color), hsv);
+-        return BitmapDescriptorFactory.defaultMarker(hsv[0]);
+-    }
+-}
+\ No newline at end of file
++}
