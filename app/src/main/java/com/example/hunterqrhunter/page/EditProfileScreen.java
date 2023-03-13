@@ -38,10 +38,10 @@ public class EditProfileScreen extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-        ImageView imageView = findViewById(R.id.imageView);
-        int hashCode = 1802651831;
-        Bitmap faceBitmap = hashQR.generateImageFromHashcode(hashCode);
-        imageView.setImageBitmap(faceBitmap);
+//        ImageView imageView = findViewById(R.id.imageView);
+//        int hashCode = 1802651831;
+//        Bitmap faceBitmap = hashQR.generateImageFromHashcode(hashCode);
+//        imageView.setImageBitmap(faceBitmap);
 
 
         String userID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);

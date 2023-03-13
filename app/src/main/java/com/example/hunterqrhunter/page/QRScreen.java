@@ -2,18 +2,21 @@ package com.example.hunterqrhunter.page;
 import static android.content.ContentValues.TAG;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hunterqrhunter.R;
 import com.example.hunterqrhunter.data.FbRepository;
+import com.example.hunterqrhunter.model.HashQR;
 import com.example.hunterqrhunter.model.QRCreature;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -30,12 +33,17 @@ public class QRScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        HashQR hashQR = new HashQR();
         setContentView(R.layout.activity_qr);
         ListView listView = findViewById(R.id.qr_qr_comment_list);
         Button addText = (Button) findViewById(R.id.qr_add_button);
         Button scanned = (Button) findViewById(R.id.qr_scanned_number);
         Button score = (Button) findViewById(R.id.qr_qr_score) ;
         EditText editText = (EditText) findViewById(R.id.qr_add_comment);
+        ImageView imageView = findViewById(R.id.qr_image);
+        int hashCode = 1802651831;
+        Bitmap faceBitmap = hashQR.generateImageFromHashcode(hashCode);
+        imageView.setImageBitmap(faceBitmap);
 
 
 
