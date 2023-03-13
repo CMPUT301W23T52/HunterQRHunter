@@ -66,7 +66,6 @@ public class QRCameraScreen extends AppCompatActivity {
         if (result != null) {
             if (result.getContents() != null) {
                 String scannedData = result.getContents();
-                Toast.makeText(this, "Scanned data: " + scannedData, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), AddQRScreen.class);
                 intent.putExtra("SCANNED_DATA", scannedData);
                 startActivity(intent);
