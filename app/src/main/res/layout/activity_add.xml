@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/add_new_text"
+        android:id="@+id/score_text"
         android:layout_width="0dp"
         android:layout_height="36dp"
         android:layout_marginTop="272dp"
@@ -67,10 +67,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="Say Hi to Our new QR Friend!"
+        android:text="Say Hi to our new QR Friend!"
         android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_new_text" />
+        app:layout_constraintTop_toBottomOf="@+id/score_text" />
 </androidx.constraintlayout.widget.ConstraintLayout>
