@@ -1,13 +1,14 @@
-package com.example.mapcomponent;
+package com.example.hunterqrhunter;
 
+import com.example.hunterqrhunter.page.QRMapScreen;
 import com.google.firebase.firestore.GeoPoint;
 
 public class Qrcode extends QRMapScreen {
     int hashCode;
     String hashName;
     String hashImage;
-    GeoPoint location;
-    int score;
+    public GeoPoint location;
+    public int score;
     String[] ownedBy;
     String[] comments;
 

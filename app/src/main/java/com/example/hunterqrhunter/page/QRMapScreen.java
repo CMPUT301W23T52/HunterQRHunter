@@ -1,4 +1,4 @@
-package com.example.mapcomponent;
+package com.example.hunterqrhunter.page;
 
 import static android.content.ContentValues.TAG;
 
@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import com.example.hunterqrhunter.R;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -27,7 +28,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.example.mapcomponent.databinding.ActivityMapsBinding;
+import com.example.hunterqrhunter.databinding.ActivityQrMapBinding;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,11 +36,11 @@ import java.util.Arrays;
 public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private ActivityMapsBinding binding;
+    private ActivityQrMapBinding binding;
     FirebaseFirestore db;
-    ArrayAdapter<Qrcode> QRAdapter;
-    ArrayList<Qrcode> QRDataList;
-    CustomList customList;
+    ArrayAdapter<com.example.hunterqrhunter.Qrcode> QRAdapter;
+    ArrayList<com.example.hunterqrhunter.Qrcode> QRDataList;
+    com.example.hunterqrhunter.page.CustomList customList;
 
 
     @Override
@@ -60,10 +61,10 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
 
         QRDataList = new ArrayList<>();
         for(int i=0;i<hashcodes.length;i++){
-            QRDataList.add((new Qrcode(hashcodes[i], hashnames[i], hashimages[i], locations[i], scores[i], owners[i], commentarray[i])));
+            QRDataList.add((new com.example.hunterqrhunter.Qrcode(hashcodes[i], hashnames[i], hashimages[i], locations[i], scores[i], owners[i], commentarray[i])));
         }
 
-        QRAdapter = new CustomList(this, QRDataList);
+        QRAdapter = new com.example.hunterqrhunter.page.CustomList(this, QRDataList);
 
         db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("QR Creatures");
@@ -98,12 +99,12 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
                     String[] qrComments = doc.get("QR comments", String[].class);
                     Log.d(TAG, "QR Comments: " + Arrays.toString(qrComments));
 
-                    Qrcode qrCode = new Qrcode(qrHash, qrName, qrImage, location, qrScore, qrOwnedBy, qrComments);
+                    com.example.hunterqrhunter.Qrcode qrCode = new com.example.hunterqrhunter.Qrcode(qrHash, qrName, qrImage, location, qrScore, qrOwnedBy, qrComments);
                     QRDataList.add(qrCode);
                 }
                 QRAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetched from the cloud
             } });
-        binding = ActivityMapsBinding.inflate(getLayoutInflater());
+        binding = ActivityQrMapBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -117,13 +118,13 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-        Qrcode highestScore = QRDataList.get(0);
-        for (Qrcode element : QRDataList) {
+        com.example.hunterqrhunter.Qrcode highestScore = QRDataList.get(0);
+        for (com.example.hunterqrhunter.Qrcode element : QRDataList) {
             if (element.score > highestScore.score) {
                 highestScore = element;
             }
         }
-        for (Qrcode element : QRDataList) {
+        for (com.example.hunterqrhunter.Qrcode element : QRDataList) {
             LatLng location = new LatLng(element.location.getLatitude(), element.location.getLongitude());
             if (element == highestScore) {
                 mMap.addMarker(new MarkerOptions().position(location).icon(getMarkerIcon("#ffe922")));

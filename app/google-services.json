@@ -24,7 +24,7 @@
         }
       ],
       "services": {
-        "appinvite_service": {
+        "ite_service": {
           "other_platform_oauth_client": [
             {
               "client_id": "356897918115-ql37vfbraj9eg93l62coce2ni63kq6c8.apps.googleusercontent.com",

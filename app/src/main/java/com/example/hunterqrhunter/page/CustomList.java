@@ -1,4 +1,4 @@
-package com.example.mapcomponent;
+package com.example.hunterqrhunter.page;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,12 +12,12 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class CustomList extends ArrayAdapter<Qrcode> {
+public class CustomList extends ArrayAdapter<com.example.hunterqrhunter.Qrcode> {
 
-    private ArrayList<Qrcode> hashcodes;
+    private ArrayList<com.example.hunterqrhunter.Qrcode> hashcodes;
     private Context context;
 
-    public CustomList(Context context, ArrayList<Qrcode> hashcodes) {
+    public CustomList(Context context, ArrayList<com.example.hunterqrhunter.Qrcode> hashcodes) {
         super(context, 0, hashcodes);
         this.hashcodes = hashcodes;
         this.context = context;
