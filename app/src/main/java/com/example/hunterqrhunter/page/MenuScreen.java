@@ -16,8 +16,8 @@ public class MenuScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        Button qrScreenBtn = (Button) findViewById(R.id.btn_qr_screen);
-        qrScreenBtn.setOnClickListener(new View.OnClickListener() {
+        Button scanBtn = (Button) findViewById(R.id.btn_qr_screen);
+        scanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), QRCameraScreen.class);
