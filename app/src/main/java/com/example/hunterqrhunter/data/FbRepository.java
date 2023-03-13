@@ -17,6 +17,18 @@ import com.example.hunterqrhunter.model.QRCreature;
 import com.example.hunterqrhunter.model.User;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Map;
+
+//package com.example.hunterqrhunter.data;
+
+import android.util.Log;
+
+import com.example.hunterqrhunter.model.QRCreature;
+import com.example.hunterqrhunter.model.User;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -36,7 +48,6 @@ public class FbRepository {
     }
 
     public DocumentReference getDocumentRef(String colName, String docName) {
-
         return db.collection(colName).document(docName);
     }
 
