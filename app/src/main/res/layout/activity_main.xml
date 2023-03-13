@@ -8,6 +8,22 @@
     tools:context=".MainActivity">
 
 
+    <EditText
+        android:id="@+id/username_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Username" />
+
+    <EditText
+        android:id="@+id/email_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:hint="Email" />
+
     <Button
         android:id="@+id/btn_signup"
         android:layout_width="match_parent"

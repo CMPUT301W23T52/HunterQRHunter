@@ -7,9 +7,9 @@ import java.util.Map;
 
 public class QRCreature {
     String name;
-    int hashcode;
+    byte[] hashcode;
 
-    public QRCreature(String name, int hashcode){
+    public QRCreature(String name, byte[] hashcode){
         this.name = name;
         this.hashcode = hashcode;
     }
