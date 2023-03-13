@@ -24,7 +24,7 @@ public class LoadingScreen extends AppCompatActivity {
 
         // Get a document reference using the user id to see if this id exists in our database
         String userID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        DocumentReference docRef = db.collection("Users (shafi)").document(userID);
+        DocumentReference docRef = db.collection("User").document(userID);
 
         // Once the .get() method is complete, decide what to do depending on whether or not
         // the document exists

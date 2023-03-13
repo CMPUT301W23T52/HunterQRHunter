@@ -13,9 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HunterQRHunter"
         tools:targetApi="31">
-        <activity
-            android:name=".page.EditProfileScreen"
-            android:exported="false" />
 
         <activity
             android:name=".LoadingScreen"
@@ -26,8 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".MainActivity" />
         <activity android:name=".page.MenuScreen" />
+        <activity android:name=".page.EditProfileScreen"/>
         <activity android:name=".page.QRCameraScreen" />
         <activity android:name=".page.UserScoresScreen" />
         <activity android:name=".page.QRMapScreen" />
