@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
                 String HashName = hashQR.giveQrName(hash);
 
                 // Create a new user with a first and last name, born year, hash, and hash name
-                QRCreature qrCreature = new QRCreature(HashName, hash);
-                fb.createQR(qrCreature);
+//                QRCreature qrCreature = new QRCreature(HashName, hash);
+//                fb.writeQR(qrCreature);
             }
         });
 

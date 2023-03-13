@@ -14,9 +14,10 @@ public class User {
     int hash;
 
 
+
     public User(String uid,String fn, String ln, int born, int hash) {
         this.uid = uid;
-        this.firstName =  fn;
+        this.firstName = fn;
         this.lastName = ln;
         this.born = born;
         this.hash = hash;
@@ -39,4 +40,37 @@ public class User {
         result.put("hash", hash);
 
         return result;
-    }}
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public int getBorn() {
+        return born;
+    }
+
+    public void setBorn(int born) {
+        this.born = born;
+    }
+
+    public int getHash() {
+        return hash;
+    }
+
+    public void setHash(int hash) {
+        this.hash = hash;
+    }
+}
