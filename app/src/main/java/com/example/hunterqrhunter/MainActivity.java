@@ -33,8 +33,5 @@ public class MainActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FbRepository fb = new FbRepository(db);
 
-
-        User user = new User("5","Lingfeng","Zhu",2001,hash);
-        fb.createUser(user);
     }
 }
