@@ -64,8 +64,8 @@ public class QRCameraScreen extends AppCompatActivity {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
             if (result.getContents() != null) {
-                byte[] scannedData = result.getRawBytes(); // get the binary value of the QR code
-                Toast.makeText(this, "Scanned data: " + Arrays.toString(scannedData), Toast.LENGTH_SHORT).show();
+                String scannedData = result.getContents();
+                Toast.makeText(this, "Scanned data: " + scannedData, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), AddQRScreen.class);
                 intent.putExtra("SCANNED_DATA", scannedData);
                 startActivity(intent);
