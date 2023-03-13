@@ -35,6 +35,10 @@ public class AddQRScreen extends AppCompatActivity {
 
     private LocationUtils mLocationUtils;
 
+    /**
+     * handle the data that is received from previous screen
+     * @param savedInstanceState used to receive the data from previous screen
+     */
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
@@ -63,7 +67,9 @@ public class AddQRScreen extends AppCompatActivity {
         pointText.setText("Congrats! You scored " + HashQR.scoreGen(HashedValue) +" points!");
         nameText.setText(HashQR.giveQrName(HashedValue));
 
-//        Don't add the scanned QR to user's collection and navigate back to the main screen
+/**
+ * Don't add the scanned QR to user's collection and navigate back to the main screen
+ */
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,6 +79,9 @@ public class AddQRScreen extends AppCompatActivity {
             }
         });
 
+        /**
+         * user adds qr to the database
+         */
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,6 +97,10 @@ public class AddQRScreen extends AppCompatActivity {
 
                 db.collection("QR").document(scannedData.replaceAll("//","")).set(qr)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            /**
+                             * when adding was successful toast and navigate back to menu Screen
+                             * @param aVoid
+                             */
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(AddQRScreen.this, "Document added successfully!", Toast.LENGTH_SHORT).show();
@@ -96,6 +109,9 @@ public class AddQRScreen extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         })
+                        /**
+                         * when adding fails toast the status and navigate back to menu screen
+                         */
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {

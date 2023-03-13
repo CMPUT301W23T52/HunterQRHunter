@@ -16,6 +16,7 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.util.Arrays;
 
+
 public class QRCameraScreen extends AppCompatActivity {
 
     private static final int MY_PERMISSIONS_CAMERA = 1;
@@ -35,12 +36,24 @@ public class QRCameraScreen extends AppCompatActivity {
         }
     }
 
+    /**
+     * start scanning using zxing library
+     */
     private void startScan() {
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setOrientationLocked(false);
         integrator.initiateScan();
     }
 
+    /**
+     *
+     * @param requestCode The request code passed in
+     * @param permissions The requested permissions. Never null.
+     * @param grantResults The grant results for the corresponding permissions
+     *     which is either {@link android.content.pm.PackageManager#PERMISSION_GRANTED}
+     *     or {@link android.content.pm.PackageManager#PERMISSION_DENIED}. Never null.
+     *
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions, int[] grantResults) {
@@ -60,6 +73,13 @@ public class QRCameraScreen extends AppCompatActivity {
         }
     }
 
+
+    /**
+     *
+     * @param requestCode needed for parsing
+     * @param resultCode needed for parsing
+     * @param data that is scanned
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);

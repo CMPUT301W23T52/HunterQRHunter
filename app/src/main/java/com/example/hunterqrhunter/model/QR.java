@@ -4,6 +4,10 @@ import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
 
+/**
+ * Represents QR object that will be pushed to our database
+ *
+ */
 public class QR {
     private String qrcode;
     private GeoPoint location;
@@ -11,6 +15,14 @@ public class QR {
     private ArrayList<String> ownedBy;
     private String hashName;
 
+    /**
+     *
+     * @param qrcode unique code that will be a key
+     * @param location location of the user
+     * @param score score generated using hash
+     * @param ownedBy list of users that own qr
+     * @param hashName hashed name
+     */
     public QR(String qrcode, GeoPoint location, int score, ArrayList<String> ownedBy, String hashName) {
         this.qrcode = qrcode;
         this.location = location;
