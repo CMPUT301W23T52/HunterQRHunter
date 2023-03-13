@@ -11,5 +11,6 @@
         android:layout_height="wrap_content"
         android:text="user scores screen"
         tools:layout_editor_absoluteX="150dp"
-        tools:layout_editor_absoluteY="367dp" />
+        tools:layout_editor_absoluteY="367dp"
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>
