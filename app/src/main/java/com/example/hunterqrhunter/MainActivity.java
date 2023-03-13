@@ -1,8 +1,5 @@
 package com.example.hunterqrhunter;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -10,18 +7,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.hunterqrhunter.data.FbRepository;
-import com.example.hunterqrhunter.model.QRCreature;
 import com.example.hunterqrhunter.model.HashQR;
+import com.example.hunterqrhunter.model.QRCreature;
 import com.example.hunterqrhunter.page.MenuScreen;
-import com.example.hunterqrhunter.page.UserScoresScreen;
-import com.example.hunterqrhunter.page.QRMapScreen;
-import com.example.hunterqrhunter.page.QRCameraScreen;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
