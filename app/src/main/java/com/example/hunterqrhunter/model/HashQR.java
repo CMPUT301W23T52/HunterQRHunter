@@ -1,6 +1,11 @@
 package com.example.hunterqrhunter.model;
 
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -56,37 +61,64 @@ public class HashQR {
     }
 
     //createQrCreature() method creates Qr code image with bitmap
-//    public Bitmap generateImageFromHashcode(int hashcode) {
-//
-//        //default size of the image
-//        int width = 350;
-//        int height = 350;
-//
-//        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-//        Canvas canvas = new Canvas(bitmap);
-//
-//        // Set a random color based on the hashcode
-//        int red = (hashcode & 0xFF0000) >> 16;
-//        int green = (hashcode & 0x00FF00) >> 8;
-//        int blue = hashcode & 0x0000FF;
-//        int color = Color.rgb(red, green, blue);
-//
-//        // Draw a rectangle with the random color
-//        Paint paint = new Paint();
-//        paint.setColor(color);
-//        canvas.drawRect(0, 0, width, height, paint);
-//
-////        int[] pixels = new int[width * height];
-////
-////        bitmap.getPixels(pixels, 0, width, 0, 0 , width, height);
-////
-////        // Return the generated image
-////        List<Integer> bitmapList = new ArrayList<Integer>();
-////        for (int i = 0; i < pixels.length; i++) {
-////            bitmapList.add(pixels[i]);
-////        }
-//        return bitmap;
-//    }
+    public Bitmap generateImageFromHashcode(int hashcode) {
+        // Default size of the image
+        int width = 350;
+        int height = 350;
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+
+        // Set a random color based on the hashcode
+        int red = (hashcode & 0xFF0000) >> 16;
+        int green = (hashcode & 0x00FF00) >> 8;
+        int blue = hashcode & 0x0000FF;
+        int color = Color.rgb(red, green, blue);
+
+        // Draw the face using the random color
+        Paint paint = new Paint();
+        paint.setColor(color);
+        paint.setStyle(Paint.Style.FILL);
+
+        // Draw the face shape
+        float centerX = width / 2f;
+        float centerY = height / 2f;
+        float radius = width / 3f;
+
+        canvas.drawCircle(centerX, centerY, radius, paint);
+
+        // Draw the eyes
+        float eyeOffsetX = radius / 3f;
+        float eyeOffsetY = radius / 3f;
+
+        float leftEyeCenterX = centerX - eyeOffsetX;
+        float leftEyeCenterY = centerY - eyeOffsetY;
+        float rightEyeCenterX = centerX + eyeOffsetX;
+        float rightEyeCenterY = centerY - eyeOffsetY;
+        float eyeRadius = radius / 6f;
+
+        paint.setColor(Color.WHITE);
+        canvas.drawCircle(leftEyeCenterX, leftEyeCenterY, eyeRadius, paint);
+        canvas.drawCircle(rightEyeCenterX, rightEyeCenterY, eyeRadius, paint);
+
+        paint.setColor(Color.BLACK);
+        canvas.drawCircle(leftEyeCenterX, leftEyeCenterY, eyeRadius / 2f, paint);
+        canvas.drawCircle(rightEyeCenterX, rightEyeCenterY, eyeRadius / 2f, paint);
+
+        // Draw the mouth
+        float mouthOffsetY = radius / 3f;
+        float mouthWidth = radius / 2f;
+        float mouthHeight = radius / 4f;
+        float mouthLeft = centerX - mouthWidth / 2f;
+        float mouthTop = centerY + mouthOffsetY;
+        float mouthRight = centerX + mouthWidth / 2f;
+        float mouthBottom = mouthTop + mouthHeight;
+
+        canvas.drawRect(mouthLeft, mouthTop, mouthRight, mouthBottom, paint);
+
+        return bitmap;
+    }
+
 
 
     // scoreGen() is a method that takes in a hash value and generates an appropriate score

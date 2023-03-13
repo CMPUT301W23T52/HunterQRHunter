@@ -5,15 +5,18 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.hunterqrhunter.R;
+import com.example.hunterqrhunter.model.HashQR;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -28,11 +31,16 @@ public class EditProfileScreen extends AppCompatActivity {
     FirebaseFirestore database = FirebaseFirestore.getInstance();
     CollectionReference usersCollection = database.collection("Users (shafi)");
     CollectionReference usernameCollection = database.collection("Usernames (shafi)");
-
+    HashQR hashQR = new HashQR();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+        ImageView imageView = findViewById(R.id.imageView);
+        int hashCode = 1802651831;
+        Bitmap faceBitmap = hashQR.generateImageFromHashcode(hashCode);
+        imageView.setImageBitmap(faceBitmap);
 
 
         String userID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
@@ -84,6 +92,7 @@ public class EditProfileScreen extends AppCompatActivity {
             }
         });
     }
+
 
     // This code came from https://firebase.google.com/docs/firestore/query-data/get-data
     // CITE PROPERLY
