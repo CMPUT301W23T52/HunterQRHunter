@@ -125,15 +125,15 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
                 highestScore = element;
             }
         }
-        for (Qrcode element : QRDataList) {
-            LatLng location = new LatLng(element.location.getLatitude(), element.location.getLongitude());
-            if (element == highestScore) {
-                mMap.addMarker(new MarkerOptions().position(location).icon(getMarkerIcon("#ffe922")));
-            }
-            else {
-                mMap.addMarker(new MarkerOptions().position(location).title(element.hashName + " Score = " + element.score));
-            }
-        }
+//        for (Qrcode element : QRDataList) {
+//            LatLng location = new LatLng(element.location.getLatitude(), element.location.getLongitude());
+//            if (element == highestScore) {
+//                mMap.addMarker(new MarkerOptions().position(location).icon(getMarkerIcon("#ffe922")));
+//            }
+//            else {
+//                mMap.addMarker(new MarkerOptions().position(location).title(element.hashName + " Score = " + element.score));
+//            }
+//        }
         // Add a marker based on the lat/long we receieve and plot it
         LatLng highestscorelocation = new LatLng(highestScore.location.getLatitude(), highestScore.location.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.newLatLng(highestscorelocation));
