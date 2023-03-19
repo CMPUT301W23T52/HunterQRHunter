@@ -22,7 +22,7 @@ public class QRCreature {
         this.ownedBy = ownedBy;
         this.comments = comments;
     }
-    public  QRCreature(int hashCode){
+    public QRCreature(int hashCode) {
         this.hashCode = hashCode;
     }
 

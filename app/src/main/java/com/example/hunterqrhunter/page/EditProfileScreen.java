@@ -5,15 +5,18 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.hunterqrhunter.R;
+import com.example.hunterqrhunter.model.HashQR;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -26,13 +29,19 @@ import java.util.HashMap;
 public class EditProfileScreen extends AppCompatActivity {
 
     FirebaseFirestore database = FirebaseFirestore.getInstance();
-    CollectionReference usersCollection = database.collection("Users (shafi)");
-    CollectionReference usernameCollection = database.collection("Usernames (shafi)");
+    HashQR hashQR = new HashQR();
+    CollectionReference usersCollection = database.collection("User");
+    CollectionReference usernameCollection = database.collection("Usernames");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+//        ImageView imageView = findViewById(R.id.imageView);
+//        int hashCode = 1802651831;
+//        Bitmap faceBitmap = hashQR.generateImageFromHashcode(hashCode);
+//        imageView.setImageBitmap(faceBitmap);
 
 
         String userID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
@@ -56,11 +65,11 @@ public class EditProfileScreen extends AppCompatActivity {
 
                 if (newUsername.length()>0 && newEmail.length()>0) {
 
-                    userData.put("Username", newUsername);
-                    userData.put("Email", newEmail);
-                    userData.put("User ID", userID);
+                    userData.put("username", newUsername);
+                    userData.put("email", newEmail);
+                    userData.put("uid", userID);
 
-                    usernameData.put("Username", newUsername);
+                    usernameData.put("username", newUsername);
 
                     usersCollection.document(userID).set(userData);
                     usernameCollection.document(currentUsername[0]).delete();
@@ -85,18 +94,19 @@ public class EditProfileScreen extends AppCompatActivity {
         });
     }
 
+
     // This code came from https://firebase.google.com/docs/firestore/query-data/get-data
     // CITE PROPERLY
     private void getUsernameByID(String userID, String[] username) {
 
-        DocumentReference docRef = database.collection("Users (shafi)").document(userID);
+        DocumentReference docRef = database.collection("User").document(userID);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        username[0] = document.getString("Username");
+                        username[0] = document.getString("username");
                     } else {
                         Log.d(TAG, "No such document");
                     }
@@ -109,15 +119,15 @@ public class EditProfileScreen extends AppCompatActivity {
 
     private void setCurrentUserInfo(String userID, EditText username, EditText email) {
 
-        DocumentReference docRef = database.collection("Users (shafi)").document(userID);
+        DocumentReference docRef = database.collection("User").document(userID);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        username.setText(document.getString("Username"));
-                        email.setText(document.getString("Email"));
+                        username.setText(document.getString("username"));
+                        email.setText(document.getString("email"));
                     } else {
                         Log.d(TAG, "No such document");
                     }
