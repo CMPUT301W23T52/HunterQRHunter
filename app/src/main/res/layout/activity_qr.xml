@@ -10,46 +10,43 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="372dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/qr_scanned_number"
-            android:layout_width="47dp"
-            android:layout_height="47dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="151dp"
+            android:layout_height="68dp"
+            app:layout_constraintBottom_toTopOf="@+id/qr_qr_score"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.558" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/qr_qr_score"
-            android:layout_width="100dp"
-            android:layout_height="65dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="36dp"
+            android:layout_height="56dp"
+            app:layout_constraintBottom_toTopOf="@+id/qr_qr_name"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.803"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.896" />
+            app:layout_constraintVertical_bias="0.775" />
 
         <Button
             android:id="@+id/qr_qr_name"
-            android:layout_width="100dp"
-            android:layout_height="65dp"
+            android:layout_width="38dp"
+            android:layout_height="43dp"
             android:layout_marginEnd="76dp"
 
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/qr_qr_score"
-            app:layout_constraintHorizontal_bias="0.823"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.659"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.899" />
-
-
+            app:layout_constraintVertical_bias="0.565" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -72,9 +69,11 @@
 
     <EditText
         android:id="@+id/qr_add_comment"
+        style="@style/Widget.AppCompat.EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="3"
+        android:background="@drawable/border_line"
         android:inputType="text" />
 
     <Button

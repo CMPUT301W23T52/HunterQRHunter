@@ -16,10 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hunterqrhunter.R;
 import com.example.hunterqrhunter.data.FbRepository;
+import com.example.hunterqrhunter.model.QR;
 import com.example.hunterqrhunter.model.QRCreature;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,7 +42,7 @@ public class QRScreen extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.qr_add_comment);
 
         Intent intent = getIntent();
-        int hashCode = intent.getIntExtra("HashCode", 0);
+        String qrCode = intent.getStringExtra("qrCode");
 
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -49,25 +51,23 @@ public class QRScreen extends AppCompatActivity {
         ArrayAdapter<String> commentAdapter = new ArrayAdapter<String>((Context) this, R.layout.activity_qr_comment, commentList);
         listView.setAdapter(commentAdapter);
 
-
-        DocumentReference docRef = db.collection("QR Creatures").document(Integer.toString(hashCode));
+        DocumentReference docRef = db.collection("QR").document(qrCode);
         docRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
-                    QRCreature qrCreature = new QRCreature(hashCode);
+                    QR qr = new QR(qrCode);
                     // set QR object
-                    qrCreature.setHashName((String) document.get("HashName"));
-                    qrCreature.setHashImage((String) document.get("HashImage"));
-                    qrCreature.setHashCode(((Long) Objects.requireNonNull(document.get("HashCode"))).intValue());
-                    qrCreature.setScore(((Long) Objects.requireNonNull(document.get("Score"))).intValue());
-                    qrCreature.setOwnedBy((ArrayList<String>) document.get("OwnedBy"));
-                    qrCreature.setComments((ArrayList<String>) document.get("Comments"));
+                    qr.setHashName((String) document.get("hashName"));
+                    qr.setQrcode((String) document.get("qrcode"));
+                    qr.setScore(((Long) Objects.requireNonNull(document.get("score"))).intValue());
+                    qr.setOwnedBy((ArrayList<String>) document.get("ownedBy"));
+                    qr.setComments((ArrayList<String>) document.get("comments"));
 
-                    commentList.addAll(qrCreature.getComments());
+                    commentList.addAll(qr.getComments());
 
-                    score.setText(Integer.toString(qrCreature.getScore()));
-                    scanned.setText(Integer.toString(qrCreature.getOwnedBy().size()));
+                    score.setText(Integer.toString(qr.getScore()));
+                    //scanned.setText(Integer.toString(qrCreature.getOwnedBy().size()));
 
                     commentAdapter.notifyDataSetChanged();
 
@@ -90,7 +90,7 @@ public class QRScreen extends AppCompatActivity {
                     commentList.add(newComment);
                 }
                 commentAdapter.notifyDataSetChanged();
-                fb.updateQRComments(hashCode, commentList);
+                fb.updateQRComments(qrCode, commentList);
             }
         });
     }

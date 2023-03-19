@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.hunterqrhunter.data.FbRepository;
 
 import com.example.hunterqrhunter.data.FbRepository;
+import com.example.hunterqrhunter.model.QR;
 import com.example.hunterqrhunter.model.QRCreature;
 
 import com.example.hunterqrhunter.model.HashQR;
@@ -29,8 +30,10 @@ import com.example.hunterqrhunter.model.QRCreature;
 import com.example.hunterqrhunter.page.MenuScreen;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Get a reference to the ImageView
@@ -79,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
 //                fb.writeQR(qrCreature);
             }
         });
+
+
+
 
         // Initializing back end variables for user sign up
         Button signBtn = (Button) findViewById(R.id.btn_signup);
@@ -115,9 +122,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     private void openMenuScreen() {
+
         Intent intent = new Intent(getApplicationContext(), MenuScreen.class);
         startActivity(intent);
     }
+
 
 
 }
