@@ -19,6 +19,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 //package com.example.hunterqrhunter.data;
@@ -58,6 +59,10 @@ public class FbRepository {
     public void writeQR(QRCreature qr) {
         Map<String, Object> qrValues = qr.toMap();
         db.collection(qr.getCollectionName()).document(Integer.toString(qr.getHashCode())).set(qrValues).addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
+    }
+    public void updateQRComments(int hashCode, ArrayList<String> comments) {
+        db.collection("QR Creatures").document(Integer.toString(hashCode)).update("Comments", comments).addOnSuccessListener(aVoid -> Log.d(TAG, "QR Creature Comments successfully updated!"))
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
     }
 
