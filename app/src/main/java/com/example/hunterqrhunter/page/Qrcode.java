@@ -1,7 +1,8 @@
 package com.example.hunterqrhunter.page;
 
-import com.example.hunterqrhunter.page.QRMapScreen;
 import com.google.firebase.firestore.GeoPoint;
+
+import java.util.List;
 
 public class Qrcode extends QRMapScreen {
     public String hashName;
@@ -15,5 +16,17 @@ public class Qrcode extends QRMapScreen {
         this.score = score;
         this.ownedBy = ownedBy;
     }
+
+//    public Qrcode() {
+//
+//    }
+//
+//    protected List mockscoreList() {
+//        List<Integer> scoreList = null;
+//        scoreList.add(0);
+//        return scoreList;
+//    }
+
+
 
 }

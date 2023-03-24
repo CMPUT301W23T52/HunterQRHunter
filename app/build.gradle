@@ -15,6 +15,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -29,6 +30,9 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
 }
 
@@ -45,6 +49,8 @@ dependencies {
 //    location
     implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+    implementation 'androidx.test:monitor:1.6.1'
 
 //
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
@@ -58,5 +64,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test:rules:1.5.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation 'com.jayway.android.robotium:robotium-solo:5.3.1'
+    androidTestImplementation 'com.jayway.android.robotium:robotium-solo:5.5.4'
+    androidTestImplementation 'com.androidx.support.test:runner:0.2'
+    androidTestImplementation 'com.androidx.support.test:rules:0.2'
+    androidTestImplementation 'com.androidx.support.test.uiautomator:uiautomator-v18:2.1.1'
 }

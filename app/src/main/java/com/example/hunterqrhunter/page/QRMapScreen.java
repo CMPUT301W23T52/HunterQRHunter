@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 
 import com.example.hunterqrhunter.page.Qrcode;
 import com.example.hunterqrhunter.R;
+import com.google.android.gms.maps.model.Marker;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -43,6 +44,8 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
     ArrayAdapter<com.example.hunterqrhunter.page.Qrcode> QRAdapter;
     ArrayList<com.example.hunterqrhunter.page.Qrcode> QRDataList;
     com.example.hunterqrhunter.page.CustomList customList;
+    List<Integer> maxes;
+
 
 
     @Override
@@ -58,8 +61,6 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
         mapFragment.getMapAsync(this);
     }
 
-
-
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         // Initialize arrays with some data
@@ -70,9 +71,11 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
         String[][] owners = { { "Owner1", "Owner2" }, { "Owner3" }, {} };
 //        String[][] commentarray = { { "Comment1", "Comment2" }, {}, { "Comment3" } };
         QRDataList = new ArrayList<>();
+        maxes = new ArrayList<Integer>();
         for(int i=0;i<hashnames.length;i++){
             QRDataList.add((new com.example.hunterqrhunter.page.Qrcode(hashnames[i], locations[i], scores[i], owners[i])));
         }
+        maxes.add(0);
 
         QRAdapter = new com.example.hunterqrhunter.page.CustomList(this, QRDataList);
 
@@ -83,6 +86,9 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 // Clear the old list
                 QRDataList.clear();
+                QRDataList.add((new com.example.hunterqrhunter.page.Qrcode(hashnames[0], locations[0], scores[0], owners[0])));
+
+                Qrcode highestScore = QRDataList.get(0);
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
                     String qrName = doc.getString("hashName");
                     Log.d(TAG, "hashName: " + qrName);
@@ -111,33 +117,38 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
 
                     com.example.hunterqrhunter.page.Qrcode qrCode = new com.example.hunterqrhunter.page.Qrcode(qrName, location, qrScore, qrOwnedBy);
                     QRDataList.add(qrCode);
+                    if (qrScore > highestScore.score) {
+                        highestScore = qrCode;
+                    }
+                    maxes.add(qrScore);
                     // Add a marker for each location to the map
                     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                    mMap.addMarker(new MarkerOptions().position(latLng).title(qrName));
+                    mMap.addMarker(new MarkerOptions().position(latLng).title(qrName + " Score = " + qrScore));
                 }
+                LatLng latLng = new LatLng(highestScore.location.getLatitude(), highestScore.location.getLongitude());
+                Marker markername = mMap.addMarker(new MarkerOptions().position(latLng).title(highestScore.hashName + " Score = " + maxscore(maxes)));
+                markername.remove();
+                mMap.addMarker(new MarkerOptions().position(latLng).title(highestScore.hashName + " Score = " + maxscore(maxes)).icon(getMarkerIcon("#ffe922")));
                 QRAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetched from the cloud
 
             } });
         mMap = googleMap;
-        Qrcode highestScore = QRDataList.get(0);
-        for (Qrcode element : QRDataList) {
-            if (element.score > highestScore.score) {
-                highestScore = element;
+        // Add a marker based on the lat/long we receieve and plot it
+        LatLng edmonton = new LatLng(53.631611, -113.323975);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(edmonton));
+    }
+
+    public int maxscore(List<Integer> scoremax) {
+        int highestScore = 0;
+        for(int i=0;i<scoremax.size();i++){
+            int num = scoremax.get(i);
+            if (num > highestScore) {
+                highestScore = i;
             }
         }
-//        for (Qrcode element : QRDataList) {
-//            LatLng location = new LatLng(element.location.getLatitude(), element.location.getLongitude());
-//            if (element == highestScore) {
-//                mMap.addMarker(new MarkerOptions().position(location).icon(getMarkerIcon("#ffe922")));
-//            }
-//            else {
-//                mMap.addMarker(new MarkerOptions().position(location).title(element.hashName + " Score = " + element.score));
-//            }
-//        }
-        // Add a marker based on the lat/long we receieve and plot it
-        LatLng highestscorelocation = new LatLng(highestScore.location.getLatitude(), highestScore.location.getLongitude());
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(highestscorelocation));
+        return highestScore;
     }
+
     // method definition
     public BitmapDescriptor getMarkerIcon(String color) {
         float[] hsv = new float[3];

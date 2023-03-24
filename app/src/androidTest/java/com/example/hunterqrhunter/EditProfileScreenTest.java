@@ -1,9 +1,5 @@
 package com.example.hunterqrhunter;
 
-import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
-
-import android.app.Activity;
-import android.provider.Settings;
 import android.widget.EditText;
 
 import androidx.test.platform.app.InstrumentationRegistry;
