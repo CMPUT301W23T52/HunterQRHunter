@@ -110,7 +110,7 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
                     for (int i = 0; i < qrOwnedByList.size(); i++) {
                         qrOwnedBy[i] = qrOwnedByList.get(i);
                     }
-                    Log.d(TAG, "QR OwnedBy: " + Arrays.toString(qrOwnedBy));
+                    Log.d(TAG, "QR is OwnedBy: " + Arrays.toString(qrOwnedBy));
 
 //                    String[] qrComments = doc.get("QR comments", String[].class);
 //                    Log.d(TAG, "QR Comments: " + Arrays.toString(qrComments));
