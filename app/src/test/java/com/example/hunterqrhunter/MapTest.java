@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Map test
+ * Tests implementation of method(s) used in QRMapScreen
  *
  */
 public class MapTest {
@@ -40,7 +40,10 @@ public class MapTest {
         // This constructor is empty, but it satisfies the requirement of having a public zero-argument constructor.
     }
 
-
+    /**
+     * Tests implementation of mapscore
+     *
+     */
     @Test
     public void maxscoretest() {
         List<Integer> scoreList = new ArrayList<Integer>();
@@ -53,6 +56,12 @@ public class MapTest {
         scoreList.add(4);
         assertEquals(4, maxscore(scoreList));
     }
+
+    /**
+     * Returns the highest score in an array
+     * @return highestScore, which is the highest score in the List of scores
+     * @param scoremax
+     */
     public int maxscore(List<Integer> scoremax) {
         int highestScore = 0;
         for(int i=0;i<scoremax.size();i++){
