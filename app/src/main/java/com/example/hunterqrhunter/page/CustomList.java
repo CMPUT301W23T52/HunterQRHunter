@@ -17,6 +17,11 @@ public class CustomList extends ArrayAdapter<com.example.hunterqrhunter.page.Qrc
     private ArrayList<com.example.hunterqrhunter.page.Qrcode> hashcodes;
     private Context context;
 
+    /**
+     * handle the data that is received from previous screen
+     * @param context used to receive the data from previous screen
+     * @param context used to receive the data from previous screen
+     */
     public CustomList(Context context, ArrayList<com.example.hunterqrhunter.page.Qrcode> hashcodes) {
         super(context, 0, hashcodes);
         this.hashcodes = hashcodes;
