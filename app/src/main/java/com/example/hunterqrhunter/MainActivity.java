@@ -22,10 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.hunterqrhunter.data.FbRepository;
 
 import com.example.hunterqrhunter.data.FbRepository;
-import com.example.hunterqrhunter.model.QRCreature;
 
 import com.example.hunterqrhunter.model.HashQR;
-import com.example.hunterqrhunter.model.QRCreature;
 import com.example.hunterqrhunter.page.MenuScreen;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
