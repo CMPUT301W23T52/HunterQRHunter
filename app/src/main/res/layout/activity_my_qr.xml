@@ -15,18 +15,18 @@
             android:textSize="24sp"
             android:paddingLeft="120dp"
             android:paddingBottom="25dp"/>
-        <TextView
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="points"
             android:id="@+id/UserScore">
-        </TextView>
-        <TextView
+        </EditText>
+        <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="number of QR"
             android:id="@+id/NumQR">
-        </TextView>
+        </EditText>
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
