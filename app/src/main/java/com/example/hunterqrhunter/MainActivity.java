@@ -38,12 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     String hashVal = "dragonasf";
-    HashQR hashQR = new HashQR();
-
-    private Button mButton;
-    private FirebaseFirestore db;
-    private FbRepository fb;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
         // Get a reference to the ImageView
         ImageView imageView = findViewById(R.id.QrCreatureImage);
         // Generate hash and hash name
-        byte[] hash = hashQR.hashObject(hashVal);
-        String HashName = hashQR.giveQrName(hash);
+        byte[] hash = HashQR.hashObject(hashVal);
+        String HashName = HashQR.giveQrName(hash);
 //        Bitmap HashImage = hashQR.generateImageFromHashcode(hash);
 
 // Generate the bitmap from the hash code
@@ -62,17 +56,17 @@ public class MainActivity extends AppCompatActivity {
 //        imageView.setImageBitmap(bitmap);
 
         // Initialize Firebase Firestore and FbRepository
-        db = FirebaseFirestore.getInstance();
-        fb = new FbRepository(db);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FbRepository fb = new FbRepository(db);
 
         // Initialize the button and set an OnClickListener
-        mButton = findViewById(R.id.btn1);
+        Button mButton = findViewById(R.id.btn1);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Generate hash and hash name
-                byte[] hash = hashQR.hashObject(hashVal);
-                String HashName = hashQR.giveQrName(hash);
+                byte[] hash = HashQR.hashObject(hashVal);
+                String HashName = HashQR.giveQrName(hash);
 
                 // Create a new user with a first and last name, born year, hash, and hash name
 //                QRCreature qrCreature = new QRCreature(HashName, hash);
