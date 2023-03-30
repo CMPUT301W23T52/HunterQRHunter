@@ -49,11 +49,8 @@ public class LoadingScreen extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
-
     private void openMenuScreen() {
         Intent intent = new Intent(this, MenuScreen.class);
         startActivity(intent);
     }
-
-
 }

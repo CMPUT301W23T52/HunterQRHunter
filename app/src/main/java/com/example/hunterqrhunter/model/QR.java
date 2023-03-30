@@ -12,8 +12,10 @@ public class QR {
     private String qrcode;
     private GeoPoint location;
     private int score;
-    private ArrayList<String> ownedBy;
-    private String hashName;
+    private String uid;
+    private ArrayList<String> comments;
+    private String name;
+    private String qid;
 
     /**
      *
@@ -21,14 +23,38 @@ public class QR {
      * @param location location of the user
      * @param score score generated using hash
      * @param ownedBy list of users that own qr
-     * @param hashName hashed name
+     * @param name hashed name
      */
-    public QR(String qrcode, GeoPoint location, int score, ArrayList<String> ownedBy, String hashName) {
+    public QR(String qrcode, GeoPoint location, int score, String ownedBy, String name,  String qid) {
         this.qrcode = qrcode;
         this.location = location;
         this.score = score;
-        this.ownedBy = ownedBy;
-        this.hashName = hashName;
+        this.uid = ownedBy;
+        this.name = name;
+        this.comments = new ArrayList<>();
+        this.qid = qid;
+    }
+
+    public String getQid() {
+        return qid;
+    }
+
+    public void setQid(String qid) {
+        this.qid = qid;
+    }
+    public void addComment(String comment){
+        comments.add(comment);
+    }
+    public void deleteComment(String comment){
+        comments.remove(comment);
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getQrcode() {
@@ -55,20 +81,13 @@ public class QR {
         this.score = score;
     }
 
-    public ArrayList<String> getOwnedBy() {
-        return ownedBy;
+
+    public String getName() {
+        return name;
     }
 
-    public void setOwnedBy(ArrayList<String> ownedBy) {
-        this.ownedBy = ownedBy;
-    }
-
-    public String getHashName() {
-        return hashName;
-    }
-
-    public void setHashName(String hashName) {
-        this.hashName = hashName;
+    public void setName(String name) {
+        this.name = name;
     }
 }
 

@@ -1,13 +1,12 @@
 package com.example.hunterqrhunter.page;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,12 +22,10 @@ import com.example.hunterqrhunter.model.QR;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.UUID;
 
 
 public class AddQRScreen extends AppCompatActivity {
@@ -59,6 +56,7 @@ public class AddQRScreen extends AppCompatActivity {
         Button deleteBtn = (Button) findViewById(R.id.delete_button);
         TextView pointText =(TextView) findViewById(R.id.score_text);
         TextView nameText = (TextView) findViewById(R.id.name_text);
+        ImageView faceImage = findViewById(R.id.face_image);
 
         String hashedName = HashQR.giveQrName(HashedValue);
         Integer hashedScore = HashQR.scoreGen(HashedValue);
@@ -90,13 +88,12 @@ public class AddQRScreen extends AppCompatActivity {
                 double longitude = mLocationUtils.getLongitude();
                 double latitude = mLocationUtils.getLatitude();
                 GeoPoint location = new GeoPoint(latitude, longitude);
-                ArrayList<String> ownedBy = new ArrayList<>();
-                ownedBy.add(uid);
-
+                String qid = UUID.randomUUID().toString();
                 CollectionReference qrCollection = FirebaseFirestore.getInstance().collection("QR");
-                QR qr = new QR(scannedData, location, hashedScore, ownedBy, hashedName);
+                QR qr = new QR(scannedData, location, hashedScore, uid, hashedName, qid);
 
-                db.collection("QR").document(scannedData.replaceAll("//","")).set(qr)
+
+                db.collection("QR").document(qid).set(qr)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             /**
                              * when adding was successful toast and navigate back to menu Screen
