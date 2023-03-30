@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map_screen"
     android:layout_width="match_parent"
@@ -11,4 +12,39 @@
         android:layout_height="match_parent"
         tools:context=".QRMapScreen"
         />
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <EditText
+        android:id="@+id/editText_name"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="1"
+        android:ems="10"
+        android:hint="City Name"
+        android:inputType="textCapWords"
+        android:background="@color/white"
+        android:textColor="#000000" />
+
+    <Button
+        android:id="@+id/button_confirm"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/editText_name"
+        android:text="CONFIRM"/>
+
+    <Button
+        android:id="@+id/button_reset"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/button_confirm"
+        android:text="RESET"/>
+
+
+
+
+
+</RelativeLayout>
