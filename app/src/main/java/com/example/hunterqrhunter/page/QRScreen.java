@@ -42,8 +42,9 @@ public class QRScreen extends AppCompatActivity {
         Button score = (Button) findViewById(R.id.qr_qr_score) ;
         EditText editText = (EditText) findViewById(R.id.qr_add_comment);
         ImageView imageView = findViewById(R.id.qr_image);
-        int hashCode = 1802651831;
-        Bitmap faceBitmap = hashQR.generateImageFromHashcode(hashCode);
+        String hashCode = "1802651831";
+        byte[] hash = hashQR.hashObject(hashCode);
+        Bitmap faceBitmap = hashQR.generateImageFromHashcode(hash);
         imageView.setImageBitmap(faceBitmap);
 
 

@@ -50,6 +50,7 @@ public class AddQRScreen extends AppCompatActivity {
 
         String scannedData = getIntent().getStringExtra("SCANNED_DATA");
         byte[] HashedValue = HashQR.hashObject(scannedData);
+
 //        get all the views
         Button saveBtn = (Button) findViewById(R.id.save_button);
         Button deleteBtn = (Button) findViewById(R.id.delete_button);
