@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 public class HashQR {
     public int hash;
@@ -76,13 +77,15 @@ public class HashQR {
      * Generates a bitmap image of a face based on a given hashcode. The face will have a randomly generated color
      * based on the hashcode, and the color of the eyes and mouth will also change based on the hashcode.
      *
-     * @param hashcode an integer hashcode used to generate the face image
+     * @param facecode an integer hashcode used to generate the face image
      * @return a bitmap image of a face with a randomly generated color and eye/mouth colors based on the hashcode
      */
-    public Bitmap generateImageFromHashcode(int hashcode) {
+    public Bitmap generateImageFromHashcode(byte[] facecode) {
         // Default size of the image
         int width = 350;
         int height = 350;
+
+        int hashcode = Arrays.hashCode(facecode);
 
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
