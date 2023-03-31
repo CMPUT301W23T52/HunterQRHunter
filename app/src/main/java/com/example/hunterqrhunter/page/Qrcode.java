@@ -6,12 +6,14 @@ public class Qrcode extends QRMapScreen {
     public String hashName;
     public GeoPoint location;
     public int score;
+    public String qid;
 //    public String[] ownedBy;
 
-    public Qrcode(String hashName, GeoPoint location, int score) {
+    public Qrcode(String hashName, GeoPoint location, int score, String qid) {
         this.hashName = hashName;
         this.location = location;
         this.score = score;
+        this.qid = qid;
 //        this.ownedBy = ownedBy;
     }
 

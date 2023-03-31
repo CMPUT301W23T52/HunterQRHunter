@@ -89,8 +89,8 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
         QRDataList = new ArrayList<>();
         RealList = new ArrayList<>();
         maxes = new ArrayList<Integer>();
-        QRDataList.add((new com.example.hunterqrhunter.page.Qrcode(hashnames[0], locations[0], scores[0])));
-        QRDataList.add((new com.example.hunterqrhunter.page.Qrcode(hashnames[1], locations[1], scores[1])));
+        QRDataList.add((new com.example.hunterqrhunter.page.Qrcode(hashnames[0], locations[0], scores[0], "0")));
+        QRDataList.add((new com.example.hunterqrhunter.page.Qrcode(hashnames[1], locations[1], scores[1], "0")));
 
         maxes.add(0);
 
@@ -113,8 +113,11 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
                     int qrScore = doc.getLong("score").intValue();
                     Log.d(TAG, "QR Score: " + qrScore);
 
+                    String qid = doc.getString("qid");
+                    Log.d(TAG, "qid: " + qid);
 
-                    com.example.hunterqrhunter.page.Qrcode qrCode = new com.example.hunterqrhunter.page.Qrcode(qrName, location, qrScore);
+
+                    com.example.hunterqrhunter.page.Qrcode qrCode = new com.example.hunterqrhunter.page.Qrcode(qrName, location, qrScore, qid);
                     RealList.add(qrCode);
                     if (qrScore > highestScore.score) {
                         highestScore = qrCode;
@@ -155,9 +158,21 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                // Display the marker title in an alert box
+                String title = marker.getTitle();
+                if (title != null && !title.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), title, Toast.LENGTH_SHORT).show();
+                }
 
-                Intent intent = new Intent(getApplicationContext(), UserScoresScreen.class);
-                startActivity(intent);
+                // Check if the marker's position matches a location in the list of QR codes
+                LatLng position = marker.getPosition();
+                for (int i = 0; i < RealList.size(); i++) {
+                    Qrcode code = RealList.get(i);
+                    if ((code.location.getLatitude() == position.latitude) && (code.location.getLongitude() == position.longitude)) {
+                        System.out.println(code.qid);
+                        break;
+                    }
+                }
 
                 // Return true to indicate that the event has been consumed
                 return true;

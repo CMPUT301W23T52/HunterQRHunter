@@ -9,7 +9,7 @@
         android:id="@+id/score_text"
         android:layout_width="0dp"
         android:layout_height="36dp"
-        android:layout_marginTop="272dp"
+        android:layout_marginTop="240dp"
         android:background="@color/Yellow"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
@@ -73,4 +73,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/score_text" />
+
+    <ImageView
+        android:id="@+id/face_image"
+        android:layout_width="139dp"
+        android:layout_height="138dp"
+        app:layout_constraintBottom_toTopOf="@+id/score_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars"
+        android:contentDescription="Image" />
 </androidx.constraintlayout.widget.ConstraintLayout>
