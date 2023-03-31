@@ -29,15 +29,18 @@ public class UserScoresScreen extends AppCompatActivity {
     FirebaseFirestore database = FirebaseFirestore.getInstance();
     CollectionReference usersCollection = database.collection("User");
     CollectionReference usernameCollection = database.collection("Usernames");
+    CollectionReference QRCollection = database.collection("QR");
+
+    private ArrayList<String> usernameDataList = new ArrayList<>();
+    private ArrayAdapter<String> usernameAdapter = new ArrayAdapter<>(this, R.layout.content_username, R.id.username_button, usernameDataList);
+    private ListView usernameListView = findViewById(R.id.username_list);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_scores);
 
-        ArrayList<String> usernameDataList = new ArrayList<>();
-        ArrayAdapter<String> usernameAdapter = new ArrayAdapter<>(this, R.layout.content_username, R.id.username_button, usernameDataList);
-        ListView usernameListView = findViewById(R.id.username_list);
+
 
 
         usernameCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -63,6 +66,41 @@ public class UserScoresScreen extends AppCompatActivity {
             }
         });
     }
+
+    public void sortByHighestTotalScore() {
+        ArrayList<String> userIDList = new ArrayList<>();
+        usersCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        userIDList.add(document.getId());
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                    }
+                }
+                else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+
+        QRCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        userIDList.add(document.getId());
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                    }
+                }
+                else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
 
 
 }

@@ -25,6 +25,7 @@
         </activity>
 
         <activity android:name=".MainActivity" />
+        <activity android:name=".page.SignUpScreen"/>
         <activity android:name=".page.MenuScreen" />
         <activity android:name=".page.EditProfileScreen"/>
         <activity android:name=".page.QRCameraScreen" />

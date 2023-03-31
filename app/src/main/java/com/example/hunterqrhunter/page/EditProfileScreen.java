@@ -5,18 +5,16 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.hunterqrhunter.R;
-import com.example.hunterqrhunter.model.HashQR;
+import com.example.hunterqrhunter.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -29,7 +27,6 @@ import java.util.HashMap;
 public class EditProfileScreen extends AppCompatActivity {
 
     FirebaseFirestore database = FirebaseFirestore.getInstance();
-    HashQR hashQR = new HashQR();
     CollectionReference usersCollection = database.collection("User");
     CollectionReference usernameCollection = database.collection("Usernames");
 
@@ -38,18 +35,14 @@ public class EditProfileScreen extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-//        ImageView imageView = findViewById(R.id.imageView);
-//        int hashCode = 1802651831;
-//        Bitmap faceBitmap = hashQR.generateImageFromHashcode(hashCode);
-//        imageView.setImageBitmap(faceBitmap);
-
 
         String userID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        String[] currentUsername = new String[1];
-        getUsernameByID(userID, currentUsername);
+
+        User oldUser = new User(userID, null, null);
+        getUsernameByID(userID, oldUser);
+
         EditText username = findViewById(R.id.edit_username);
         EditText email = findViewById(R.id.edit_email);
-
         setCurrentUserInfo(userID, username, email); // Set the edit texts to be the current user info
 
 
@@ -60,26 +53,30 @@ public class EditProfileScreen extends AppCompatActivity {
                 final String newUsername = username.getText().toString();
                 final String newEmail = email.getText().toString();
 
-                HashMap<String, String> userData = new HashMap<>();
-                HashMap<String, String> usernameData = new HashMap<>();
+                User newUser = new User(userID, newUsername, newEmail);
 
-                if (newUsername.length()>0 && newEmail.length()>0) {
-
-                    userData.put("username", newUsername);
-                    userData.put("email", newEmail);
-                    userData.put("uid", userID);
-
-                    usernameData.put("username", newUsername);
-
-                    usersCollection.document(userID).set(userData);
-                    usernameCollection.document(currentUsername[0]).delete();
-                    usernameCollection.document(newUsername).set(usernameData);
-
-                    getUsernameByID(userID, currentUsername);
-                    Toast.makeText(EditProfileScreen.this,"Profile successfully edited!", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(EditProfileScreen.this,"Please enter a username and email", Toast.LENGTH_SHORT).show();
+                switch (newUser.validateUserInfo()) {
+                    case 0:
+                        editUserProfile(oldUser, newUser);
+                        break;
+                    case 1:
+                        Toast.makeText(EditProfileScreen.this, "Username must be between 3-20 characters", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        Toast.makeText(EditProfileScreen.this, "Username must start with a number or letter", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3:
+                        Toast.makeText(EditProfileScreen.this, "Username must end with a number or letter", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 4:
+                        Toast.makeText(EditProfileScreen.this, "Username must not repeat . or _ character", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 5:
+                        Toast.makeText(EditProfileScreen.this, "Username contains illegal characters", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6:
+                        Toast.makeText(EditProfileScreen.this, "Invalid email", Toast.LENGTH_SHORT).show();
+                        break;
                 }
             }
         });
@@ -95,9 +92,46 @@ public class EditProfileScreen extends AppCompatActivity {
     }
 
 
+    public void editUserProfile(User oldUser, User newUser) {
+
+        DocumentReference docRef = database.collection("Usernames").document(newUser.getUsername());
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "Username already exists");
+                        Toast.makeText(EditProfileScreen.this, "Username already exists!", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        HashMap<String, String> userData = new HashMap<>();
+                        HashMap<String, String> usernameData = new HashMap<>();
+
+                        usernameData.put("username", newUser.getUsername());
+
+                        userData.put("uid", newUser.getUid());
+                        userData.put("username", newUser.getUsername());
+                        userData.put("email", newUser.getEmail());
+
+                        usernameCollection.document(oldUser.getUsername()).delete();
+                        usernameCollection.document(newUser.getUsername()).set(usernameData);
+                        usersCollection.document(newUser.getUid()).set(userData);
+                        Toast.makeText(EditProfileScreen.this, "Profile successfully edited!", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "Profile updated");
+                    }
+                }
+                else {
+                    Log.d(TAG, "Error editing profile ", task.getException());
+                }
+            }
+        });
+    }
+
+
     // This code came from https://firebase.google.com/docs/firestore/query-data/get-data
     // CITE PROPERLY
-    private void getUsernameByID(String userID, String[] username) {
+    private void getUsernameByID(String userID, User user) {
 
         DocumentReference docRef = database.collection("User").document(userID);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -106,12 +140,13 @@ public class EditProfileScreen extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        username[0] = document.getString("username");
+                        String username = document.getString("username");
+                        user.setUsername(username);
                     } else {
                         Log.d(TAG, "No such document");
                     }
                 } else {
-                    Log.d(TAG, "get failed with ", task.getException());
+                    Log.d(TAG, "Error getting document ", task.getException());
                 }
             }
         });
@@ -137,5 +172,7 @@ public class EditProfileScreen extends AppCompatActivity {
             }
         });
     }
+
+
 
 }
