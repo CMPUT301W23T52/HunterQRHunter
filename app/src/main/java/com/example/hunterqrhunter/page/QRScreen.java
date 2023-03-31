@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.hunterqrhunter.R;
 import com.example.hunterqrhunter.data.FbRepository;
 import com.example.hunterqrhunter.model.QR;
-import com.example.hunterqrhunter.model.QRCreature;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -65,29 +64,40 @@ public class QRScreen extends AppCompatActivity {
                 if (document.exists()) {
                     QR qr = new QR(qrCode);
                     // set QR object
-                    qr.setHashName((String) document.get("name"));
-                    qr.setQrcode((String) document.get("qid"));
+                    qr.setName((String) document.get("name"));
+                    qr.setQrcode((String) document.get("qrcode"));
                     qr.setScore(((Long) Objects.requireNonNull(document.get("score"))).intValue());
-                    //qr.setOwnedBy((ArrayList<String>) document.get("ownedBy"));
-                    qr.setComments((ArrayList<String>) document.get("comments"));
-//                    db.collection("QR").whereEqualTo("name",qr.getHashName()).get().addOnCompleteListener(
-//                            new OnCompleteListener<QuerySnapshot>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                    if (task.isSuccessful()) {
-//                                        for (QueryDocumentSnapshot document : task.getResult()) {
-//                                            Log.d(TAG, document.getId() + " => " + document.getData());
-//                                        }
-//                                    } else {
-//                                        Log.d(TAG, "Error getting documents: ", task.getException());
-//                                    }
-//                               }
-//                           });
-                    System.out.println(qr.getScore());
+                    qr.setUid((String) document.get("uid"));
+                    if(document.get("comments") == null) {
+                        qr.setComments(new ArrayList<>());
+                    }
+                    else{
+                        qr.setComments((ArrayList<String>) document.get("comments"));
+                    }
+                    db.collection("QR").whereEqualTo("qrcode",qr.getQrcode()).get().addOnCompleteListener(
+                            new OnCompleteListener<QuerySnapshot>() {
+
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                                    if (task.isSuccessful()) {
+                                        int scanNum = 0;
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                            scanNum += 1;
+
+                                        }
+                                        scanned.setText(Integer.toString(scanNum));
+                                    } else {
+                                        scanned.setText(Integer.toString(1));
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                                    }
+                               }
+                           });
                     commentList.addAll(qr.getComments());
                     score.setText(Integer.toString(qr.getScore()));
-                    //scanned.setText(Integer.toString(qrCreature.getOwnedBy().size()));
-                    qrName.setText(qr.getHashName());
+
+                    qrName.setText(qr.getName());
                     commentAdapter.notifyDataSetChanged();
 
 

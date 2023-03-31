@@ -3,6 +3,8 @@ package com.example.hunterqrhunter.model;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents QR object that will be pushed to our database
@@ -16,6 +18,8 @@ public class QR {
     private ArrayList<String> comments;
     private String name;
     private String qid;
+
+
 
     /**
      *
@@ -34,10 +38,14 @@ public class QR {
         this.comments = new ArrayList<>();
         this.qid = qid;
     }
+    public QR(String qid){
+        this.qid = qid;
+    }
 
     public String getQid() {
         return qid;
     }
+
 
     public void setQid(String qid) {
         this.qid = qid;
@@ -47,6 +55,13 @@ public class QR {
     }
     public void deleteComment(String comment){
         comments.remove(comment);
+    }
+    public ArrayList<String> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<String> comments) {
+        this.comments = comments;
     }
 
     public String getUid() {
