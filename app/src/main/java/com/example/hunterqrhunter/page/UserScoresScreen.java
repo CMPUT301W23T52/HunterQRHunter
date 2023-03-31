@@ -2,6 +2,7 @@ package com.example.hunterqrhunter.page;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -85,22 +87,49 @@ public class UserScoresScreen extends AppCompatActivity {
             }
         });
 
-        QRCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        userIDList.add(document.getId());
-                        Log.d(TAG, document.getId() + " => " + document.getData());
+        for (int i = 0; i < userIDList.size(); i++) {
+            QRCollection.whereEqualTo(FieldPath.of("uid"), userIDList).get().addOnCompleteListener(task -> {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            userIDList.add(document.getId());
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                        }
+                    }
+                    else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 }
-                else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
+            });
     }
 
 
+ qrRef.whereEqualTo(FieldPath.of("uid"), userID).get().addOnCompleteListener(task -> {
+        if (task.isSuccessful()) {
+            for (DocumentSnapshot document : task.getResult()) {
 
+                //get the score of the user and add it to the total score
+                Integer score = Integer.parseInt(document.getData().get("score").toString());
+
+                //update the total score
+                totalScore.addAndGet(score);
+
+                //update the total number of the QRs
+                totalQRs.getAndIncrement();
+
+                ListView myQRList = findViewById(R.id.QRList);
+
+                //get the qrcode field from the QR document
+                String qrCode = document.getData().get("qrcode").toString();
+
+                //create a face class based on the qrCode
+                byte[] hash = hashQR.hashObject(qrCode);
+                Bitmap faceBitmap = hashQR.generateImageFromHashcode(hash);
+
+                //store the faceBitmap to the arrayList
+                qrList.add(faceBitmap);
+
+                Log.d("MyQRScreen", document.getId() + " => " + document.getData());
+            }
 }
