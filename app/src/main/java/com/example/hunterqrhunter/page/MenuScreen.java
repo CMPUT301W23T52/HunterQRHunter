@@ -57,7 +57,7 @@ public class MenuScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), QRScreen.class);
-                intent.putExtra("qrCode","lingfeng");
+                intent.putExtra("qrCode","d5cb61a1-31a0-4471-9c00-ff1844d57ae3");
                 startActivity(intent);
             }
         });

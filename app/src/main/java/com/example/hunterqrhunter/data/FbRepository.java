@@ -63,7 +63,7 @@ public class FbRepository {
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
     }
     public void updateQRComments(String qrCode, ArrayList<String> comments){
-        db.collection("QR").document(qrCode).update("Comments", comments).addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
+        db.collection("QR").document(qrCode).update("comments", comments).addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
                 .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
     }
 

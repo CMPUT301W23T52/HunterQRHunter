@@ -45,8 +45,8 @@ public class QR {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("hashName", this.hashName);
-        result.put("qrcode", this.qrcode);
+        result.put("name", this.hashName);
+        result.put("uid", this.qrcode);
         result.put("score",this.score);
         result.put("ownedBy",this.ownedBy);
         result.put("comments",this.comments);
