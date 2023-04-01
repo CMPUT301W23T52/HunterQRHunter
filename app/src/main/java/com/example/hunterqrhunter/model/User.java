@@ -1,66 +1,8 @@
 package com.example.hunterqrhunter.model;
 
-<<<<<<< HEAD
-import com.google.firebase.firestore.Exclude;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-public class User {
-    String uid;
-    String firstName;
-    String lastName;
-    String username;
-    String email;
-    int born;
-    int hash;
-
-    // Username and email validation variables
-    private static final String USERNAME_PATTERN = "^[a-zA-Z0-9](?!.*([._])\\1)[a-zA-Z0-9._]{1,18}[a-zA-Z0-9]$";
-    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\."+
-                                                "[a-zA-Z0-9_+&*-]+)*@" +
-                                                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-                                                "A-Z]{2,7}$";
-    private final Pattern usernamePattern = Pattern.compile(USERNAME_PATTERN);
-    private final Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
-
-
-    public User(String uid,String fn, String ln, int born, int hash) {
-        this.uid = uid;
-        this.firstName = fn;
-        this.lastName = ln;
-        this.born = born;
-        this.hash = hash;
-    }
-
-
-    public User (String uid,String username, String email) {
-        this.uid = uid;
-        this.username = username;
-        this.email = email;
-    }
-
-
-//    Array<HashQR> qrArray;
-
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    @Exclude
-    public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("uid", this.uid);
-        result.put("firstName", this.firstName);
-        result.put("lastName", this.lastName);
-        result.put("born", born);
-        result.put("hash", hash);
-
-        return result;
-=======
-import java.util.ArrayList;
 
 public class User {
     String uid;
@@ -68,12 +10,26 @@ public class User {
     String email;
     int totalScore;
     ArrayList<String> scannedQRs;
+
+    private static final String USERNAME_PATTERN = "^[a-zA-Z0-9](?!.*([._])\\1)[a-zA-Z0-9._]{1,18}[a-zA-Z0-9]$";
+    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+            "[a-zA-Z0-9_+&*-]+)*@" +
+            "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+            "A-Z]{2,7}$";
+    private final Pattern usernamePattern = Pattern.compile(USERNAME_PATTERN);
+    private final Pattern emailPattern = Pattern.compile(EMAIL_PATTERN);
+
+    public User (String uid,String username, String email) {
+        this.uid = uid;
+        this.username = username;
+        this.email = email;
+    }
+
     public User(String username, String uid, String email, int totalScore) {
         this.uid = uid;
         this.username = username;
         this.email = email;
         this.totalScore = totalScore;
->>>>>>> 59a950d6c76950dc5b89ab148a0298c580eb981b
     }
 
     public int validateUserInfo() {
@@ -123,25 +79,8 @@ public class User {
         this.username = username;
     }
 
-<<<<<<< HEAD
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public int getBorn() {
-        return born;
-=======
-    public String getEmail() {
-        return email;
->>>>>>> 59a950d6c76950dc5b89ab148a0298c580eb981b
     }
 
     public void setEmail(String email) {
@@ -163,6 +102,7 @@ public class User {
     public void setScannedQRs(ArrayList<String> scannedQRs) {
         this.scannedQRs = scannedQRs;
     }
+
 
 
 }
