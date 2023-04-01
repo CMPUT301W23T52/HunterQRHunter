@@ -15,8 +15,6 @@ public class User {
     String email;
     int born;
     int hash;
-    long totalScore;
-    int highestUniqueQRScore;
 
     // Username and email validation variables
     private static final String USERNAME_PATTERN = "^[a-zA-Z0-9](?!.*([._])\\1)[a-zA-Z0-9._]{1,18}[a-zA-Z0-9]$";
@@ -36,13 +34,6 @@ public class User {
         this.hash = hash;
     }
 
-    public User (String uid,String username, String email, long totalScore, int highestUniqueQRScore) {
-        this.uid = uid;
-        this.username = username;
-        this.email = email;
-        this.totalScore = totalScore;
-        this.highestUniqueQRScore = highestUniqueQRScore;
-    }
 
     public User (String uid,String username, String email) {
         this.uid = uid;

@@ -54,18 +54,6 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"/>
 
-        <Space
-            android:layout_width="8dp"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/sort_by_highest_uniqueQR_button"
-            android:text="Highest QR"
-            android:textAllCaps="false"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"/>
-
     </LinearLayout>
 
     <ListView

@@ -21,6 +21,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
 
@@ -101,28 +102,28 @@ public class EditProfileScreen extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Log.d(TAG, "Username already exists");
+                        Log.d("EditUserProfile", "Username already exists");
                         Toast.makeText(EditProfileScreen.this, "Username already exists!", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        HashMap<String, String> userData = new HashMap<>();
+                        HashMap<String, Object> userData = new HashMap<>();
                         HashMap<String, String> usernameData = new HashMap<>();
 
                         usernameData.put("username", newUser.getUsername());
 
-                        userData.put("uid", newUser.getUid());
                         userData.put("username", newUser.getUsername());
                         userData.put("email", newUser.getEmail());
 
                         usernameCollection.document(oldUser.getUsername()).delete();
                         usernameCollection.document(newUser.getUsername()).set(usernameData);
-                        usersCollection.document(newUser.getUid()).set(userData);
+                        usersCollection.document(newUser.getUid()).set(userData, SetOptions.merge());
+
                         Toast.makeText(EditProfileScreen.this, "Profile successfully edited!", Toast.LENGTH_SHORT).show();
-                        Log.d(TAG, "Profile updated");
+                        Log.d("EditUserProfile", "Profile updated");
                     }
                 }
                 else {
-                    Log.d(TAG, "Error editing profile ", task.getException());
+                    Log.d("EditUserProfile", "Error getting documents", task.getException());
                 }
             }
         });

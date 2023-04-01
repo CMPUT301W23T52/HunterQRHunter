@@ -1,5 +1,9 @@
 package com.example.hunterqrhunter.page;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,11 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.hunterqrhunter.R;
+import com.example.hunterqrhunter.model.QR;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
@@ -30,10 +31,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class UserScoresScreen extends AppCompatActivity {
+public class BrowseQRScreen extends AppCompatActivity {
 
     FirebaseFirestore database;
-    CollectionReference usersCollection;
     CollectionReference QRCollection;
 
     private ArrayAdapter<String> usernameListAdapter;
@@ -42,10 +42,9 @@ public class UserScoresScreen extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_scores);
+        setContentView(R.layout.activity_browse_qrscreen);
 
         database = FirebaseFirestore.getInstance();
-        usersCollection = database.collection("User");
         QRCollection = database.collection("QR");
 
         usernameListAdapter = new ArrayAdapter<String>(this, R.layout.content_username, R.id.player_name_button, new ArrayList<>());
@@ -53,8 +52,7 @@ public class UserScoresScreen extends AppCompatActivity {
 
         Button exitButton = findViewById(R.id.exit_button);
         Button switchButton = findViewById(R.id.switch_button);
-        Button sortByTotalScoreButton = findViewById(R.id.sort_by_total_score_button);
-        Button sortByHighestUniqueQRButton = findViewById(R.id.sort_by_highest_uniqueQR_button);
+        Button sortByPointsButton = findViewById(R.id.sort_by_total_score_button);
 
         sortByTotalScore();
 
@@ -68,37 +66,26 @@ public class UserScoresScreen extends AppCompatActivity {
         switchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openBrowseQR();
+                openUserScores();
                 finish();
             }
         });
 
-        sortByTotalScoreButton.setOnClickListener(new View.OnClickListener() {
+        sortByPointsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sortByTotalScore();
             }
         });
-
-        sortByHighestUniqueQRButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sortByUniqueQRScore();
-            }
-        });
     }
 
     public void sortByTotalScore() {
-        sortScoresBy("Total Score");
-    }
-
-    public void sortByUniqueQRScore() {
-        sortScoresBy("Highest Unique Score");
+        sortScoresBy("score");
     }
 
     public void sortScoresBy(String fieldName) {
 
-        usersCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        QRCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> querySnapshotTask) {
@@ -186,10 +173,8 @@ public class UserScoresScreen extends AppCompatActivity {
         return completionSource.getTask();
     }
 
-public void openBrowseQR() {
-    Intent intent = new Intent(this, BrowseQRScreen.class);
-    startActivity(intent);
+    public void openUserScores() {
+        Intent intent = new Intent(this, UserScoresScreen.class);
+        startActivity(intent);
     }
-
-
 }

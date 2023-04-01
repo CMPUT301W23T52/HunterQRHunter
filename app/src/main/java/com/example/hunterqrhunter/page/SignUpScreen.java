@@ -90,11 +90,11 @@ public class SignUpScreen extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        Log.d(TAG, "Username already exists");
+                        Log.d("CreateUserProfile", "Username already exists");
                         Toast.makeText(SignUpScreen.this, "Username already exists!", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        HashMap<String, String> userData = new HashMap<>();
+                        HashMap<String, Object> userData = new HashMap<>();
                         HashMap<String, String> usernameData = new HashMap<>();
 
                         usernameData.put("username", user.getUsername());
@@ -102,16 +102,18 @@ public class SignUpScreen extends AppCompatActivity {
                         userData.put("uid", user.getUid());
                         userData.put("username", user.getUsername());
                         userData.put("email", user.getEmail());
+                        userData.put("Total Score", 0); // Setting initial scores to be 0
+                        userData.put("Highest Unique Score", 0);
 
                         usernameCollection.document(user.getUsername()).set(usernameData);
                         usersCollection.document(user.getUid()).set(userData);
-                        Log.d(TAG, "Profile created");
+                        Log.d("CreateUserProfile", "Profile created");
                         openMenuScreen();
                         finish();
                     }
                 }
                 else {
-                    Log.d(TAG, "Error creating profile ", task.getException());
+                    Log.d("CreateUserProfile", "Error getting documents ", task.getException());
                 }
             }
         });
