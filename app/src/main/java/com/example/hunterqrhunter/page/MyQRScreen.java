@@ -92,9 +92,9 @@ public class MyQRScreen extends AppCompatActivity {
                 ListView faceList = findViewById(R.id.QRList);
 
                 //iterate through the arrayList and display the QRs to the faceList
-                for (Bitmap face : qrList) {
-                    faceList.setImageBitmap(face);
-                }
+//                for (Bitmap face : qrList) {
+//                    faceList.setImageBitmap(face);
+//                }
 
             } else {
                 Log.d("MyQRScreen", "Error getting documents: ", task.getException());

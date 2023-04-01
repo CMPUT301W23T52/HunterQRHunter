@@ -5,87 +5,115 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
+    android:background="#FEFFD3"
     android:orientation = "vertical">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="372dp"
+        android:layout_height="375dp"
         android:layout_weight="1"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/qr_qr_score"
-            android:layout_width="100dp"
-            android:layout_height="65dp"
-            android:layout_marginEnd="72dp"
-            android:layout_marginBottom="28dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
 
-        <Button
+        <TextView
             android:id="@+id/qr_scanned_number"
-            android:layout_width="47dp"
-            android:layout_height="47dp"
-            android:layout_marginTop="160dp"
-            android:layout_marginEnd="40dp"
+            android:layout_width="43dp"
+            android:layout_height="28dp"
+            android:background="@drawable/textview_background"
+            android:gravity="center"
+            android:text="0"
+            android:textSize="13dp"
+            app:layout_constraintBottom_toTopOf="@+id/qr_qr_score"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.902"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.861" />
 
-        <Button
-            android:id="@+id/qr_qr_name"
-            android:layout_width="100dp"
-            android:layout_height="65dp"
-
-            android:layout_marginStart="72dp"
-            android:layout_marginBottom="28dp"
+        <TextView
+            android:id="@+id/qr_qr_score"
+            android:layout_width="137dp"
+            android:layout_height="43dp"
+            android:background="@drawable/textview_background"
+            android:gravity="center"
+            android:padding="2dp"
+            android:text="QR score"
+            android:textSize="13dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.824"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.873" />
+
+        <TextView
+            android:id="@+id/qr_qr_name"
+            android:layout_width="140dp"
+            android:layout_height="42dp"
+            android:background="@drawable/textview_background"
+            android:gravity="center"
+            android:padding="2dp"
+            android:text="QR name"
+            android:textSize="13dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.124"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.881" />
 
         <ImageView
-            android:id="@+id/qr_image"
-            android:layout_width="201dp"
-            android:layout_height="185dp"
-            android:layout_marginEnd="104dp"
-            android:layout_marginBottom="108dp"
+            android:id="@+id/imageView2"
+            android:layout_width="224dp"
+            android:layout_height="181dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:srcCompat="@tools:sample/avatars" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.502"
+            app:srcCompat="@drawable/border_line" />
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ListView
         android:id="@+id/qr_qr_comment_list"
-        android:layout_width="wrap_content"
-        android:layout_height="363dp"
+        android:layout_width="match_parent"
+        android:layout_height="233dp"
         android:layout_gravity="center_horizontal"
         android:layout_weight="8"
-        android:divider="@color/black"
-        android:dividerHeight="3dp"
+        android:dividerHeight="10.0sp"
+        android:divider= "#FEFFD3"
         android:listSelector="#87d5e2"
         android:orientation="vertical"
+        android:layout_marginHorizontal="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:footerDividersEnabled="false"
+        >
 
     </ListView>
 
     <EditText
         android:id="@+id/qr_add_comment"
+        style="@style/Widget.AppCompat.EditText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="3"
+        android:layout_height="106dp"
+        android:padding="30dp"
+        android:hint = "write your comment"
+        android:layout_weight="1"
+        android:background="@drawable/border_line"
         android:inputType="text" />
 
     <Button
         android:id="@+id/qr_add_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="QR Screen!"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="105dp"
-        tools:layout_editor_absoluteY="242dp" />
-</LinearLayout>
+        android:layout_weight="1"
+        android:text="add comment" />
 
+</LinearLayout>
