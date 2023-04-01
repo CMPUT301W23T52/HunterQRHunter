@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.provider.Settings;
 import android.widget.EditText;
 
+import com.example.hunterqrhunter.data.UpdateCommand;
+
 import com.example.hunterqrhunter.model.HashQR;
 import com.example.hunterqrhunter.page.MenuScreen;
 import com.google.firebase.firestore.CollectionReference;
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 // Set the bitmap on the ImageView
 //        imageView.setImageBitmap(bitmap);
 
-        // Initialize Firebase Firestore and FbRepository
+        // Initialize Firebase Firestore and UpdateCommend
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         // Initialize the button and set an OnClickListener

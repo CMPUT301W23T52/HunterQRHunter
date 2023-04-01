@@ -3,6 +3,8 @@ package com.example.hunterqrhunter.model;
 import com.google.firebase.firestore.GeoPoint;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Represents QR object that will be pushed to our database
@@ -17,12 +19,13 @@ QR {
     private String name;
     private String qid;
 
+
     /**
-     * @param qrcode unique code that will be a key
+     * @param qrcode   unique code that will be a key
      * @param location location of the user
-     * @param score score generated using hash
-     * @param ownedBy list of users that own qr
-     * @param name hashed name
+     * @param score    score generated using hash
+     * @param ownedBy  list of users that own qr
+     * @param name     hashed name
      */
     public QR(String qrcode, GeoPoint location, int score, String ownedBy, String name, String qid) {
         this.qrcode = qrcode;
@@ -34,28 +37,11 @@ QR {
         this.comments = new ArrayList<>(); // initialize comments list
     }
 
-    public String getQid() {
-        return qid;
-    }
-
-    public void setQid(String qid) {
+    /**
+     * @param qid unique code that will be a key
+     */
+    public QR(String qid) {
         this.qid = qid;
-    }
-
-    public void addComment(String comment){
-        comments.add(comment);
-    }
-
-    public void deleteComment(String comment){
-        comments.remove(comment);
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
     }
 
     public String getQrcode() {
@@ -82,7 +68,15 @@ QR {
         this.score = score;
     }
 
-    public List<String> getComments() {
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public ArrayList<String> getComments() {
         return comments;
     }
 
@@ -96,5 +90,13 @@ QR {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getQid() {
+        return qid;
+    }
+
+    public void setQid(String qid) {
+        this.qid = qid;
     }
 }

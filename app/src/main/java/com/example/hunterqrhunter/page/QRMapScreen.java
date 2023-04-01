@@ -3,20 +3,30 @@ package com.example.hunterqrhunter.page;
 import static android.app.PendingIntent.getActivity;
 import static android.content.ContentValues.TAG;
 
+import static androidx.test.InstrumentationRegistry.getContext;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.hunterqrhunter.page.Qrcode;
 import com.example.hunterqrhunter.R;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.color.utilities.Score;
 import com.google.firebase.FirebaseApp;
@@ -49,10 +59,11 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
     private GoogleMap mMap;
     private ActivityQrMapBinding binding;
     FirebaseFirestore db;
-    ArrayAdapter<com.example.hunterqrhunter.page.Qrcode> QRAdapter;
     ArrayList<com.example.hunterqrhunter.page.Qrcode> QRDataList;
-    com.example.hunterqrhunter.page.CustomList customList;
+    ArrayList<com.example.hunterqrhunter.page.Qrcode> RealList;
     List<Integer> maxes;
+    EditText newName;
+    LinearLayout nameField;
 
 
 
@@ -72,20 +83,17 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         // Initialize arrays with some data
-        String[] hashnames = { "Hash1", "Hash2", "Hash3" };
-//        String[] hashimages = { "Image1", "Image2", "Image3" };
-        GeoPoint[] locations = { new GeoPoint(0, 0), new GeoPoint(1, 1), new GeoPoint(2, 2) };
-        int[] scores = { 1, 2, 3 };
-        String[][] owners = { { "Owner1", "Owner2" }, { "Owner3" }, {} };
-//        String[][] commentarray = { { "Comment1", "Comment2" }, {}, { "Comment3" } };
+        String[] hashnames = { "Hash1", "Hash2"};
+        GeoPoint[] locations = { new GeoPoint(0, 0), new GeoPoint(1, 1)};
+        int[] scores = {(int) Double.NEGATIVE_INFINITY, (int) Double.POSITIVE_INFINITY};
         QRDataList = new ArrayList<>();
+        RealList = new ArrayList<>();
         maxes = new ArrayList<Integer>();
-        for(int i=0;i<hashnames.length;i++){
-            QRDataList.add((new com.example.hunterqrhunter.page.Qrcode(hashnames[i], locations[i], scores[i], owners[i])));
-        }
+        QRDataList.add((new com.example.hunterqrhunter.page.Qrcode(hashnames[0], locations[0], scores[0], "0")));
+        QRDataList.add((new com.example.hunterqrhunter.page.Qrcode(hashnames[1], locations[1], scores[1], "0")));
+
         maxes.add(0);
 
-        QRAdapter = new com.example.hunterqrhunter.page.CustomList(this, QRDataList);
 
         db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("QR");
@@ -93,17 +101,11 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
                 // Clear the old list
-                QRDataList.clear();
-                QRDataList.add((new com.example.hunterqrhunter.page.Qrcode(hashnames[0], locations[0], scores[0], owners[0])));
-
                 Qrcode highestScore = QRDataList.get(0);
-                Qrcode lowestScore = QRDataList.get(0);
+                Qrcode lowestScore = QRDataList.get(1);
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
-                    String qrName = doc.getString("hashName");
+                    String qrName = doc.getString("name");
                     Log.d(TAG, "hashName: " + qrName);
-
-//                    String qrImage = doc.getString("QR Image");
-//                    Log.d(TAG, "QR Image: " + qrImage);
 
                     GeoPoint location = doc.getGeoPoint("location");
                     Log.d(TAG, "Location: " + location);
@@ -111,21 +113,12 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
                     int qrScore = doc.getLong("score").intValue();
                     Log.d(TAG, "QR Score: " + qrScore);
 
-                    Object qrOwnedByObj = doc.get("ownedBy");
-                    String[] qrOwnedBy = null;
-                    // if the value is a list, convert it to an array
-                    List<String> qrOwnedByList = (List<String>) qrOwnedByObj;
-                    qrOwnedBy = new String[qrOwnedByList.size()];
-                    for (int i = 0; i < qrOwnedByList.size(); i++) {
-                        qrOwnedBy[i] = qrOwnedByList.get(i);
-                    }
-                    Log.d(TAG, "QR is OwnedBy: " + Arrays.toString(qrOwnedBy));
+                    String qid = doc.getString("qid");
+                    Log.d(TAG, "qid: " + qid);
 
-//                    String[] qrComments = doc.get("QR comments", String[].class);
-//                    Log.d(TAG, "QR Comments: " + Arrays.toString(qrComments));
 
-                    com.example.hunterqrhunter.page.Qrcode qrCode = new com.example.hunterqrhunter.page.Qrcode(qrName, location, qrScore, qrOwnedBy);
-                    QRDataList.add(qrCode);
+                    com.example.hunterqrhunter.page.Qrcode qrCode = new com.example.hunterqrhunter.page.Qrcode(qrName, location, qrScore, qid);
+                    RealList.add(qrCode);
                     if (qrScore > highestScore.score) {
                         highestScore = qrCode;
                     }
@@ -146,25 +139,128 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
                 Marker markername2 = mMap.addMarker(new MarkerOptions().position(latLng2).title(lowestScore.hashName + " Score = " + minscore(maxes)));
                 markername2.remove();
                 mMap.addMarker(new MarkerOptions().position(latLng2).title(lowestScore.hashName + " Score = " + minscore(maxes)).icon(getMarkerIcon("#0000ff")));
-                QRAdapter.notifyDataSetChanged(); // Notifying the adapter to render any new data fetched from the cloud
 
+                // Create a new CameraPosition object with the marker position and a new zoom level
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(latLng)
+                        .zoom(0)
+                        .build();
+
+                // Create a new CameraUpdate object to move the camera to the marker position and zoom level
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
+
+                // Move the camera to the marker position and zoom level
+                googleMap.moveCamera(cameraUpdate);
             } });
         mMap = googleMap;
-        // Add a marker based on the lat/long we receieve and plot it
-        LatLng edmonton = new LatLng(53.631611, -113.323975);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(edmonton));
+
         // Define the onMarkerClick listener for your Google Map
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                // Display the marker title in an alert box
+                String title = marker.getTitle();
+                if (title != null && !title.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), title, Toast.LENGTH_SHORT).show();
+                }
 
-                Intent intent = new Intent(getApplicationContext(), UserScoresScreen.class);
-                startActivity(intent);
+                // Check if the marker's position matches a location in the list of QR codes
+                LatLng position = marker.getPosition();
+                for (int i = 0; i < RealList.size(); i++) {
+                    Qrcode code = RealList.get(i);
+                    if ((code.location.getLatitude() == position.latitude) && (code.location.getLongitude() == position.longitude)) {
+                        System.out.println(code.qid);
+                        break;
+                    }
+                }
 
                 // Return true to indicate that the event has been consumed
                 return true;
             }
         });
+        newName  = findViewById(R.id.editText_name);
+
+
+        final Button confirmButton = findViewById(R.id.button_confirm);
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String placename = newName.getText().toString();
+                mMap.clear();
+                LatLng locmatch = null;
+                for (int i = 0; i < RealList.size(); i++) {
+                    Qrcode code = RealList.get(i);
+                    if (code.hashName.equals(placename)) {
+                        locmatch = new LatLng(code.location.getLatitude(), code.location.getLongitude());
+                        mMap.addMarker(new MarkerOptions().position(locmatch));
+                    }
+                }
+//                if (locmatch.equals(null)) {
+//                    String errorText = "This location isn't on the map";
+//                    int duration = Toast.LENGTH_SHORT;
+//                    Context context = getBaseContext();
+//                    Toast toast = Toast.makeText(context, errorText, duration);
+//                    toast.show();
+//                }
+                newName.getText().clear();
+                // Create a new CameraPosition object with the marker position and a new zoom level
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(locmatch)
+                        .zoom(10)
+                        .build();
+
+                // Create a new CameraUpdate object to move the camera to the marker position and zoom level
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
+
+                // Move the camera to the marker position and zoom level
+                googleMap.moveCamera(cameraUpdate);
+            }
+        });
+
+        final Button resetButton = findViewById(R.id.button_reset);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Qrcode highestScore = QRDataList.get(0);
+                Qrcode lowestScore = QRDataList.get(1);
+                String placename = newName.getText().toString();
+                mMap.clear();
+                LatLng locmatch = null;
+                for (int i = 0; i < RealList.size(); i++) {
+                    Qrcode code = RealList.get(i);
+                    locmatch = new LatLng(code.location.getLatitude(), code.location.getLongitude());
+                    mMap.addMarker(new MarkerOptions().position(locmatch));
+                    if (code.score > highestScore.score) {
+                        highestScore = code;
+                    }
+                    if (code.score < lowestScore.score) {
+                        lowestScore = code;
+                    }
+                }
+                LatLng latLng = new LatLng(highestScore.location.getLatitude(), highestScore.location.getLongitude());
+                Marker markername = mMap.addMarker(new MarkerOptions().position(latLng).title(highestScore.hashName + " Score = " + maxscore(maxes)));
+                markername.remove();
+                mMap.addMarker(new MarkerOptions().position(latLng).title(highestScore.hashName + " Score = " + maxscore(maxes)).icon(getMarkerIcon("#ffe922")));
+
+                LatLng latLng2 = new LatLng(lowestScore.location.getLatitude(), lowestScore.location.getLongitude());
+                Marker markername2 = mMap.addMarker(new MarkerOptions().position(latLng2).title(lowestScore.hashName + " Score = " + minscore(maxes)));
+                markername2.remove();
+                mMap.addMarker(new MarkerOptions().position(latLng2).title(lowestScore.hashName + " Score = " + minscore(maxes)).icon(getMarkerIcon("#0000ff")));
+
+                newName.getText().clear();
+                // Create a new CameraPosition object with the marker position and a new zoom level
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(locmatch)
+                        .zoom(0)
+                        .build();
+
+                // Create a new CameraUpdate object to move the camera to the marker position and zoom level
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition);
+
+                // Move the camera to the marker position and zoom level
+                googleMap.moveCamera(cameraUpdate);
+            }
+        });
+
+
     }
 
     /**
