@@ -19,10 +19,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
-public class UpdateCommend {
+public class UpdateCommand {
     final private FirebaseFirestore db;
 
-    public UpdateCommend(FirebaseFirestore db) {
+    public UpdateCommand(FirebaseFirestore db) {
         this.db = db;
     }
 
