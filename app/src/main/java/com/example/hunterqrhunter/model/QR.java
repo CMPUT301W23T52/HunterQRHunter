@@ -38,6 +38,10 @@ public class QR {
         this.comments = new ArrayList<>();
         this.qid = qid;
     }
+
+    /**
+     * @param qid unique code that will be a key
+     */
     public QR(String qid){
         this.qid = qid;
     }

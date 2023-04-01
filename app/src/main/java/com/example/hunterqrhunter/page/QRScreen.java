@@ -31,6 +31,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
+
+/**
+ * this is a screen for the individual QR
+ *
+ * and it will get the qrname, score, scanned time and comments from the firebase
+ * people also can write comments and upload it onto the database
+ * this page need to pass in a qid from the intent page.
+ */
 public class QRScreen extends AppCompatActivity {
 
     private FbRepository fb;
@@ -56,7 +64,6 @@ public class QRScreen extends AppCompatActivity {
         ArrayList<String> commentList = new ArrayList<>();
         ArrayAdapter<String> commentAdapter = new ArrayAdapter<String>((Context) this, R.layout.activity_qr_comment, commentList);
         listView.setAdapter(commentAdapter);
-
         DocumentReference docRef = db.collection("QR").document(qrCode);
         docRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -71,6 +78,7 @@ public class QRScreen extends AppCompatActivity {
                     if(document.get("comments") == null) {
                         qr.setComments(new ArrayList<>());
                     }
+
                     else{
                         qr.setComments((ArrayList<String>) document.get("comments"));
                     }
@@ -124,5 +132,7 @@ public class QRScreen extends AppCompatActivity {
                 fb.updateQRComments(qrCode, commentList);
             }
         });
+
     }
+
 }
