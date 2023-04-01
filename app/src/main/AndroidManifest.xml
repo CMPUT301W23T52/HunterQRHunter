@@ -16,9 +16,6 @@
         android:theme="@style/Theme.HunterQRHunter"
         tools:targetApi="31">
         <activity
-            android:name=".BrowseQRScreen"
-            android:exported="false" />
-        <activity
             android:name=".LoadingScreen"
             android:exported="true">
             <intent-filter>
