@@ -11,8 +11,10 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.example.hunterqrhunter.R;
+import com.example.hunterqrhunter.model.QR;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -29,6 +31,7 @@ public class BrowseQRScreen extends AppCompatActivity {
     FirebaseFirestore database;
     CollectionReference QRCollection;
 
+    private ArrayList<String> QRList;
     private ArrayAdapter<String> QRListAdapter;
     private ListView QRListView;
 
@@ -40,12 +43,14 @@ public class BrowseQRScreen extends AppCompatActivity {
         database = FirebaseFirestore.getInstance();
         QRCollection = database.collection("QR");
 
+        QRList = new ArrayList<>();
         QRListAdapter = new ArrayAdapter<String>(this, R.layout.username_item, R.id.player_name_button, new ArrayList<>());
         QRListView = findViewById(R.id.QR_list);
 
         Button exitButton = findViewById(R.id.exit_button);
         Button switchButton = findViewById(R.id.switch_button);
         Button sortByPointsButton = findViewById(R.id.sort_by_total_score_button);
+        SearchView QRSearchView = findViewById(R.id.user_search);
 
         sortByTotalScore();
 
@@ -68,6 +73,31 @@ public class BrowseQRScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sortByTotalScore();
+            }
+        });
+
+        QRSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                String userInput = newText.toLowerCase();
+                List<String> filteredUsernameList = new ArrayList<>();
+
+                for (String username : QRList) {
+                    if (username.toLowerCase().contains(userInput)) {
+                        filteredUsernameList.add(username);
+                    }
+                }
+
+                // Update the list adapter with the filtered results
+                ArrayAdapter<String> filteredListAdapter = new ArrayAdapter<String>(BrowseQRScreen.this, R.layout.username_item, R.id.player_name_button, filteredUsernameList);
+                QRListView.setAdapter(filteredListAdapter);
+                return true;
             }
         });
     }
@@ -96,11 +126,12 @@ public class BrowseQRScreen extends AppCompatActivity {
                         }
                     });
 
-                    QRListAdapter.clear();
+                    QRList.clear();
 
                     for (DocumentSnapshot document : QRDocsList) {
-                        QRListAdapter.add(document.getString("name") + "," + document.get("score"));
+                        QRList.add(document.getString("name") + "," + document.get("score"));
                     }
+                    QRListAdapter.notifyDataSetChanged();
                     QRListView.setAdapter(QRListAdapter);
 
 

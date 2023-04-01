@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -36,6 +38,7 @@ public class UserScoresScreen extends AppCompatActivity {
     CollectionReference usersCollection;
     CollectionReference QRCollection;
 
+    private ArrayList<String> usernameList;
     private ArrayAdapter<String> usernameListAdapter;
     private ListView usernameListView;
 
@@ -48,13 +51,15 @@ public class UserScoresScreen extends AppCompatActivity {
         usersCollection = database.collection("User");
         QRCollection = database.collection("QR");
 
-        usernameListAdapter = new ArrayAdapter<String>(this, R.layout.username_item, R.id.player_name_button, new ArrayList<>());
+        usernameList = new ArrayList<>();
+        usernameListAdapter = new ArrayAdapter<>(this, R.layout.username_item, R.id.player_name_button, usernameList);
         usernameListView = findViewById(R.id.username_list);
 
         Button exitButton = findViewById(R.id.exit_button);
         Button switchButton = findViewById(R.id.switch_button);
         Button sortByTotalScoreButton = findViewById(R.id.sort_by_total_score_button);
         Button sortByHighestUniqueQRButton = findViewById(R.id.sort_by_highest_uniqueQR_button);
+        SearchView userSearchView = findViewById(R.id.user_search);
 
         sortByTotalScore();
 
@@ -86,7 +91,34 @@ public class UserScoresScreen extends AppCompatActivity {
                 sortByUniqueQRScore();
             }
         });
+
+        userSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                String userInput = newText.toLowerCase();
+                List<String> filteredUsernameList = new ArrayList<>();
+
+                for (String username : usernameList) {
+                    if (username.toLowerCase().contains(userInput)) {
+                        filteredUsernameList.add(username);
+                    }
+                }
+
+                // Update the list adapter with the filtered results
+                ArrayAdapter<String> filteredListAdapter = new ArrayAdapter<String>(UserScoresScreen.this, R.layout.username_item, R.id.player_name_button, filteredUsernameList);
+                usernameListView.setAdapter(filteredListAdapter);
+                return true;
+            }
+        });
     }
+
+
 
     public void sortByTotalScore() {
         sortScoresBy("Total Score");
@@ -125,12 +157,13 @@ public class UserScoresScreen extends AppCompatActivity {
                                 }
                             });
 
-                            usernameListAdapter.clear();
+                            usernameList.clear();
                             for (int i = 0; i < userDocsList.size(); i++) {
 
                                 DocumentSnapshot document = userDocsList.get(i);
-                                usernameListAdapter.add(document.getString("username") + ", " + "Rank " + (i+1));
+                                usernameList.add(document.getString("username") + ", " + "Rank " + (i+1));
                             }
+                            usernameListAdapter.notifyDataSetChanged();
                             usernameListView.setAdapter(usernameListAdapter);
                         }
                         else {
@@ -190,6 +223,7 @@ public void openBrowseQR() {
     Intent intent = new Intent(this, BrowseQRScreen.class);
     startActivity(intent);
     }
+
 
 
 }
