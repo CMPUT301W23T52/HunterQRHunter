@@ -10,14 +10,14 @@ import android.widget.ImageView;
 
 import com.example.hunterqrhunter.R;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class FaceListAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<Bitmap> faceList;
+    private List<Bitmap> faceList;
 
-    public FaceListAdapter(Context context, ArrayList<Bitmap> faceList) {
+    public FaceListAdapter(Context context, List<Bitmap> faceList) {
         this.context = context;
         this.faceList = faceList;
     }
@@ -40,14 +40,16 @@ public class FaceListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
+            // inflate the layout
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            // Inflate the layout for this fragment and face_list_item is the layout file
             convertView = inflater.inflate(R.layout.face_list_item, parent, false);
         }
 
-        ImageView faceImageView = convertView.findViewById(R.id.QRList);
-        Bitmap faceBitmap = faceList.get(position);
-        faceImageView.setImageBitmap(faceBitmap);
+        ImageView faceImageView = convertView.findViewById(R.id.faceImage);
+        faceImageView.setImageBitmap(faceList.get(position));
 
         return convertView;
     }
+
 }

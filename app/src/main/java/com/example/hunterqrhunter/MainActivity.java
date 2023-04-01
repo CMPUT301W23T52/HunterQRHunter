@@ -56,9 +56,6 @@ public class MainActivity extends AppCompatActivity {
                 byte[] hash = HashQR.hashObject(hashVal);
                 String HashName = HashQR.giveQrName(hash);
 
-                // Create a new user with a first and last name, born year, hash, and hash name
-//                QRCreature qrCreature = new QRCreature(HashName, hash);
-//                fb.writeQR(qrCreature);
             }
         });
 

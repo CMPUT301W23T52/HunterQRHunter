@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
@@ -12,13 +13,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hunterqrhunter.R;
 import com.example.hunterqrhunter.model.HashQR;
-import com.example.hunterqrhunter.model.QR;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MyQRScreen extends AppCompatActivity {
@@ -59,6 +60,9 @@ public class MyQRScreen extends AppCompatActivity {
         //if userID and qrRef's uid is the same, then get the score of the user
         qrRef.whereEqualTo(FieldPath.of("uid"), userID).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
+                ImageView faceImageView = null;
+                Bitmap faceBitmap = null;
+                Bitmap bitmap = null;
                 for (DocumentSnapshot document : task.getResult()) {
 
                     //get the score of the user and add it to the total score
@@ -77,10 +81,9 @@ public class MyQRScreen extends AppCompatActivity {
 
                     //create a face class based on the qrCode
                     byte[] hash = hashQR.hashObject(qrCode);
-                    Bitmap faceBitmap = hashQR.generateImageFromHashcode(hash);
-
-                    //store the faceBitmap to the arrayList
-                    qrList.add(faceBitmap);
+                    faceBitmap = hashQR.generateImageFromHashcode(hash);
+                    bitmap = Bitmap.createBitmap(faceBitmap);
+                    qrList.add(bitmap);
 
                     Log.d("MyQRScreen", document.getId() + " => " + document.getData());
                 }
@@ -91,10 +94,8 @@ public class MyQRScreen extends AppCompatActivity {
 
                 ListView faceList = findViewById(R.id.QRList);
 
-                //iterate through the arrayList and display the QRs to the faceList
-//                for (Bitmap face : qrList) {
-//                    faceList.setImageBitmap(face);
-//                }
+                FaceListAdapter adapter = new FaceListAdapter(this, qrList);
+                faceList.setAdapter(adapter);
 
             } else {
                 Log.d("MyQRScreen", "Error getting documents: ", task.getException());
