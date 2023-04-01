@@ -17,7 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hunterqrhunter.R;
-import com.example.hunterqrhunter.data.UpdateCommend;
+
+import com.example.hunterqrhunter.data.UpdateCommand;
 import com.example.hunterqrhunter.model.QR;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -28,6 +29,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -39,7 +41,7 @@ import java.util.Objects;
  */
 public class QRScreen extends AppCompatActivity {
 
-    private UpdateCommend fb;
+    private UpdateCommand fb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,7 @@ public class QRScreen extends AppCompatActivity {
 
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        fb = new UpdateCommend(db);
+        fb = new UpdateCommand(db);
         ArrayList<String> commentList = new ArrayList<>();
         ArrayAdapter<String> commentAdapter = new ArrayAdapter<String>((Context) this, R.layout.activity_qr_comment, commentList);
         listView.setAdapter(commentAdapter);
@@ -131,6 +133,62 @@ public class QRScreen extends AppCompatActivity {
             }
         });
 
+//
+//        QR qrObject = new QR("5", "Lingfeng", 300, 2001, list, list2);
+//        fb.writeQR(qrObject);
+//
+//        int qr2 = 300;
+//        QR qrObject = new QR("qrlingfeng", "L", 0, 0, list3, list3);
+//        ArrayList<String> comments = qrObject.getComments();
+//        ArrayAdapter<String> commentAdapter = new ArrayAdapter<>((Context) this,R.layout.activity_qr_comment, comments);
+//        listView.setAdapter(commentAdapter);
+//
+//
+//
+//        DocumentReference docRef = db.collection("QR Creatures").document(Integer.toString(qr2));
+//        docRef.get().addOnCompleteListener(task -> {
+//            if (task.isSuccessful()) {
+//                DocumentSnapshot document = task.getResult();
+//                if (document.exists()) {
+//                    // set QR object
+//                    qrObject.setHashName((String) document.get("HashName"));
+//                    qrObject.setHashName((String) document.get("HashImage"));
+//                    qrObject.setHashCode(((Long) Objects.requireNonNull(document.get("HashCode"))).intValue());
+//                    qrObject.setScore(((Long) Objects.requireNonNull(document.get("Score"))).intValue());
+//                    qrObject.setOwnedBy((ArrayList<String>) document.get("OwnedBy"));
+//                    qrObject.setComments((ArrayList<String>) document.get("Comments"));
+//
+//                    score.setText(Integer.toString(qrObject.getScore()));
+//                    scanned.setText(Integer.toString(qrObject.getOwnedBy().size()));
+//                    //for (int i = 0; i < (qr.getComments()).size(); i++) {
+//                    //comments.set(i, qr.getComments().get(i));
+//                    // }
+//                    commentAdapter.notifyDataSetChanged();
+//
+//
+//                    // here you can use the callback function to do the work with the get QR.
+//                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+//
+//                } else {
+//                    Log.d(TAG, "No such document");
+//                }
+//            } else {
+//                Log.d(TAG, "get failed with ", task.getException());
+//            }
+//        });
+//        addText.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ArrayList<String> commentList;
+//                commentList = qrObject.getComments();
+//                commentList.add(editText.getText().toString());
+//                qrObject.setComments(commentList);
+//                fb.writeQR(qrObject);
+//                comments.add(editText.getText().toString());
+//                commentAdapter.notifyDataSetChanged();
+//
+//            }
+//        });
     }
 
 }

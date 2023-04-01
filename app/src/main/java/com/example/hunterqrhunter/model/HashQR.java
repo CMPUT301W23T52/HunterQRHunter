@@ -80,7 +80,7 @@ public class HashQR {
      * @param facecode an integer hashcode used to generate the face image
      * @return a bitmap image of a face with a randomly generated color and eye/mouth colors based on the hashcode
      */
-    public Bitmap generateImageFromHashcode(byte[] facecode) {
+    public static Bitmap generateImageFromHashcode(byte[] facecode) {
         // Default size of the image
         int width = 350;
         int height = 350;
