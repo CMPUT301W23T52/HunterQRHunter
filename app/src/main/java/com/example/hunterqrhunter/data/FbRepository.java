@@ -31,6 +31,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Objects;
 
@@ -49,15 +50,19 @@ public class FbRepository {
         return db.collection(colName).document(docName);
     }
 
-    public void createUser(User user) {
-        Map<String, Object> userValues = user.toMap();
-        db.collection("users").add(userValues).addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId()))
-                .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
-    }
-//    public void writeQR(QR qr) {
-//        Map<String, Object> qrValues = qr.toMap();
-//        db.collection(qr.getCollectionName()).document(Integer.toString(qr.getHashCode())).set(qrValues).addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
+//    public void createUser(User user) {
+//        Map<String, Object> userValues = user.toMap();
+//        db.collection("users").add(userValues).addOnSuccessListener(documentReference -> Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId()))
 //                .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
 //    }
+//    public void writeQR(QR qr) {
+//        Map<String, Object> qrValues = qr.toMap();
+//        db.collection(qr.getCollectionName()).document(qr.getQrcode()).set(qrValues).addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
+//                .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
+//    }
+    public void updateQRComments(String qrCode, ArrayList<String> comments){
+        db.collection("QR").document(qrCode).update("comments", comments).addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
+    }
 
 }
