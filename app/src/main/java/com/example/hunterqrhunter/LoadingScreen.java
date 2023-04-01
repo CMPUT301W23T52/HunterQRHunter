@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 
+import com.example.hunterqrhunter.model.QR;
 import com.example.hunterqrhunter.page.MenuScreen;
 import com.example.hunterqrhunter.page.SignUpScreen;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -14,6 +15,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+
+import java.util.ArrayList;
 
 public class LoadingScreen extends AppCompatActivity {
     private FirebaseFirestore database = FirebaseFirestore.getInstance();
@@ -50,11 +54,8 @@ public class LoadingScreen extends AppCompatActivity {
         Intent intent = new Intent(this, SignUpScreen.class);
         startActivity(intent);
     }
-
     private void openMenuScreen() {
         Intent intent = new Intent(this, MenuScreen.class);
         startActivity(intent);
     }
-
-
 }

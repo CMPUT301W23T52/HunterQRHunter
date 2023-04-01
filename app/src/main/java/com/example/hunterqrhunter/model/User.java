@@ -1,5 +1,6 @@
 package com.example.hunterqrhunter.model;
 
+<<<<<<< HEAD
 import com.google.firebase.firestore.Exclude;
 
 import java.util.HashMap;
@@ -58,6 +59,21 @@ public class User {
         result.put("hash", hash);
 
         return result;
+=======
+import java.util.ArrayList;
+
+public class User {
+    String uid;
+    String username;
+    String email;
+    int totalScore;
+    ArrayList<String> scannedQRs;
+    public User(String username, String uid, String email, int totalScore) {
+        this.uid = uid;
+        this.username = username;
+        this.email = email;
+        this.totalScore = totalScore;
+>>>>>>> 59a950d6c76950dc5b89ab148a0298c580eb981b
     }
 
     public int validateUserInfo() {
@@ -95,18 +111,19 @@ public class User {
         return uid;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
+<<<<<<< HEAD
     public String getUsername() {
         return username;
     }
@@ -121,18 +138,30 @@ public class User {
 
     public int getBorn() {
         return born;
+=======
+    public String getEmail() {
+        return email;
+>>>>>>> 59a950d6c76950dc5b89ab148a0298c580eb981b
     }
 
-    public void setBorn(int born) {
-        this.born = born;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public int getHash() {
-        return hash;
+    public int getTotalScore() {
+        return totalScore;
     }
 
-    public void setHash(int hash) {
-        this.hash = hash;
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
+    }
+
+    public ArrayList<String> getScannedQRs() {
+        return scannedQRs;
+    }
+
+    public void setScannedQRs(ArrayList<String> scannedQRs) {
+        this.scannedQRs = scannedQRs;
     }
 
 
