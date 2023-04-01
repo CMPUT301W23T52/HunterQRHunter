@@ -33,6 +33,7 @@
         <activity android:name=".page.EditProfileScreen" />
         <activity android:name=".page.QRCameraScreen" />
         <activity android:name=".page.UserScoresScreen" />
+        <activity android:name=".page.BrowseQRScreen" />
         <activity android:name=".page.QRMapScreen" />
         <activity android:name=".page.MyQRScreen" />
         <activity android:name=".page.QRScreen" />

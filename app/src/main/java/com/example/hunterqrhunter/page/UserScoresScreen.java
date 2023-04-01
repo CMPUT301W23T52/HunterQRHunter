@@ -48,7 +48,7 @@ public class UserScoresScreen extends AppCompatActivity {
         usersCollection = database.collection("User");
         QRCollection = database.collection("QR");
 
-        usernameListAdapter = new ArrayAdapter<String>(this, R.layout.content_username, R.id.player_name_button, new ArrayList<>());
+        usernameListAdapter = new ArrayAdapter<String>(this, R.layout.username_item, R.id.player_name_button, new ArrayList<>());
         usernameListView = findViewById(R.id.username_list);
 
         Button exitButton = findViewById(R.id.exit_button);

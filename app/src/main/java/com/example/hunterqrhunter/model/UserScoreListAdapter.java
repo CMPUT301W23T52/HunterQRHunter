@@ -33,10 +33,10 @@ public class UserScoreListAdapter extends ArrayAdapter {
         String[] parts = item.split(", ");
         String playerNameStr = parts[0];
         String playerRankStr = parts[1];
-        TextView playerName = convertView.findViewById(R.id.player_name);
-        TextView playerRank = convertView.findViewById(R.id.player_rank);
-        playerName.setText(playerNameStr);
-        playerRank.setText(playerRankStr);
+        //TextView playerName = convertView.findViewById(R.id.player_name);
+        //TextView playerRank = convertView.findViewById(R.id.player_rank);
+        //playerName.setText(playerNameStr);
+        //playerRank.setText(playerRankStr);
 
         return convertView;
     }

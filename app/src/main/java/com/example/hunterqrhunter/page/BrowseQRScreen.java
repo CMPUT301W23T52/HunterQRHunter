@@ -13,31 +13,24 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.hunterqrhunter.R;
-import com.example.hunterqrhunter.model.QR;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.TaskCompletionSource;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class BrowseQRScreen extends AppCompatActivity {
 
     FirebaseFirestore database;
     CollectionReference QRCollection;
 
-    private ArrayAdapter<String> usernameListAdapter;
-    private ListView usernameListView;
+    private ArrayAdapter<String> QRListAdapter;
+    private ListView QRListView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,8 +40,8 @@ public class BrowseQRScreen extends AppCompatActivity {
         database = FirebaseFirestore.getInstance();
         QRCollection = database.collection("QR");
 
-        usernameListAdapter = new ArrayAdapter<String>(this, R.layout.content_username, R.id.player_name_button, new ArrayList<>());
-        usernameListView = findViewById(R.id.username_list);
+        QRListAdapter = new ArrayAdapter<String>(this, R.layout.username_item, R.id.player_name_button, new ArrayList<>());
+        QRListView = findViewById(R.id.QR_list);
 
         Button exitButton = findViewById(R.id.exit_button);
         Button switchButton = findViewById(R.id.switch_button);
@@ -90,40 +83,27 @@ public class BrowseQRScreen extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> querySnapshotTask) {
                 if (querySnapshotTask.isSuccessful()) {
-                    List<DocumentSnapshot> userDocsList = querySnapshotTask.getResult().getDocuments();
-                    List<Task<Void>> calculateUserIDTasks = new ArrayList<>();
+                    List<DocumentSnapshot> QRDocsList = querySnapshotTask.getResult().getDocuments();
 
-                    for (DocumentSnapshot userDoc : userDocsList) {
-                        String userID = userDoc.getId();
-                        calculateUserIDTasks.add(calculateUserScores(userID));
-                    }
+                    QRDocsList.sort(new Comparator<DocumentSnapshot>() {
+                        @Override
+                        public int compare(DocumentSnapshot doc1, DocumentSnapshot doc2) {
 
-                    Tasks.whenAllComplete(calculateUserIDTasks).addOnCompleteListener(calculateAllUserScoreTask -> {
+                            int score1 = doc1.getLong(fieldName).intValue();
+                            int score2 = doc2.getLong(fieldName).intValue();
 
-                        if (calculateAllUserScoreTask.isSuccessful()) {
-                            userDocsList.sort(new Comparator<DocumentSnapshot>() {
-                                @Override
-                                public int compare(DocumentSnapshot doc1, DocumentSnapshot doc2) {
-
-                                    int score1 = doc1.getLong(fieldName).intValue();
-                                    int score2 = doc2.getLong(fieldName).intValue();
-
-                                    return score2 - score1;
-                                }
-                            });
-
-                            usernameListAdapter.clear();
-                            for (int i = 0; i < userDocsList.size(); i++) {
-
-                                DocumentSnapshot document = userDocsList.get(i);
-                                usernameListAdapter.add(document.getString("username") + ", " + "Rank " + (i+1));
-                            }
-                            usernameListView.setAdapter(usernameListAdapter);
-                        }
-                        else {
-                            Log.d("Sort users by " + fieldName, "Error getting user scores");
+                            return score2 - score1;
                         }
                     });
+
+                    QRListAdapter.clear();
+
+                    for (DocumentSnapshot document : QRDocsList) {
+                        QRListAdapter.add(document.getString("name") + "," + document.get("score"));
+                    }
+                    QRListView.setAdapter(QRListAdapter);
+
+
                 }
                 else {
                     Log.d("Creating documentList", "Error getting documents: ", querySnapshotTask.getException());
@@ -131,46 +111,6 @@ public class BrowseQRScreen extends AppCompatActivity {
             }
         });
 
-    }
-
-
-
-    private Task<Void> calculateUserScores(String userID) {
-        TaskCompletionSource<Void> completionSource = new TaskCompletionSource<>();
-        AtomicInteger totalScore = new AtomicInteger(0);
-        AtomicInteger highestUniqueQRScore = new AtomicInteger(0);
-
-        QRCollection.whereEqualTo(FieldPath.of("uid"), userID).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> userIDQueryTask) {
-
-                if (userIDQueryTask.isSuccessful()) {
-                    List<DocumentSnapshot> QRCollectionDocumentList = userIDQueryTask.getResult().getDocuments();
-
-                    for (DocumentSnapshot QRdocument : QRCollectionDocumentList) {
-                        int score = QRdocument.getLong("score").intValue();
-                        totalScore.addAndGet(score);
-                        if (score > highestUniqueQRScore.get()) {
-                            highestUniqueQRScore.set(score);
-                        }
-                        Log.d("Calculating all users scores", QRdocument.getId() + " => " + QRdocument.getData());
-                    }
-                }
-                else {
-                    Log.d("Calculating all users scores", "Error getting user scores");
-                }
-
-                HashMap<String, Integer> userScoreData = new HashMap<>();
-                userScoreData.put("Total Score", totalScore.get());
-                userScoreData.put("Highest Unique Score", highestUniqueQRScore.get());
-
-                usersCollection.document(userID).set(userScoreData, SetOptions.merge()).addOnCompleteListener(updateUserScoreTask -> {
-                    completionSource.setResult(null);
-                });
-            }
-        });
-
-        return completionSource.getTask();
     }
 
     public void openUserScores() {
