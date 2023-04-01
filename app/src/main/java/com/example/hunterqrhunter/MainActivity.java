@@ -1,38 +1,14 @@
 package com.example.hunterqrhunter;
 
-<<<<<<< HEAD
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
-=======
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.os.Bundle;
-
->>>>>>> 59a950d6c76950dc5b89ab148a0298c580eb981b
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-<<<<<<< HEAD
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hunterqrhunter.data.FbRepository;
 import com.example.hunterqrhunter.model.HashQR;
-import com.example.hunterqrhunter.model.User;
-=======
-import com.example.hunterqrhunter.data.UpdateCommand;
-
-import com.example.hunterqrhunter.model.HashQR;
->>>>>>> 59a950d6c76950dc5b89ab148a0298c580eb981b
-import com.example.hunterqrhunter.page.MenuScreen;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
 
 
 public class MainActivity extends AppCompatActivity {
