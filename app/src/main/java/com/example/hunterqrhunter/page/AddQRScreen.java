@@ -101,7 +101,7 @@ public class AddQRScreen extends AppCompatActivity {
                              */
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(AddQRScreen.this, "Document added successfully!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddQRScreen.this, "New QR Added!", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(AddQRScreen.this, MenuScreen.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);

@@ -1,27 +1,15 @@
 package com.example.hunterqrhunter;
 
-import static java.sql.DriverManager.println;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Bitmap;
 import android.content.Intent;
-import android.graphics.Picture;
 import android.os.Bundle;
 
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.provider.Settings;
 import android.widget.EditText;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.hunterqrhunter.data.FbRepository;
-
-import com.example.hunterqrhunter.data.FbRepository;
 
 import com.example.hunterqrhunter.model.HashQR;
 import com.example.hunterqrhunter.page.MenuScreen;
@@ -55,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize Firebase Firestore and FbRepository
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FbRepository fb = new FbRepository(db);
 
         // Initialize the button and set an OnClickListener
         Button mButton = findViewById(R.id.btn1);

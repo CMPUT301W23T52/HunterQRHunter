@@ -1,12 +1,7 @@
 package com.example.hunterqrhunter.page;
-import static android.content.ContentValues.TAG;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,23 +10,16 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hunterqrhunter.R;
-import com.example.hunterqrhunter.data.FbRepository;
 import com.example.hunterqrhunter.model.HashQR;
 
-import com.example.hunterqrhunter.model.QR;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
 public class QRScreen extends AppCompatActivity {
 
     private FirebaseFirestore db;
-    private FbRepository fb;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         HashQR hashQR = new HashQR();
@@ -51,7 +39,6 @@ public class QRScreen extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
-        fb = new FbRepository(db);
         ArrayList<String> list = new ArrayList<>(Arrays.asList("a"));
         ArrayList<String> list2 = new ArrayList<>(Arrays.asList("c"));
         ArrayList<String> list3 = new ArrayList<>(Arrays.asList());
