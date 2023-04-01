@@ -17,19 +17,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hunterqrhunter.R;
-import com.example.hunterqrhunter.data.FbRepository;
+import com.example.hunterqrhunter.data.UpdateCommend;
 import com.example.hunterqrhunter.model.QR;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -41,7 +39,7 @@ import java.util.Objects;
  */
 public class QRScreen extends AppCompatActivity {
 
-    private FbRepository fb;
+    private UpdateCommend fb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +58,7 @@ public class QRScreen extends AppCompatActivity {
 
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        fb = new FbRepository(db);
+        fb = new UpdateCommend(db);
         ArrayList<String> commentList = new ArrayList<>();
         ArrayAdapter<String> commentAdapter = new ArrayAdapter<String>((Context) this, R.layout.activity_qr_comment, commentList);
         listView.setAdapter(commentAdapter);

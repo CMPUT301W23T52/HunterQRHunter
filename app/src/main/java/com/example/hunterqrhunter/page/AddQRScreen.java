@@ -1,7 +1,6 @@
 package com.example.hunterqrhunter.page;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
@@ -14,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hunterqrhunter.data.FbRepository;
+import com.example.hunterqrhunter.data.UpdateCommend;
 import com.example.hunterqrhunter.model.HashQR;
 import com.example.hunterqrhunter.R;
 import com.example.hunterqrhunter.model.LocationUtils;
@@ -42,7 +41,7 @@ public class AddQRScreen extends AppCompatActivity {
 
 //        Initialize Firebase
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FbRepository fb = new FbRepository(db);
+        UpdateCommend fb = new UpdateCommend(db);
 
         mLocationUtils = new LocationUtils(this);
         mLocationUtils.requestLocationPermission();
