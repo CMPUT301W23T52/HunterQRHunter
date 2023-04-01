@@ -1,14 +1,14 @@
 package com.example.hunterqrhunter.model;
 
 import com.google.firebase.firestore.GeoPoint;
-
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents QR object that will be pushed to our database
- *
  */
-public class QR {
+public class
+QR {
     private String qrcode;
     private GeoPoint location;
     private int score;
@@ -18,21 +18,20 @@ public class QR {
     private String qid;
 
     /**
-     *
      * @param qrcode unique code that will be a key
      * @param location location of the user
      * @param score score generated using hash
      * @param ownedBy list of users that own qr
      * @param name hashed name
      */
-    public QR(String qrcode, GeoPoint location, int score, String ownedBy, String name,  String qid) {
+    public QR(String qrcode, GeoPoint location, int score, String ownedBy, String name, String qid) {
         this.qrcode = qrcode;
         this.location = location;
         this.score = score;
         this.uid = ownedBy;
         this.name = name;
-        this.comments = new ArrayList<>();
         this.qid = qid;
+        this.comments = new ArrayList<>(); // initialize comments list
     }
 
     public String getQid() {
@@ -42,9 +41,11 @@ public class QR {
     public void setQid(String qid) {
         this.qid = qid;
     }
+
     public void addComment(String comment){
         comments.add(comment);
     }
+
     public void deleteComment(String comment){
         comments.remove(comment);
     }
@@ -81,6 +82,13 @@ public class QR {
         this.score = score;
     }
 
+    public List<String> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<String> comments) {
+        this.comments = comments;
+    }
 
     public String getName() {
         return name;
@@ -90,4 +98,3 @@ public class QR {
         this.name = name;
     }
 }
-

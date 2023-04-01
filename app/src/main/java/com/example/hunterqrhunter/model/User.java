@@ -1,76 +1,57 @@
 package com.example.hunterqrhunter.model;
 
-import com.google.firebase.firestore.Exclude;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.ArrayList;
 
 public class User {
     String uid;
-    String firstName;
-    String lastName;
-    int born;
-    int hash;
-
-
-
-    public User(String uid,String fn, String ln, int born, int hash) {
+    String username;
+    String email;
+    int totalScore;
+    ArrayList<String> scannedQRs;
+    public User(String username, String uid, String email, int totalScore) {
         this.uid = uid;
-        this.firstName = fn;
-        this.lastName = ln;
-        this.born = born;
-        this.hash = hash;
-    }
-
-
-//    Array<HashQR> qrArray;
-
-    public String getFirstName() {
-        return this.firstName;
-    }
-
-    @Exclude
-    public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("uid", this.uid);
-        result.put("firstName", this.firstName);
-        result.put("lastName", this.lastName);
-        result.put("born", born);
-        result.put("hash", hash);
-
-        return result;
+        this.username = username;
+        this.email = email;
+        this.totalScore = totalScore;
     }
 
     public String getUid() {
         return uid;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public int getBorn() {
-        return born;
+    public String getEmail() {
+        return email;
     }
 
-    public void setBorn(int born) {
-        this.born = born;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public int getHash() {
-        return hash;
+    public int getTotalScore() {
+        return totalScore;
     }
 
-    public void setHash(int hash) {
-        this.hash = hash;
+    public void setTotalScore(int totalScore) {
+        this.totalScore = totalScore;
+    }
+
+    public ArrayList<String> getScannedQRs() {
+        return scannedQRs;
+    }
+
+    public void setScannedQRs(ArrayList<String> scannedQRs) {
+        this.scannedQRs = scannedQRs;
     }
 }

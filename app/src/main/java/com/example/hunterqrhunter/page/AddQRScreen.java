@@ -14,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hunterqrhunter.data.FbRepository;
 import com.example.hunterqrhunter.model.HashQR;
 import com.example.hunterqrhunter.R;
 import com.example.hunterqrhunter.model.LocationUtils;
@@ -42,7 +41,6 @@ public class AddQRScreen extends AppCompatActivity {
 
 //        Initialize Firebase
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        FbRepository fb = new FbRepository(db);
 
         mLocationUtils = new LocationUtils(this);
         mLocationUtils.requestLocationPermission();
@@ -57,6 +55,8 @@ public class AddQRScreen extends AppCompatActivity {
         TextView pointText =(TextView) findViewById(R.id.score_text);
         TextView nameText = (TextView) findViewById(R.id.name_text);
         ImageView faceImage = findViewById(R.id.face_image);
+        Bitmap faceBitmap = HashQR.generateImageFromHashcode(HashedValue);
+        faceImage.setImageBitmap(faceBitmap);
 
         String hashedName = HashQR.giveQrName(HashedValue);
         Integer hashedScore = HashQR.scoreGen(HashedValue);
