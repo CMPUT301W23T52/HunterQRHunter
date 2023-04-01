@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.provider.Settings;
 import android.widget.EditText;
 
-import com.example.hunterqrhunter.data.UpdateCommend;
+import com.example.hunterqrhunter.data.UpdateCommand;
 
 import com.example.hunterqrhunter.model.HashQR;
 import com.example.hunterqrhunter.page.MenuScreen;
@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize Firebase Firestore and UpdateCommend
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        UpdateCommend fb = new UpdateCommend(db);
 
         // Initialize the button and set an OnClickListener
         Button mButton = findViewById(R.id.btn1);
