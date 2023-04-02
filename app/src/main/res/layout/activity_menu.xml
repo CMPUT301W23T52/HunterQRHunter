@@ -16,40 +16,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <Button
         android:id="@+id/btn_qr_screen"
-        android:layout_width="400dp"
+        android:layout_width="250dp"
         android:layout_height="60dp"
         android:layout_marginTop="200dp"
         android:text="QR camera"
+        android:backgroundTint="#FFDF2B"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btn_user_screen"
-        android:layout_width="400dp"
+        android:layout_width="250dp"
         android:layout_height="60dp"
         android:text="user scores"
+        android:backgroundTint="#FFDF2B"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_qr_screen" />
 
     <Button
         android:id="@+id/btn_map_screen"
-        android:layout_width="400dp"
+        android:layout_width="250dp"
         android:layout_height="60dp"
         android:text="QR map"
+        android:backgroundTint="#FFDF2B"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_user_screen" />
 
     <Button
         android:id="@+id/btn_my_qr"
-        android:layout_width="400dp"
+        android:layout_width="250dp"
         android:layout_height="60dp"
         android:text="My qr"
+        android:backgroundTint="#FFDF2B"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_map_screen" />
