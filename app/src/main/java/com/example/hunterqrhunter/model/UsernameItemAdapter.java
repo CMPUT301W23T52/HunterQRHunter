@@ -1,6 +1,7 @@
 package com.example.hunterqrhunter.model;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,22 +78,21 @@ public class UsernameItemAdapter extends ArrayAdapter<String> {
             public void onClick(View v) {
                 FirebaseFirestore database = FirebaseFirestore.getInstance();
                 CollectionReference usersCollection = database.collection("User");
-                usersCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+                usersCollection.whereEqualTo("username", nameStr).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<DocumentSnapshot> userDocs = task.getResult().getDocuments();
+                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
+                            DocumentSnapshot document = task.getResult().getDocuments().get(0);
+                            String userId = document.getId();
 
-                            for (DocumentSnapshot document : userDocs) {
-                                if(name.equals(document.getString("username"))) {
-
-                                    System.out.println("this is were you switch screens. The uid is: " + document.getId());
-                                    Toast.makeText(getContext(), "uid: " + document.getId(), Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-
-                            }
+                            System.out.println("this is were you switch screens. The uid is: " + userId);
+                            Toast.makeText(getContext(), "uid: " + userId, Toast.LENGTH_SHORT).show();
                         }
+                        else {
+                            Log.d("Creating Button", "Error getting documents");
+                        }
+
                     }
                 });
             }
