@@ -31,7 +31,7 @@
         android:background="@drawable/save_button"
         android:text="@string/save"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name_text" />
 
@@ -44,20 +44,21 @@
         android:background="@drawable/delete_button"
         android:text="@string/delete"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name_text" />
+
     <TextView
         android:id="@+id/name_text"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/save_button"
+        android:padding="10dp"
         android:text="name is what ever you want"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="24sp"
-        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,6 +97,7 @@
         android:background="@drawable/image_button"
         android:text="check image"
         android:textColor="@color/black"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/delete_button" />
