@@ -8,8 +8,6 @@ import androidx.test.rule.ActivityTestRule;
 import com.example.hunterqrhunter.page.MenuScreen;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.robotium.solo.Solo;
-import org.mockito.Mockito;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -17,7 +15,6 @@ import org.junit.Test;
 
 public class MainActivityTest {
     private Solo solo;
-    private FirebaseFirestore firestoreMock = Mockito.mock(FirebaseFirestore.class);
 
     @Rule
     public ActivityTestRule<MainActivity> rule =
