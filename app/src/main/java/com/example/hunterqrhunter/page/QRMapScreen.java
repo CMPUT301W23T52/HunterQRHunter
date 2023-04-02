@@ -152,9 +152,51 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
         mMap = googleMap;
         newName  = findViewById(R.id.editText_name);
         // Define the onMarkerClick listener for your Google Map
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
-            public boolean onMarkerClick(Marker marker) {
+            public View getInfoWindow(Marker marker) {
+                return null; // Use default info window background
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+                LatLng position = marker.getPosition();
+                String mostRecentItem = "";
+                for (int i = 0; i < RealList.size(); i++) {
+                    Qrcode code = RealList.get(i);
+                    if ((code.location.getLatitude() == position.latitude) && (code.location.getLongitude() == position.longitude)) {
+                        if (SearchList.size() > 0) {
+                            mostRecentItem = SearchList.get(SearchList.size() - 1);
+                            if (mostRecentItem.equals(code.hashName)) {
+                                View infoWindow = getLayoutInflater().inflate(R.layout.custom_info_window, null);
+                                TextView title = infoWindow.findViewById(R.id.title);
+                                title.setText(code.hashName + " score = " + code.score);
+                                return infoWindow;
+                            }
+                        }
+                    }
+                }
+
+                for (int i = 0; i < RealList.size(); i++) {
+                    Qrcode code = RealList.get(i);
+                    if ((code.location.getLatitude() == position.latitude) && (code.location.getLongitude() == position.longitude)) {
+                        View infoWindow = getLayoutInflater().inflate(R.layout.custom_info_window, null);
+                        TextView title = infoWindow.findViewById(R.id.title);
+                        title.setText(code.hashName + " score = " + code.score);
+                        return infoWindow;
+                    }
+                }
+
+
+                // Return true to indicate that the event has been consumed
+                return null;
+            }
+        });
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                // Print "yes" to the console when the user clicks on the info window
                 LatLng position = marker.getPosition();
                 String mostRecentItem = "";
                 for (int i = 0; i < RealList.size(); i++) {
@@ -164,9 +206,7 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
                             mostRecentItem = SearchList.get(SearchList.size() - 1);
                             if (mostRecentItem.equals(code.hashName)) {
                                 System.out.println(code.qid);
-                                String title = code.hashName + " score = " + code.score;
-                                Toast.makeText(getApplicationContext(), title, Toast.LENGTH_SHORT).show();
-                                return true;
+                                break;
                             }
                         }
                     }
@@ -176,14 +216,9 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
                     Qrcode code = RealList.get(i);
                     if ((code.location.getLatitude() == position.latitude) && (code.location.getLongitude() == position.longitude)) {
                         System.out.println(code.qid);
-                        String title = code.hashName + " score = " + code.score;
-                        Toast.makeText(getApplicationContext(), title, Toast.LENGTH_SHORT).show();
                         break;
                     }
                 }
-
-                // Return true to indicate that the event has been consumed
-                return true;
             }
         });
 
