@@ -60,12 +60,25 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <Button
-            android:id="@+id/sort_by_total_score_button"
+            android:id="@+id/sort_by_score_button"
+            android:layout_height="wrap_content"
             android:text="Highest Points"
             android:textAllCaps="false"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"/>
+            android:layout_weight="1" />
+
+        <Space
+            android:layout_width="8dp"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/sort_by_times_scanned_button"
+            android:layout_height="wrap_content"
+            android:text="Most Scanned"
+            android:textAllCaps="false"
+            android:layout_width="0dp"
+            android:layout_weight="1"/>
+
 
     </LinearLayout>
 

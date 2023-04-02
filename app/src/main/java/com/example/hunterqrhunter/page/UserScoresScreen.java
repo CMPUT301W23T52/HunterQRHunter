@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hunterqrhunter.R;
+import com.example.hunterqrhunter.model.UsernameItemAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
@@ -39,7 +40,7 @@ public class UserScoresScreen extends AppCompatActivity {
     CollectionReference QRCollection;
 
     private ArrayList<String> usernameList;
-    private ArrayAdapter<String> usernameListAdapter;
+    private UsernameItemAdapter usernameListAdapter;
     private ListView usernameListView;
 
     @Override
@@ -52,7 +53,7 @@ public class UserScoresScreen extends AppCompatActivity {
         QRCollection = database.collection("QR");
 
         usernameList = new ArrayList<>();
-        usernameListAdapter = new ArrayAdapter<>(this, R.layout.username_item, R.id.player_name_button, usernameList);
+        usernameListAdapter = new UsernameItemAdapter(this, R.layout.username_item, usernameList);
         usernameListView = findViewById(R.id.username_list);
 
         Button exitButton = findViewById(R.id.exit_button);
@@ -105,13 +106,17 @@ public class UserScoresScreen extends AppCompatActivity {
                 List<String> filteredUsernameList = new ArrayList<>();
 
                 for (String username : usernameList) {
-                    if (username.toLowerCase().contains(userInput)) {
+                    String[] parts = username.split(", ");
+
+                    String player = parts[0];
+
+                    if (player.toLowerCase().contains(userInput)) {
                         filteredUsernameList.add(username);
                     }
                 }
 
                 // Update the list adapter with the filtered results
-                ArrayAdapter<String> filteredListAdapter = new ArrayAdapter<String>(UserScoresScreen.this, R.layout.username_item, R.id.player_name_button, filteredUsernameList);
+                UsernameItemAdapter filteredListAdapter = new UsernameItemAdapter(UserScoresScreen.this, R.layout.username_item, filteredUsernameList);
                 usernameListView.setAdapter(filteredListAdapter);
                 return true;
             }
@@ -163,7 +168,6 @@ public class UserScoresScreen extends AppCompatActivity {
                                 DocumentSnapshot document = userDocsList.get(i);
                                 usernameList.add(document.getString("username") + ", " + "Rank " + (i+1));
                             }
-                            usernameListAdapter.notifyDataSetChanged();
                             usernameListView.setAdapter(usernameListAdapter);
                         }
                         else {

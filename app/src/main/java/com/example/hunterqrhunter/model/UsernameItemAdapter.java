@@ -11,12 +11,12 @@ import com.example.hunterqrhunter.R;
 
 import java.util.List;
 
-public class UserScoreListAdapter extends ArrayAdapter {
+public class UsernameItemAdapter extends ArrayAdapter<String> {
     private Context context;
     private int resourceId;
     private List<String> items;
 
-    public UserScoreListAdapter(Context context, int resourceId, List<String> items) {
+    public UsernameItemAdapter(Context context, int resourceId, List<String> items) {
         super(context, resourceId, items);
         this.context = context;
         this.resourceId = resourceId;
@@ -33,10 +33,10 @@ public class UserScoreListAdapter extends ArrayAdapter {
         String[] parts = item.split(", ");
         String playerNameStr = parts[0];
         String playerRankStr = parts[1];
-        //TextView playerName = convertView.findViewById(R.id.player_name);
-        //TextView playerRank = convertView.findViewById(R.id.player_rank);
-        //playerName.setText(playerNameStr);
-        //playerRank.setText(playerRankStr);
+        TextView playerName = convertView.findViewById(R.id.player_name_button);
+        TextView playerRank = convertView.findViewById(R.id.player_rank_text);
+        playerName.setText(playerNameStr);
+        playerRank.setText(playerRankStr);
 
         return convertView;
     }
