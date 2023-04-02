@@ -43,6 +43,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Objects;
 import java.util.UUID;
 
 
@@ -179,10 +180,10 @@ public class AddQRScreen extends AppCompatActivity {
                                                                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                                                                         int highestScore = documentSnapshot.getLong("Highest Unique Score").intValue();
                                                                         if (highestScore < hashedScore) {
-                                                                            db.collection("Users").document(uid).update("Highest Unique Score", hashedScore);
+                                                                            db.collection("User").document(uid).update("Highest Unique Score", hashedScore);
                                                                         }
                                                                     }
-                                                            });
+                                                                });
                                                     }
                                                 });
 
