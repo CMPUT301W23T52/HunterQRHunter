@@ -138,6 +138,9 @@ public class HashQR {
         float mouthTop = centerY + mouthOffsetY;
         float mouthRight = centerX + mouthWidth / 2f;
         float mouthBottom = mouthTop + mouthHeight;
+        
+        //Draw the hat
+        
 
         canvas.drawRect(mouthLeft, mouthTop, mouthRight, mouthBottom, paint);
 

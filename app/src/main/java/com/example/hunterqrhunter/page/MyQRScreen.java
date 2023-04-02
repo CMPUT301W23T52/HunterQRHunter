@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class MyQRScreen extends AppCompatActivity {
     {/**
-     []MyQRScreen has all the QRs the player acquired
+     [v]MyQRScreen has all the QRs the player acquired
      [v]Number of the Qrs
      [v]Score of the player
      []Player can delete the QR if they want to
@@ -73,8 +73,6 @@ public class MyQRScreen extends AppCompatActivity {
 
                     //update the total number of the QRs
                     totalQRs.getAndIncrement();
-
-                    ListView myQRList = findViewById(R.id.QRList);
 
                     //get the qrcode field from the QR document
                     String qrCode = document.getData().get("qrcode").toString();
