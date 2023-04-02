@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     >
 
+    <!-- Exit button -->
     <Button
         android:id="@+id/exit_button"
         android:text="Exit"
@@ -16,6 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Switch button -->
     <Button
         android:id="@+id/switch_button"
         android:text="Switch"
@@ -25,6 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Scoreboard text -->
     <TextView
         android:id="@+id/scoreboard_text"
         android:text="Scoreboard"
@@ -37,6 +40,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/linear_layout" />
 
+    <!-- SearchView for searching QR codes -->
     <SearchView
         android:id="@+id/user_search"
         android:layout_width="match_parent"
@@ -49,6 +53,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/linear_layout" />
 
+    <!-- LinearLayout to hold sort buttons -->
     <LinearLayout
         android:id="@+id/linear_layout"
         android:layout_width="match_parent"
@@ -59,6 +64,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <!-- Sort by score button -->
         <Button
             android:id="@+id/sort_by_score_button"
             android:layout_height="wrap_content"
@@ -67,10 +73,12 @@
             android:layout_width="0dp"
             android:layout_weight="1" />
 
+        <!-- Space to separate the sort buttons -->
         <Space
             android:layout_width="8dp"
             android:layout_height="wrap_content" />
 
+        <!-- Sort by times scanned button -->
         <Button
             android:id="@+id/sort_by_times_scanned_button"
             android:layout_height="wrap_content"
@@ -79,9 +87,9 @@
             android:layout_width="0dp"
             android:layout_weight="1"/>
 
-
     </LinearLayout>
 
+    <!-- ListView to display QR codes -->
     <ListView
         android:id="@+id/QR_list"
         android:layout_width="match_parent"

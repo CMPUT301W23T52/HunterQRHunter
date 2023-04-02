@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"> <!-- This is a horizontal linear layout -->
 
+    <!-- This is a TextView to display the player's rank -->
     <TextView
         android:id="@+id/player_rank_text"
         android:layout_width="wrap_content"
@@ -12,6 +13,8 @@
         android:text="Rank 0"
         android:textAllCaps="false" />
 
+    <!-- This is a Button to display the player's name or the QR's name (depending on the activity) -->
+    <!-- Pressed to view the player's scanned QR or the QR's comment page (depending on the activity) -->
     <Button
         android:id="@+id/player_name_button"
         android:layout_width="match_parent"
