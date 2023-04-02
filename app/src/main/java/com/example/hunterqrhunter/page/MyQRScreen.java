@@ -4,7 +4,9 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -19,7 +21,6 @@ import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MyQRScreen extends AppCompatActivity {
@@ -27,8 +28,7 @@ public class MyQRScreen extends AppCompatActivity {
      [v]MyQRScreen has all the QRs the player acquired
      [v]Number of the Qrs
      [v]Score of the player
-     []Player can delete the QR if they want to
-     [x]Player can sort (Not in the user stories)
+     [v]Player can delete the QR if they want to
      */}
     private FirebaseFirestore db;
     @Override
@@ -54,8 +54,60 @@ public class MyQRScreen extends AppCompatActivity {
         //arrayList to store the QRs
         ArrayList<Bitmap> qrList = new ArrayList<>();
 
+        //arrayList to store the qid
+        ArrayList<String> qidList = new ArrayList<>();
+
         //Initialize the HashQR class
         HashQR hashQR = new HashQR();
+
+        //button for delete the QR
+        Button DeleteButton = findViewById(R.id.QR_delete_button);
+        GridView faceList = findViewById(R.id.QRList);
+        EditText qrText = findViewById(R.id.NumQR);
+        EditText scoreText = findViewById(R.id.UserScore);
+        FaceListAdapter adapter = new FaceListAdapter(this, qrList);
+
+        AtomicInteger ItemPostion = new AtomicInteger();
+
+        //when the user click any item in the facelist Listview
+        faceList.setOnItemClickListener((parent, view, position, id) -> {
+            ItemPostion.set(position);
+        });
+
+        //delete the qr from the database that the user clicked from ListView QRList
+        DeleteButton.setOnClickListener(v -> {
+            //get the qid of the QR that the user clicked
+            String qid = qidList.get(ItemPostion.get());
+            qidList.remove(ItemPostion.get());
+            qrList.remove(ItemPostion.get());
+            //update the total number of the QRs
+            totalQRs.getAndDecrement();
+            //delete the QR from the database
+            qrRef.whereEqualTo(FieldPath.of("qid"), qid).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot document : task.getResult()) {
+                        //update the total score from database that the user deleted
+                        Object score = document.get("score");
+
+                        //update the total score
+                        totalScore.addAndGet(-Integer.parseInt(score.toString()));
+
+                        //delete the QR from the database
+                        document.getReference().delete();
+
+                        //update the total score
+                        scoreText.setText(totalScore.toString());
+
+                        //update the total number of the QRs
+                        qrText.setText(totalQRs.toString());
+
+                        //update the ListView
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            });
+
+        });
 
         //if userID and qrRef's uid is the same, then get the score of the user
         qrRef.whereEqualTo(FieldPath.of("uid"), userID).get().addOnCompleteListener(task -> {
@@ -77,6 +129,12 @@ public class MyQRScreen extends AppCompatActivity {
                     //get the qrcode field from the QR document
                     String qrCode = document.getData().get("qrcode").toString();
 
+                    //get the qid field from the QR document
+                    String qid = document.getData().get("qid").toString();
+
+                    //add the qid to the qidList
+                    qidList.add(qid);
+
                     //create a face class based on the qrCode
                     byte[] hash = hashQR.hashObject(qrCode);
                     faceBitmap = hashQR.generateImageFromHashcode(hash);
@@ -85,19 +143,19 @@ public class MyQRScreen extends AppCompatActivity {
 
                     Log.d("MyQRScreen", document.getId() + " => " + document.getData());
                 }
-                EditText scoreText = findViewById(R.id.UserScore);
+
                 scoreText.setText(totalScore.toString());
-                EditText qrText = findViewById(R.id.NumQR);
+
                 qrText.setText(totalQRs.toString());
 
-                ListView faceList = findViewById(R.id.QRList);
 
-                FaceListAdapter adapter = new FaceListAdapter(this, qrList);
                 faceList.setAdapter(adapter);
 
             } else {
                 Log.d("MyQRScreen", "Error getting documents: ", task.getException());
             }
         });
+
+
     }
 }
