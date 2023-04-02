@@ -7,11 +7,19 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
+<<<<<<< HEAD
+            <value value="C:\Users\ctuff\.android\avd\Pixel_XL_API_33.avd" />
+=======
             <value value="$USER_HOME$/.android/avd/Pixel_3_API_TiramisuPrivacySandbox.avd" />
+>>>>>>> 59a950d6c76950dc5b89ab148a0298c580eb981b
           </Key>
         </deviceKey>
       </Target>
     </targetSelectedWithDropDown>
+<<<<<<< HEAD
+    <timeTargetWasSelectedWithDropDown value="2023-03-31T04:30:07.625363700Z" />
+=======
     <timeTargetWasSelectedWithDropDown value="2023-03-30T07:34:34.199857Z" />
+>>>>>>> 59a950d6c76950dc5b89ab148a0298c580eb981b
   </component>
 </project>

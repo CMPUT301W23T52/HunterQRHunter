@@ -9,6 +9,7 @@ import android.provider.Settings;
 
 import com.example.hunterqrhunter.model.QR;
 import com.example.hunterqrhunter.page.MenuScreen;
+import com.example.hunterqrhunter.page.SignUpScreen;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -19,7 +20,7 @@ import com.google.firebase.firestore.GeoPoint;
 import java.util.ArrayList;
 
 public class LoadingScreen extends AppCompatActivity {
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private FirebaseFirestore database = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +29,7 @@ public class LoadingScreen extends AppCompatActivity {
 
         // Get a document reference using the user id to see if this id exists in our database
         String userID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        DocumentReference docRef = db.collection("User").document(userID);
+        DocumentReference docRef = database.collection("User").document(userID);
 
         // Once the .get() method is complete, decide what to do depending on whether or not
         // the document exists
@@ -41,7 +42,7 @@ public class LoadingScreen extends AppCompatActivity {
                         openMenuScreen(); // If document exists, open the main menu...
                     }
                     else {
-                        openMainActivity(); // ...otherwise prompt the user to sign up
+                        openSignUpScreen(); // ...otherwise prompt the user to sign up
                     }
                 }
                 finish(); // Kill the loading screen activity.
@@ -49,8 +50,8 @@ public class LoadingScreen extends AppCompatActivity {
         });
     }
 
-    private void openMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
+    private void openSignUpScreen() {
+        Intent intent = new Intent(this, SignUpScreen.class);
         startActivity(intent);
     }
     private void openMenuScreen() {

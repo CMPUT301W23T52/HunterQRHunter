@@ -12,6 +12,7 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-include ':app'
 rootProject.name = "HunterQRHunter"
+include ':app'
+
 
