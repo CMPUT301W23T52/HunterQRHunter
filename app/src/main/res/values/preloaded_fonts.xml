@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/</item>
+        <item>@font/anton</item>
+        <item>@font/baloo_paaji</item>
+        <item>@font/farro_light</item>
+        <item>@font/farro_medium</item>
+        <item>@font/k2d_bold</item>
+        <item>@font/share_tech</item>
+    </array>
+</resources>

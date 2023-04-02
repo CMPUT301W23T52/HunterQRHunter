@@ -1,3 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
-    android:src="@drawable/user" />
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/background">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/Yellow" />
+            <corners android:radius="360dp" />
+        </shape>
+    </item>
+
+    <item android:id="@+id/item_img">
+        <bitmap android:src="@drawable/user" />
+    </item>
+
+</layer-list>
+

@@ -37,8 +37,11 @@ public class QRCameraScreen extends AppCompatActivity {
      * start scanning using zxing library
      */
     private void startScan() {
+        // start scanning
         IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
         integrator.setOrientationLocked(false);
+        integrator.setPrompt("Scan a QR code");
         integrator.initiateScan();
     }
 
