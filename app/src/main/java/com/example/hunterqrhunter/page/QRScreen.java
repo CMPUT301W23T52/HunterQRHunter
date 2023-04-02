@@ -2,34 +2,34 @@ package com.example.hunterqrhunter.page;
 
 import static android.content.ContentValues.TAG;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hunterqrhunter.R;
 
 import com.example.hunterqrhunter.data.UpdateCommand;
+import com.example.hunterqrhunter.data.setImageHelper;
+import com.example.hunterqrhunter.model.HashQR;
 import com.example.hunterqrhunter.model.QR;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -54,6 +54,8 @@ public class QRScreen extends AppCompatActivity {
         TextView scanned = findViewById(R.id.qr_scanned_number);
         TextView score = findViewById(R.id.qr_qr_score);
         EditText editText = findViewById(R.id.qr_add_comment);
+        ImageView qrImage = findViewById(R.id.qr_face);
+        Button button = findViewById(R.id.qr_image_button);
 
         Intent intent = getIntent();
         String qrCode = intent.getStringExtra("qrCode");
@@ -77,6 +79,26 @@ public class QRScreen extends AppCompatActivity {
                     qr.setUid((String) document.get("uid"));
                     qr.setImageUrl((String) document.get("imageUrl"));
                     qr.setQid((String) document.get("qid"));
+
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // Inflate the popup layout
+                            View popupView = getLayoutInflater().inflate(R.layout.popup_image_layout, null);
+
+                            // Create the popup window
+                            PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+                            // Set the image in the ImageView
+                            ImageView popupImageView = popupView.findViewById(R.id.popup_image_view);
+                            String storagePath = document.get("imageUrl").toString();
+                            setImageHelper.setImageFromStoragePath(storagePath, popupImageView);
+
+                            // Show the popup window
+                            popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+                        }
+                    });
+
                     if(document.get("comments") == null) {
                         qr.setComments(new ArrayList<>());
                     }
@@ -106,6 +128,8 @@ public class QRScreen extends AppCompatActivity {
                     qrName.setText(qr.getName());
                     commentAdapter.notifyDataSetChanged();
 
+                    qrImage.setImageBitmap(HashQR.generateImageFromHashcode(HashQR.hashObject(qr.getQrcode())));
+
 
                     // here you can use the callback function to do the work with the get QR.
                     Log.d(TAG, "DocumentSnapshot data: " + document.getData());
@@ -119,10 +143,13 @@ public class QRScreen extends AppCompatActivity {
         });
 
 
+
+
         addText.setOnClickListener(v -> {
             String newComment = editText.getText().toString();
             if (!newComment.isEmpty()) {
                 commentList.add(newComment);
+                editText.setText("");
             }
             commentAdapter.notifyDataSetChanged();
             fb.updateQRComments(qrCode, commentList);
