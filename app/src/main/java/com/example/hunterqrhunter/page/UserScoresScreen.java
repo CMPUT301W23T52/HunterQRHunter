@@ -141,39 +141,28 @@ public class UserScoresScreen extends AppCompatActivity {
             public void onComplete(@NonNull Task<QuerySnapshot> querySnapshotTask) {
                 if (querySnapshotTask.isSuccessful()) {
                     List<DocumentSnapshot> userDocsList = querySnapshotTask.getResult().getDocuments();
-                    List<Task<Void>> calculateUserIDTasks = new ArrayList<>();
 
-                    for (DocumentSnapshot userDoc : userDocsList) {
-                        String userID = userDoc.getId();
-                        calculateUserIDTasks.add(calculateUserScores(userID));
-                    }
+                    userDocsList.sort(new Comparator<DocumentSnapshot>() {
 
-                    Tasks.whenAllComplete(calculateUserIDTasks).addOnCompleteListener(calculateAllUserScoreTask -> {
+                        @Override
+                        public int compare(DocumentSnapshot doc1, DocumentSnapshot doc2) {
 
-                        if (calculateAllUserScoreTask.isSuccessful()) {
-                            userDocsList.sort(new Comparator<DocumentSnapshot>() {
-                                @Override
-                                public int compare(DocumentSnapshot doc1, DocumentSnapshot doc2) {
+                            int score1 = doc1.getLong(fieldName).intValue();
+                            int score2 = doc2.getLong(fieldName).intValue();
 
-                                    int score1 = doc1.getLong(fieldName).intValue();
-                                    int score2 = doc2.getLong(fieldName).intValue();
-
-                                    return score2 - score1;
-                                }
-                            });
-
-                            usernameList.clear();
-                            for (int i = 0; i < userDocsList.size(); i++) {
-
-                                DocumentSnapshot document = userDocsList.get(i);
-                                usernameList.add(document.getString("username") + ", " + "Rank " + (i+1));
-                            }
-                            usernameListView.setAdapter(usernameListAdapter);
-                        }
-                        else {
-                            Log.d("Sort users by " + fieldName, "Error getting user scores");
+                            return score2 - score1;
                         }
                     });
+
+                    usernameList.clear();
+                    for (int i = 0; i < userDocsList.size(); i++) {
+
+                        DocumentSnapshot document = userDocsList.get(i);
+                        usernameList.add(document.getString("username") + ", " + "Rank " + (i+1));
+                    }
+                    usernameListView.setAdapter(usernameListAdapter);
+
+
                 }
                 else {
                     Log.d("Creating documentList", "Error getting documents: ", querySnapshotTask.getException());
