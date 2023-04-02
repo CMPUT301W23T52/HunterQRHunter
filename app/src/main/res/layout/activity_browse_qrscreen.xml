@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:iconifiedByDefault="false"
-        android:queryHint="Search users"
+        android:queryHint="Search QR"
         app:layout_constraintTop_toBottomOf="@id/scoreboard_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,22 +67,10 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"/>
 
-        <Space
-            android:layout_width="8dp"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/sort_by_highest_uniqueQR_button"
-            android:text="Highest QR"
-            android:textAllCaps="false"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"/>
-
     </LinearLayout>
 
     <ListView
-        android:id="@+id/username_list"
+        android:id="@+id/QR_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"

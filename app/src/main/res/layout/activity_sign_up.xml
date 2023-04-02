@@ -1,17 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    tools:context=".MainActivity">
-
-    <ImageView
-        android:id="@+id/QrCreatureImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:srcCompat="@tools:sample/avatars" />
+    android:gravity="center">
 
     <EditText
         android:id="@+id/username_sign_up"
@@ -30,16 +21,9 @@
         android:hint="Email" />
 
     <Button
-        android:id="@+id/btn_signup"
+        android:id="@+id/sign_up_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-    android:text="signup" />
-<Button
-android:id="@+id/btn1"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Next Screen"/>
+        android:text="signup" />
 
-    </LinearLayout>
-
-
+</LinearLayout>

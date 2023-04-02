@@ -1,48 +1,58 @@
 package com.example.hunterqrhunter;
 
-import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
-
-import android.provider.Settings;
-import android.util.Log;
 import android.widget.EditText;
 
-import androidx.annotation.NonNull;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
 import com.example.hunterqrhunter.page.MenuScreen;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.robotium.solo.Solo;
+import org.mockito.Mockito;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class MainActivitySignUpTest {
+public class MainActivityTest {
     private Solo solo;
+    private FirebaseFirestore firestoreMock = Mockito.mock(FirebaseFirestore.class);
+
     @Rule
     public ActivityTestRule<MainActivity> rule =
             new ActivityTestRule<>(MainActivity.class, true, true);
 
     @Before
     public void setUp() {
-        solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
+        solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
     }
 
     @Test
-    public void signUpButton() {
+    public void testSignUpButton() {
 
         solo.enterText((EditText) solo.getView(R.id.username_sign_up), "userSignUpTest");
         solo.enterText((EditText) solo.getView(R.id.email_sign_up), "email@gmail.com");
-        solo.clickOnButton("btn_signup");
+        solo.clickOnButton("sign_up_button");
 
         solo.assertCurrentActivity("Not MenuScreen", MenuScreen.class);
+    }
+
+    @Test
+    public void testUniqueUsername() {
+
+    }
+
+
+    @Test
+    public void testValidUsername() {
+
+    }
+
+
+    @Test
+    public void testValidEmail() {
+
     }
 
     @After

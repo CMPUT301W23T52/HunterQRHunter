@@ -58,12 +58,21 @@
             </AndroidTestResultsTableState>
           </value>
         </entry>
+<<<<<<< HEAD
+        <entry key="401369563">
+=======
         <entry key="128007110">
+>>>>>>> 59a950d6c76950dc5b89ab148a0298c580eb981b
           <value>
             <AndroidTestResultsTableState>
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="Duration" value="90" />
+<<<<<<< HEAD
+                  <entry key="R5CNC17Q0MW" value="120" />
+                  <entry key="Tests" value="360" />
+                  <entry key="samsung&#10; SM-G991W" value="120" />
+=======
                   <entry key="Pixel_2_API" value="120" />
                   <entry key="Tests" value="360" />
                 </map>
@@ -79,6 +88,7 @@
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_2_API" value="120" />
                   <entry key="Tests" value="360" />
+>>>>>>> 59a950d6c76950dc5b89ab148a0298c580eb981b
                 </map>
               </option>
             </AndroidTestResultsTableState>
