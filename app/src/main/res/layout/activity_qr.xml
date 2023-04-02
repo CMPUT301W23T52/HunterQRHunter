@@ -70,8 +70,8 @@
 
         <ImageView
             android:id="@+id/qr_face"
-            android:layout_width="144dp"
-            android:layout_height="144dp"
+            android:layout_width="172dp"
+            android:layout_height="173dp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView2"
             app:layout_constraintEnd_toEndOf="@+id/imageView2"
             app:layout_constraintStart_toStartOf="@+id/imageView2"
