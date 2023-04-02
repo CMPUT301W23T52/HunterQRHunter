@@ -77,9 +77,9 @@
 
     <ImageView
         android:id="@+id/face_image"
-        android:layout_width="139dp"
-        android:layout_height="138dp"
-        android:layout_marginBottom="60dp"
+        android:layout_width="200dp"
+        android:layout_height="182dp"
+        android:layout_marginBottom="40dp"
         android:contentDescription="Image"
         app:layout_constraintBottom_toTopOf="@+id/score_text"
         app:layout_constraintEnd_toEndOf="parent"
