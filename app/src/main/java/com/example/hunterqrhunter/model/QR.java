@@ -2,9 +2,6 @@ package com.example.hunterqrhunter.model;
 
 import com.google.firebase.firestore.GeoPoint;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Represents QR object that will be pushed to our database
@@ -18,6 +15,10 @@ QR {
     private ArrayList<String> comments;
     private String name;
     private String qid;
+
+
+
+    private String imageUrl;
 
 
     /**
@@ -37,6 +38,10 @@ QR {
         this.comments = new ArrayList<>(); // initialize comments list
     }
 
+    public QR(){
+        this.comments = new ArrayList<>(); // initialize comments list
+        this.imageUrl = "images/No_Image_Available.jpg";
+    }
     /**
      * @param qid unique code that will be a key
      */
@@ -48,6 +53,13 @@ QR {
         return qrcode;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
     public void setQrcode(String qrcode) {
         this.qrcode = qrcode;
     }

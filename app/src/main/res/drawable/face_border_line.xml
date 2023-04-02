@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <corners android:radius="50dp"/>
+            <corners android:radius="20dp"/>
             <solid android:color="#FFDF2B"/> <!-- border color -->
         </shape>
     </item>
@@ -13,10 +13,9 @@
         android:left="10dp"
         android:right="10dp">
         <!-- adjust borders width here -->
-
         <shape android:shape="rectangle">
-            <corners android:radius="50dp"/>
-            <solid android:color="#FFFFFF"/>  <!-- background color -->
+            <corners android:radius="20dp"/>
+            <solid android:color="#FFFFFF"/>  <!-- semi-transparent white background color -->
         </shape>
     </item>
 </layer-list>

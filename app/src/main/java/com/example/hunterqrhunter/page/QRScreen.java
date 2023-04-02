@@ -50,10 +50,10 @@ public class QRScreen extends AppCompatActivity {
         setContentView(R.layout.activity_qr);
         ListView listView = findViewById(R.id.qr_qr_comment_list);
         TextView qrName = findViewById(R.id.qr_qr_name);
-        Button addText = (Button) findViewById(R.id.qr_add_button);
-        TextView scanned = (TextView) findViewById(R.id.qr_scanned_number);
-        TextView score = (TextView) findViewById(R.id.qr_qr_score);
-        EditText editText = (EditText) findViewById(R.id.qr_add_comment);
+        Button addText = findViewById(R.id.qr_add_button);
+        TextView scanned = findViewById(R.id.qr_scanned_number);
+        TextView score = findViewById(R.id.qr_qr_score);
+        EditText editText = findViewById(R.id.qr_add_comment);
 
         Intent intent = getIntent();
         String qrCode = intent.getStringExtra("qrCode");
@@ -62,7 +62,7 @@ public class QRScreen extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         fb = new UpdateCommand(db);
         ArrayList<String> commentList = new ArrayList<>();
-        ArrayAdapter<String> commentAdapter = new ArrayAdapter<String>((Context) this, R.layout.activity_qr_comment, commentList);
+        ArrayAdapter<String> commentAdapter = new ArrayAdapter<String>(this, R.layout.activity_qr_comment, commentList);
         listView.setAdapter(commentAdapter);
         DocumentReference docRef = db.collection("QR").document(qrCode);
         docRef.get().addOnCompleteListener(task -> {
@@ -75,6 +75,8 @@ public class QRScreen extends AppCompatActivity {
                     qr.setQrcode((String) document.get("qrcode"));
                     qr.setScore(((Long) Objects.requireNonNull(document.get("score"))).intValue());
                     qr.setUid((String) document.get("uid"));
+                    qr.setImageUrl((String) document.get("imageUrl"));
+                    qr.setQid((String) document.get("qid"));
                     if(document.get("comments") == null) {
                         qr.setComments(new ArrayList<>());
                     }
@@ -83,24 +85,20 @@ public class QRScreen extends AppCompatActivity {
                         qr.setComments((ArrayList<String>) document.get("comments"));
                     }
                     db.collection("QR").whereEqualTo("qrcode",qr.getQrcode()).get().addOnCompleteListener(
-                            new OnCompleteListener<QuerySnapshot>() {
+                            task1 -> {
 
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task1.isSuccessful()) {
+                                    int scanNum = 0;
+                                    for (QueryDocumentSnapshot document1 : task1.getResult()) {
 
-                                    if (task.isSuccessful()) {
-                                        int scanNum = 0;
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                        scanNum += 1;
 
-                                            scanNum += 1;
-
-                                        }
-                                        scanned.setText(Integer.toString(scanNum));
-                                    } else {
-                                        scanned.setText(Integer.toString(1));
-                                        Log.d(TAG, "Error getting documents: ", task.getException());
                                     }
-                               }
+                                    scanned.setText(Integer.toString(scanNum));
+                                } else {
+                                    scanned.setText(Integer.toString(1));
+                                    Log.d(TAG, "Error getting documents: ", task1.getException());
+                                }
                            });
                     commentList.addAll(qr.getComments());
                     score.setText(Integer.toString(qr.getScore()));
@@ -121,74 +119,15 @@ public class QRScreen extends AppCompatActivity {
         });
 
 
-        addText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String newComment = editText.getText().toString();
-                if (!newComment.isEmpty()) {
-                    commentList.add(newComment);
-                }
-                commentAdapter.notifyDataSetChanged();
-                fb.updateQRComments(qrCode, commentList);
+        addText.setOnClickListener(v -> {
+            String newComment = editText.getText().toString();
+            if (!newComment.isEmpty()) {
+                commentList.add(newComment);
             }
+            commentAdapter.notifyDataSetChanged();
+            fb.updateQRComments(qrCode, commentList);
         });
 
-//
-//        QR qrObject = new QR("5", "Lingfeng", 300, 2001, list, list2);
-//        fb.writeQR(qrObject);
-//
-//        int qr2 = 300;
-//        QR qrObject = new QR("qrlingfeng", "L", 0, 0, list3, list3);
-//        ArrayList<String> comments = qrObject.getComments();
-//        ArrayAdapter<String> commentAdapter = new ArrayAdapter<>((Context) this,R.layout.activity_qr_comment, comments);
-//        listView.setAdapter(commentAdapter);
-//
-//
-//
-//        DocumentReference docRef = db.collection("QR Creatures").document(Integer.toString(qr2));
-//        docRef.get().addOnCompleteListener(task -> {
-//            if (task.isSuccessful()) {
-//                DocumentSnapshot document = task.getResult();
-//                if (document.exists()) {
-//                    // set QR object
-//                    qrObject.setHashName((String) document.get("HashName"));
-//                    qrObject.setHashName((String) document.get("HashImage"));
-//                    qrObject.setHashCode(((Long) Objects.requireNonNull(document.get("HashCode"))).intValue());
-//                    qrObject.setScore(((Long) Objects.requireNonNull(document.get("Score"))).intValue());
-//                    qrObject.setOwnedBy((ArrayList<String>) document.get("OwnedBy"));
-//                    qrObject.setComments((ArrayList<String>) document.get("Comments"));
-//
-//                    score.setText(Integer.toString(qrObject.getScore()));
-//                    scanned.setText(Integer.toString(qrObject.getOwnedBy().size()));
-//                    //for (int i = 0; i < (qr.getComments()).size(); i++) {
-//                    //comments.set(i, qr.getComments().get(i));
-//                    // }
-//                    commentAdapter.notifyDataSetChanged();
-//
-//
-//                    // here you can use the callback function to do the work with the get QR.
-//                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-//
-//                } else {
-//                    Log.d(TAG, "No such document");
-//                }
-//            } else {
-//                Log.d(TAG, "get failed with ", task.getException());
-//            }
-//        });
-//        addText.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                ArrayList<String> commentList;
-//                commentList = qrObject.getComments();
-//                commentList.add(editText.getText().toString());
-//                qrObject.setComments(commentList);
-//                fb.writeQR(qrObject);
-//                comments.add(editText.getText().toString());
-//                commentAdapter.notifyDataSetChanged();
-//
-//            }
-//        });
     }
 
 }
