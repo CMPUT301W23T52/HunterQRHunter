@@ -1,5 +1,6 @@
 package com.example.hunterqrhunter;
 
+import static com.google.common.hash.Hashing.sha256;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -15,7 +16,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class TestHashQR {
     @Test
-    public void testHashObject() {
+    public void testHashObject() throws NoSuchAlgorithmException {
         // Test with a simple string
         HashQR Hashing = new HashQR();
         String obj1 = "Hello World";
@@ -29,14 +30,13 @@ public class TestHashQR {
         assertNull(hash2);
     }
 
-    private byte[] sha256(byte[] data) {
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-            return messageDigest.digest(data);
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    private byte[] sha256(byte[] bytes) throws NoSuchAlgorithmException {
+        // Hash the bytes using SHA-256
+        MessageDigest md;
+        md = MessageDigest.getInstance("SHA-256");
+        return md.digest(bytes);
+    };
+
     @Test
     public void testGiveQrName() {
         String hashVal = "dragonasf";

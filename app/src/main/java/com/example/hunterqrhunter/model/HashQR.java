@@ -101,7 +101,9 @@ public class HashQR {
 
         // Draw the face using the random color
         Paint paint = new Paint();
+        //paint set color
         paint.setColor(color);
+        //paint set style
         paint.setStyle(Paint.Style.FILL);
 
         // Draw the face shape
@@ -109,23 +111,31 @@ public class HashQR {
         float centerY = height / 2f;
         float radius = width / 3f;
 
+        // Draw the face
         canvas.drawCircle(centerX, centerY, radius, paint);
 
         // Draw the eyes
         float eyeOffsetX = radius / 3f;
         float eyeOffsetY = radius / 3f;
 
+        // Draw the left eye
         float leftEyeCenterX = centerX - eyeOffsetX;
         float leftEyeCenterY = centerY - eyeOffsetY;
+
+        // Draw the right eye
         float rightEyeCenterX = centerX + eyeOffsetX;
         float rightEyeCenterY = centerY - eyeOffsetY;
+
+        // Draw the eye shape
         float eyeRadius = radius / 6f;
 
         paint.setColor(Color.WHITE);
+        // Draw the eyes
         canvas.drawCircle(leftEyeCenterX, leftEyeCenterY, eyeRadius, paint);
         canvas.drawCircle(rightEyeCenterX, rightEyeCenterY, eyeRadius, paint);
 
         paint.setColor(eyeColor);
+        // Draw the eyes
         canvas.drawCircle(leftEyeCenterX, leftEyeCenterY, eyeRadius / 2f, paint);
         canvas.drawCircle(rightEyeCenterX, rightEyeCenterY, eyeRadius / 2f, paint);
 
@@ -138,9 +148,6 @@ public class HashQR {
         float mouthTop = centerY + mouthOffsetY;
         float mouthRight = centerX + mouthWidth / 2f;
         float mouthBottom = mouthTop + mouthHeight;
-        
-        //Draw the hat
-        
 
         canvas.drawRect(mouthLeft, mouthTop, mouthRight, mouthBottom, paint);
 
