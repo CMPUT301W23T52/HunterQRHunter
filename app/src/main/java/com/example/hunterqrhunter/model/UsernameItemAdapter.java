@@ -2,12 +2,14 @@ package com.example.hunterqrhunter.model;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,6 +78,7 @@ public class UsernameItemAdapter extends ArrayAdapter<String> {
         // Get references to the Button in the layout and set the text.
         Button name = convertView.findViewById(R.id.player_name_button);
         name.setText(nameStr);
+
         name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -3,17 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/logo_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <!-- Username input field -->
     <EditText
         android:id="@+id/edit_username"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="88dp"
-        android:paddingVertical="3dp"
-        android:paddingHorizontal="10dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/border_line"
         android:hint="Username"
+        android:padding="10dp"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="3dp"
+        android:paddingStart="30dp"
         android:textSize="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,19 +35,22 @@
     <!-- Email input field -->
     <EditText
         android:id="@+id/edit_email"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:background="@drawable/border_line"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:padding="10dp"
         android:paddingHorizontal="10dp"
         android:paddingVertical="3dp"
-        android:inputType="textEmailAddress"
-        android:hint="Email"
+
+        android:paddingStart="30dp"
         android:textSize="30dp"
         app:layout_constraintEnd_toEndOf="parent"
-
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_username"
-        app:layout_constraintHorizontal_bias="0.498" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_username" />
 
     <!-- Edit account button -->
     <Button
@@ -47,21 +63,12 @@
         android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.87"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_email"
-        app:layout_constraintVertical_bias="0.381"
-        app:layout_constraintHorizontal_bias="0.87" />
+        app:layout_constraintVertical_bias="0.381" />
 
     <!-- User avatar image (unused) -->
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="85dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
 
     <!-- Cancel edit profile button -->
     <Button
