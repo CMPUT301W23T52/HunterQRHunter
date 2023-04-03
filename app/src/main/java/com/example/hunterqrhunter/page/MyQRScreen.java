@@ -31,7 +31,7 @@ public class MyQRScreen extends AppCompatActivity {
      [v]Number of the Qrs
      [v]Score of the player
      [v]Player can delete the QR if they want to
-     []As a player, I want to see my highest and lowest scoring QR codes.
+     [v]As a player, I want to see my highest and lowest scoring QR codes.
      */}
     private FirebaseFirestore db;
     @Override

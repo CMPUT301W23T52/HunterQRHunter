@@ -6,7 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.example.hunterqrhunter.model.HashQR;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
