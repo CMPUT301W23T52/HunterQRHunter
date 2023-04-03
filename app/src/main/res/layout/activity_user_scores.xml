@@ -8,96 +8,100 @@
     >
 
     <!-- Exit button -->
+
     <Button
+        android:id="@+id/sort_by_total_score_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/save_button"
+        android:text="Highest Points"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_search" />
+
+    <Button
+        android:id="@+id/sort_by_highest_uniqueQR_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/save_button"
+        android:text="Highest QR"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_search" />
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/exit_button"
-        android:text="Exit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/delete_button"
+        android:text="Exit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Switch button -->
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/switch_button"
-        android:text="Switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/add_button"
+        android:text="Switch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Scoreboard title -->
     <TextView
         android:id="@+id/scoreboard_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="Scoreboard"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/exit_button"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/linear_layout" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Search bar for users -->
+
+    <!-- Linear layout containing buttons for sorting -->
+
+    <!-- List of usernames -->
+
     <SearchView
         android:id="@+id/user_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/border_line"
         android:iconifiedByDefault="false"
         android:queryHint="Search users"
-        app:layout_constraintTop_toBottomOf="@id/scoreboard_text"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/linear_layout" />
-
-    <!-- Linear layout containing buttons for sorting -->
-    <LinearLayout
-        android:id="@+id/linear_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/scoreboard_text"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/scoreboard_text">
 
-        <!-- Button to sort by total score -->
-        <Button
-            android:id="@+id/sort_by_total_score_button"
-            android:text="Highest Points"
-            android:textAllCaps="false"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"/>
+    </SearchView>
 
-        <!-- Space between buttons -->
-        <Space
-            android:layout_width="8dp"
-            android:layout_height="wrap_content" />
-
-        <!-- Button to sort by highest unique QR codes -->
-        <Button
-            android:id="@+id/sort_by_highest_uniqueQR_button"
-            android:text="Highest QR"
-            android:textAllCaps="false"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
-    <!-- List of usernames -->
     <ListView
         android:id="@+id/username_list"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/linear_layout"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sort_by_total_score_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
