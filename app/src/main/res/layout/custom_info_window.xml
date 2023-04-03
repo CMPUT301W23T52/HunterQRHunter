@@ -3,8 +3,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
-
+    android:background="@color/Yellow"
+    android:padding="10dp">
     <TextView
         android:id="@+id/title_text"
         android:layout_width="wrap_content"
