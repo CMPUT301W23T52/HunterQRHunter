@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -17,21 +16,14 @@ import com.example.hunterqrhunter.R;
 import com.example.hunterqrhunter.model.UsernameItemAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.TaskCompletionSource;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.SetOptions;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * This class represents the screen that displays the scores of all users in the app.
@@ -83,6 +75,7 @@ public class UserScoresScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Finish the activity when the exit button is clicked
+                openMenuScreen();
                 finish();
             }
         });
@@ -206,9 +199,15 @@ public class UserScoresScreen extends AppCompatActivity {
     /**
      * Opens the BrowseQRScreen activity.
      */
-public void openBrowseQR() {
-    Intent intent = new Intent(this, BrowseQRScreen.class);
-    startActivity(intent);
+    public void openBrowseQR() {
+        Intent intent = new Intent(this, BrowseQRScreen.class);
+        startActivity(intent);
+    }
+
+    public void openMenuScreen() {
+        Intent intent = new Intent(this, MenuScreen.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
 
