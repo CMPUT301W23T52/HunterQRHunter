@@ -1,31 +1,8 @@
 package com.example.hunterqrhunter;
 
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import android.app.Instrumentation;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
-import androidx.test.uiautomator.UiDevice;
-import androidx.test.uiautomator.UiObject;
-import androidx.test.uiautomator.UiObjectNotFoundException;
-import androidx.test.uiautomator.UiSelector;
-
-import com.example.hunterqrhunter.page.Qrcode;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.firestore.GeoPoint;
-import androidx.test.platform.app.InstrumentationRegistry;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;

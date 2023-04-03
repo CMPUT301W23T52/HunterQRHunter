@@ -57,7 +57,7 @@ public class BrowseQRScreen extends AppCompatActivity {
         // Create an empty list to hold the QR codes
         QRList = new ArrayList<>();
         // Create an adapter to display the QR codes in a ListView
-        QRListAdapter = new UsernameItemAdapter(this, R.layout.username_item, QRList);
+        QRListAdapter = new UsernameItemAdapter(BrowseQRScreen.this, R.layout.username_item, QRList);
         QRListView = findViewById(R.id.QR_list);
 
         // Get references to various UI elements
@@ -76,6 +76,7 @@ public class BrowseQRScreen extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Close the activity when the "Exit" button is clicked
+                openMenuScreen();
                 finish();
             }
         });
@@ -264,6 +265,12 @@ public class BrowseQRScreen extends AppCompatActivity {
      */
     public void openUserScores() {
         Intent intent = new Intent(this, UserScoresScreen.class);
+        startActivity(intent);
+    }
+
+    public void openMenuScreen() {
+        Intent intent = new Intent(this, MenuScreen.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 
