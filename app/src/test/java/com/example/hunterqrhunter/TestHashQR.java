@@ -1,12 +1,12 @@
 package com.example.hunterqrhunter;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-
-import android.graphics.Bitmap;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.example.hunterqrhunter.model.HashQR;
-import com.google.common.hash.Hashing;
+
+import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
