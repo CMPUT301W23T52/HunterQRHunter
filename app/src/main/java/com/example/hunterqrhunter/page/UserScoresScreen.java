@@ -33,40 +33,56 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * This class represents the screen that displays the scores of all users in the app.
+ */
 public class UserScoresScreen extends AppCompatActivity {
 
+    // Firebase Firestore instance and collections
     FirebaseFirestore database;
     CollectionReference usersCollection;
     CollectionReference QRCollection;
 
+    // List of usernames and adapter to display them in a ListView
     private ArrayList<String> usernameList;
     private UsernameItemAdapter usernameListAdapter;
     private ListView usernameListView;
 
+    /**
+     * Sets up the initial state of the activity
+     * Sorts the list of users by total score (descending order) by defualt.
+     * @param savedInstanceState The saved instance state of the activity, if any.
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_scores);
 
+        // Initialize Firebase Firestore and collections
         database = FirebaseFirestore.getInstance();
         usersCollection = database.collection("User");
         QRCollection = database.collection("QR");
 
+        // Initialize the list of usernames and adapter
         usernameList = new ArrayList<>();
         usernameListAdapter = new UsernameItemAdapter(this, R.layout.username_item, usernameList);
         usernameListView = findViewById(R.id.username_list);
 
+        // Get UI elements and set up event handlers
         Button exitButton = findViewById(R.id.exit_button);
         Button switchButton = findViewById(R.id.switch_button);
         Button sortByTotalScoreButton = findViewById(R.id.sort_by_total_score_button);
         Button sortByHighestUniqueQRButton = findViewById(R.id.sort_by_highest_uniqueQR_button);
         SearchView userSearchView = findViewById(R.id.user_search);
 
+        // Sort the list by total score initially
         sortByTotalScore();
 
+        // Set up event handlers for UI elements
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Finish the activity when the exit button is clicked
                 finish();
             }
         });
@@ -74,6 +90,7 @@ public class UserScoresScreen extends AppCompatActivity {
         switchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Open the browse QR screen and finish this activity when the switch button is clicked
                 openBrowseQR();
                 finish();
             }
@@ -82,6 +99,7 @@ public class UserScoresScreen extends AppCompatActivity {
         sortByTotalScoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Sort the list by total score when the sort by total score button is clicked
                 sortByTotalScore();
             }
         });
@@ -89,6 +107,7 @@ public class UserScoresScreen extends AppCompatActivity {
         sortByHighestUniqueQRButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Sort the list by highest unique QR score when the sort by highest unique QR button is clicked
                 sortByUniqueQRScore();
             }
         });
@@ -102,6 +121,7 @@ public class UserScoresScreen extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                // Filter the list of usernames when the user types into the search bar
                 String userInput = newText.toLowerCase();
                 List<String> filteredUsernameList = new ArrayList<>();
 
@@ -123,45 +143,56 @@ public class UserScoresScreen extends AppCompatActivity {
         });
     }
 
-
-
+    /**
+     * Sorts the user scores by total score and updates the UI accordingly.
+     */
     public void sortByTotalScore() {
         sortScoresBy("Total Score");
     }
 
+    /**
+     * Sorts the user scores by highest unique QR score and updates the UI accordingly.
+     */
     public void sortByUniqueQRScore() {
         sortScoresBy("Highest Unique Score");
     }
 
+    /**
+     * Sorts the user scores by the specified field name and updates the UI accordingly.
+     * @param fieldName the name of the field to sort by
+     */
     public void sortScoresBy(String fieldName) {
 
+        // Retrieve all user documents from Firestore
         usersCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> querySnapshotTask) {
                 if (querySnapshotTask.isSuccessful()) {
+                    // Retrieve the list of user documents
                     List<DocumentSnapshot> userDocsList = querySnapshotTask.getResult().getDocuments();
 
+                    // Sort the user documents by the specified field
                     userDocsList.sort(new Comparator<DocumentSnapshot>() {
 
                         @Override
                         public int compare(DocumentSnapshot doc1, DocumentSnapshot doc2) {
-
                             int score1 = doc1.getLong(fieldName).intValue();
                             int score2 = doc2.getLong(fieldName).intValue();
-
                             return score2 - score1;
                         }
                     });
 
+                    // Update the usernameList with the sorted results
                     usernameList.clear();
                     for (int i = 0; i < userDocsList.size(); i++) {
 
                         DocumentSnapshot document = userDocsList.get(i);
                         usernameList.add(document.getString("username") + ", " + "Rank " + (i+1));
                     }
-                    usernameListView.setAdapter(usernameListAdapter);
 
+                    // Update the UI with the sorted username list
+                    usernameListView.setAdapter(usernameListAdapter);
 
                 }
                 else {
@@ -172,46 +203,9 @@ public class UserScoresScreen extends AppCompatActivity {
 
     }
 
-
-
-    private Task<Void> calculateUserScores(String userID) {
-        TaskCompletionSource<Void> completionSource = new TaskCompletionSource<>();
-        AtomicInteger totalScore = new AtomicInteger(0);
-        AtomicInteger highestUniqueQRScore = new AtomicInteger(0);
-
-        QRCollection.whereEqualTo(FieldPath.of("uid"), userID).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> userIDQueryTask) {
-
-                if (userIDQueryTask.isSuccessful()) {
-                    List<DocumentSnapshot> QRCollectionDocumentList = userIDQueryTask.getResult().getDocuments();
-
-                    for (DocumentSnapshot QRdocument : QRCollectionDocumentList) {
-                        int score = QRdocument.getLong("score").intValue();
-                        totalScore.addAndGet(score);
-                        if (score > highestUniqueQRScore.get()) {
-                            highestUniqueQRScore.set(score);
-                        }
-                        Log.d("Calculating all users scores", QRdocument.getId() + " => " + QRdocument.getData());
-                    }
-                }
-                else {
-                    Log.d("Calculating all users scores", "Error getting user scores");
-                }
-
-                HashMap<String, Integer> userScoreData = new HashMap<>();
-                userScoreData.put("Total Score", totalScore.get());
-                userScoreData.put("Highest Unique Score", highestUniqueQRScore.get());
-
-                usersCollection.document(userID).set(userScoreData, SetOptions.merge()).addOnCompleteListener(updateUserScoreTask -> {
-                    completionSource.setResult(null);
-                });
-            }
-        });
-
-        return completionSource.getTask();
-    }
-
+    /**
+     * Opens the BrowseQRScreen activity.
+     */
 public void openBrowseQR() {
     Intent intent = new Intent(this, BrowseQRScreen.class);
     startActivity(intent);

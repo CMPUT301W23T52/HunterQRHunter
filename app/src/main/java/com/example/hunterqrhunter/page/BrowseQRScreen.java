@@ -1,18 +1,16 @@
 package com.example.hunterqrhunter.page;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hunterqrhunter.R;
 import com.example.hunterqrhunter.model.UsernameItemAdapter;
@@ -24,10 +22,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+
+/**
+ * This activity allows user to browse QR codes by displaying them in a listview
+ */
 
 public class BrowseQRScreen extends AppCompatActivity {
 
@@ -38,29 +39,43 @@ public class BrowseQRScreen extends AppCompatActivity {
     private UsernameItemAdapter QRListAdapter;
     private ListView QRListView;
 
+    /**
+     * Sets up the initial state of the activity
+     * Sorts the list of QR codes by score (descending order) by default
+     * @param savedInstanceState the saved instance state bundle (if any) from the previous state of the activity
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse_qrscreen);
 
+        // Get a reference to the Firebase Firestore database
         database = FirebaseFirestore.getInstance();
+        // Get a reference to the "QR" collection in the database
         QRCollection = database.collection("QR");
 
+        // Create an empty list to hold the QR codes
         QRList = new ArrayList<>();
+        // Create an adapter to display the QR codes in a ListView
         QRListAdapter = new UsernameItemAdapter(this, R.layout.username_item, QRList);
         QRListView = findViewById(R.id.QR_list);
 
+        // Get references to various UI elements
         Button exitButton = findViewById(R.id.exit_button);
         Button switchButton = findViewById(R.id.switch_button);
         Button sortByPointsButton = findViewById(R.id.sort_by_score_button);
         Button sortByNumberScannedButton = findViewById(R.id.sort_by_times_scanned_button);
         SearchView QRSearchView = findViewById(R.id.user_search);
 
+        // Sort the list of QR codes by score (descending order) by default
         sortByScore();
+
+        // Set up click listeners for various buttons
 
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Close the activity when the "Exit" button is clicked
                 finish();
             }
         });
@@ -68,6 +83,7 @@ public class BrowseQRScreen extends AppCompatActivity {
         switchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Open the user scores activity when the "Switch to User Scores" button is clicked
                 openUserScores();
                 finish();
             }
@@ -76,6 +92,7 @@ public class BrowseQRScreen extends AppCompatActivity {
         sortByPointsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Sort the list of QR codes by score (descending order) when the "Sort by Score" button is clicked
                 sortByScore();
             }
         });
@@ -83,6 +100,7 @@ public class BrowseQRScreen extends AppCompatActivity {
         sortByNumberScannedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Sort the list of QR codes by number of times scanned (descending order) when the "Sort by Times Scanned" button is clicked
                 sortByTimesScanned();
             }
         });
@@ -91,11 +109,13 @@ public class BrowseQRScreen extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
+                // Don't do anything when the search button is clicked (only text changes are handled, not text submissions)
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                // Handle text changes in the search
                 String userInput = newText.toLowerCase();
                 List<String> filteredQRList = new ArrayList<>();
 
@@ -117,19 +137,29 @@ public class BrowseQRScreen extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * Sorts QR codes in the QRCollection by score and displays them in a ListView.
+     * Each QR code is represented in the ListView as a string in the format "{name}, {scanCount} scans".
+     */
     public void sortByTimesScanned() {
 
+        // Call to Firestore to retrieve all documents in the QRCollection
         QRCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> querySnapshotTask) {
                 if (querySnapshotTask.isSuccessful()) {
+
+                    // Get a list of DocumentSnapshot objects representing each document in the collection
                     List<DocumentSnapshot> QRDocsList = querySnapshotTask.getResult().getDocuments();
 
+                    // Clear the list of QR codes/names and scan counts
                     QRList.clear();
                     HashMap<String, Integer> qrScanCount = new HashMap<>();
                     HashMap<String, String> qrNameByCode = new HashMap<>();
+
+                    // Loop through each document and increment the scan count for the associated QR code
+                    // Also add the QR name to the HashMap if it doesn't already exist
                     for (DocumentSnapshot document : QRDocsList) {
                         String qrCode = document.getString("qrcode");
                         String qrName = document.getString("name");
@@ -142,10 +172,12 @@ public class BrowseQRScreen extends AppCompatActivity {
                         }
                     }
 
+                    // Create a list of QR codes/names and scan counts for display in the ListView
                     for (String qrCode : qrScanCount.keySet()) {
                         QRList.add(qrNameByCode.get(qrCode) + ", " + qrScanCount.get(qrCode) + " scans");
                     }
 
+                    // Sort the list in descending order based on the number of scans
                     QRList.sort(new Comparator<String>() {
 
                         @Override
@@ -160,38 +192,51 @@ public class BrowseQRScreen extends AppCompatActivity {
                         }
                     });
 
+                    // Set the ListView adapter to display the sorted QR code/names and scan counts
                     QRListView.setAdapter(QRListAdapter);
 
 
                 } else {
+                    // Handle errors while getting the documents
                     Log.d("Sorting by times scanned", "Error getting documents: ", querySnapshotTask.getException());
                 }
             }
         });
     }
 
+    /**
+     * Sorts the QR codes by their score, and displays the sorted list in the QRListView.
+     * Each QR code is represented in the ListView as a string in the format "{name}, {score} points".
+     */
     public void sortByScore() {
 
+        // get a reference to the QRCollection and add a listener for when the data is retrieved
         QRCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> querySnapshotTask) {
+
+                // check if the data retrieval was successful
                 if (querySnapshotTask.isSuccessful()) {
+
+                    // get the list of DocumentSnapshots returned by the query
                     List<DocumentSnapshot> QRDocsList = querySnapshotTask.getResult().getDocuments();
 
+                    // sort the DocumentSnapshots in descending order based on their "score" field
                     QRDocsList.sort(new Comparator<DocumentSnapshot>() {
                         @Override
                         public int compare(DocumentSnapshot doc1, DocumentSnapshot doc2) {
-
                             int score1 = doc1.getLong("score").intValue();
                             int score2 = doc2.getLong("score").intValue();
-
                             return score2 - score1;
                         }
                     });
 
+                    // clear the QRList and create a HashMap to store QR code and name info
                     QRList.clear();
                     HashMap<String, String> qrInfo = new HashMap<>();
+
+                    // loop through the sorted DocumentSnapshots and add each unique QR code and name pair to qrInfo and QRList
                     for (DocumentSnapshot document : QRDocsList) {
                         String listItem = document.getString("name") + ", " + document.get("score") + " points";
                         String qrCode = document.getString("qrcode");
@@ -201,11 +246,12 @@ public class BrowseQRScreen extends AppCompatActivity {
                             QRList.add(qrInfo.get(qrCode));
                         }
                     }
+
+                    // set the adapter for the QRListView to show the sorted QRList
                     QRListView.setAdapter(QRListAdapter);
 
-
-                }
-                else {
+                } else {
+                    // log an error message if there was a problem getting the documents
                     Log.d("Creating documentList", "Error getting documents: ", querySnapshotTask.getException());
                 }
             }
@@ -213,8 +259,12 @@ public class BrowseQRScreen extends AppCompatActivity {
 
     }
 
+    /**
+     * Opens the UserScoresScreen activity.
+     */
     public void openUserScores() {
         Intent intent = new Intent(this, UserScoresScreen.class);
         startActivity(intent);
     }
+
 }

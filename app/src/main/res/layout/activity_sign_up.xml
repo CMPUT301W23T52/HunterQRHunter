@@ -4,6 +4,7 @@
     android:orientation="vertical"
     android:gravity="center">
 
+    <!-- EditText for user to enter their username -->
     <EditText
         android:id="@+id/username_sign_up"
         android:layout_width="match_parent"
@@ -12,6 +13,7 @@
         android:inputType="textPersonName"
         android:hint="Username" />
 
+    <!-- EditText for user to enter their email address -->
     <EditText
         android:id="@+id/email_sign_up"
         android:layout_width="match_parent"
@@ -20,6 +22,7 @@
         android:inputType="textEmailAddress"
         android:hint="Email" />
 
+    <!-- Button for user to submit their information and sign up -->
     <Button
         android:id="@+id/sign_up_button"
         android:layout_width="match_parent"

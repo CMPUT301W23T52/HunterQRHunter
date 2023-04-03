@@ -19,7 +19,13 @@ import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
 
+/**
+ * This class represents the loading screen activity which checks if the user id exists in the database
+ * and decides whether to open the main menu or prompt the user to sign up.
+ */
 public class LoadingScreen extends AppCompatActivity {
+
+    // Initialize a Firestore database instance
     private FirebaseFirestore database = FirebaseFirestore.getInstance();
 
     @Override
@@ -27,12 +33,10 @@ public class LoadingScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
-        // Get a document reference using the user id to see if this id exists in our database
+        // Get the user id and use it to create a document reference in the "User" collection
         String userID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         DocumentReference docRef = database.collection("User").document(userID);
 
-        // Once the .get() method is complete, decide what to do depending on whether or not
-        // the document exists
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -45,17 +49,26 @@ public class LoadingScreen extends AppCompatActivity {
                         openSignUpScreen(); // ...otherwise prompt the user to sign up
                     }
                 }
-                finish(); // Kill the loading screen activity.
+                finish();
             }
         });
     }
 
+    /**
+     * Opens the sign up screen activity.
+     */
     private void openSignUpScreen() {
         Intent intent = new Intent(this, SignUpScreen.class);
         startActivity(intent);
     }
+
+    /**
+     * Opens the main menu screen activity.
+     */
     private void openMenuScreen() {
         Intent intent = new Intent(this, MenuScreen.class);
         startActivity(intent);
     }
+
+
 }

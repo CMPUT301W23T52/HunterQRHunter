@@ -11,12 +11,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hunterqrhunter.R;
 
+/**
+
+ The MenuScreen activity displays the main menu of the application and allows the user to navigate to other screens.
+ */
 public class MenuScreen extends AppCompatActivity {
+
+    /**
+     * Sets up the initial state of the activity
+     * @param savedInstanceState The saved instance state bundle.
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
+        // Set up the click listener for the QR Scanner button
         Button scanBtn = (Button) findViewById(R.id.btn_qr_screen);
         scanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -26,6 +36,7 @@ public class MenuScreen extends AppCompatActivity {
             }
         });
 
+        // Set up the click listener for the User Scores button
         Button userScreenBtn = (Button) findViewById(R.id.btn_user_screen) ;
         userScreenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,6 +46,7 @@ public class MenuScreen extends AppCompatActivity {
             }
         });
 
+        // Set up the click listener for the QR Map button
         Button mapScreenBtn = (Button) findViewById(R.id.btn_map_screen);
         mapScreenBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,6 +56,7 @@ public class MenuScreen extends AppCompatActivity {
             }
         });
 
+        // Set up the click listener for the My QR Code button
         Button MyQRBtn = (Button) findViewById(R.id.btn_my_qr);
         MyQRBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +66,7 @@ public class MenuScreen extends AppCompatActivity {
             }
         });
 
+        // Set up the click listener for the QR Code button
         Button QRBtn = (Button) findViewById(R.id.btn_qr);
         QRBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +77,7 @@ public class MenuScreen extends AppCompatActivity {
             }
         });
 
+        // Set up the click listener for the Edit Profile button
         ImageButton editProfileButton = findViewById(R.id.edit_profile_button);
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,8 +86,8 @@ public class MenuScreen extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
+
 
 
 }
