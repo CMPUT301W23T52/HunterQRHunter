@@ -6,11 +6,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -24,7 +21,9 @@ import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MyQRScreen extends AppCompatActivity {
     {/**
@@ -32,6 +31,7 @@ public class MyQRScreen extends AppCompatActivity {
      [v]Number of the Qrs
      [v]Score of the player
      [v]Player can delete the QR if they want to
+     []As a player, I want to see my highest and lowest scoring QR codes.
      */}
     private FirebaseFirestore db;
     @Override
@@ -60,6 +60,12 @@ public class MyQRScreen extends AppCompatActivity {
         //arrayList to store the qid
         ArrayList<String> qidList = new ArrayList<>();
 
+        //arrayList to store the scores
+        ArrayList<Integer> scoreList = new ArrayList<>();
+
+        //store the score of the QR
+        AtomicReference<Integer> QRscore = new AtomicReference<>(0);
+
         //Initialize the HashQR class
         HashQR hashQR = new HashQR();
 
@@ -67,7 +73,18 @@ public class MyQRScreen extends AppCompatActivity {
         GridView faceList = findViewById(R.id.QRList);
         TextView qrText = findViewById(R.id.num_qr_text);
         TextView scoreText = findViewById(R.id.qr_points_text);
-        FaceListAdapter adapter = new FaceListAdapter(this, qrList);
+        AtomicReference<Integer> highScore = new AtomicReference<>(0);;
+        db.collection("User").document(userID).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    highScore.set(document.getLong("Highest Unique Score").intValue());
+
+                }
+            }
+        });
+        FaceListAdapter adapter = new FaceListAdapter(this, qrList, QRscore, userID, highScore);
+
 
         //when the user click any item in the facelist Listview
         faceList.setOnItemClickListener((parent, view, position, id) -> {
@@ -86,6 +103,7 @@ public class MyQRScreen extends AppCompatActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Delete QR");
             builder.setMessage("Are you sure you want to delete this QR?");
+
 builder.setPositiveButton("Yes", (dialog, which) -> {
                 //delete the QR from the database
                 qidList.remove(position);
@@ -155,6 +173,9 @@ builder.setPositiveButton("Yes", (dialog, which) -> {
                     //get the score of the user and add it to the total score
                     Integer score = Integer.parseInt(document.getData().get("score").toString());
 
+                    //add the score to QRscore
+                    QRscore.set(score);
+
                     //update the total score
                     totalScore.addAndGet(score);
 
@@ -185,14 +206,11 @@ builder.setPositiveButton("Yes", (dialog, which) -> {
                 //update the total number of the QRs
                 qrText.setText("# " + totalQRs.toString());
 
-
                 faceList.setAdapter(adapter);
 
             } else {
                 Log.d("MyQRScreen", "Error getting documents: ", task.getException());
             }
         });
-
-
     }
 }

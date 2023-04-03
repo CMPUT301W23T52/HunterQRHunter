@@ -1,16 +1,11 @@
 package com.example.hunterqrhunter.page;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -25,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class UserQRScreen extends AppCompatActivity {
     {/**
@@ -79,7 +75,9 @@ public class UserQRScreen extends AppCompatActivity {
         GridView faceList = findViewById(R.id.QRList);
         TextView qrText = findViewById(R.id.num_qr_text);
         TextView scoreText = findViewById(R.id.qr_points_text);
-        FaceListAdapter adapter = new FaceListAdapter(this, qrList);
+        AtomicReference<Integer> QRscore = null;
+        AtomicReference<Integer> highScore = null;
+        FaceListAdapter adapter = new FaceListAdapter(this, qrList, QRscore, userID, highScore);
 
         //when the user click any item in the facelist Listview
         faceList.setOnItemClickListener((parent, view, position, id) -> {

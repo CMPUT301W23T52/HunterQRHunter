@@ -142,6 +142,8 @@ public class QRScreen extends AppCompatActivity {
             }
         });
 
+        //
+
 
 
 
