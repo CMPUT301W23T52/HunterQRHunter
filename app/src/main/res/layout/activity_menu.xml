@@ -67,16 +67,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_map_screen" />
 
-    <Button
-        android:id="@+id/btn_qr"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
-        android:text="QR"
-        app:layout_constraintTop_toBottomOf="@+id/btn_my_qr"
-        tools:layout_editor_absoluteX="158dp"
-        tools:ignore="MissingConstraints" />
-
     <ImageButton
         android:id="@+id/edit_profile_button"
         android:layout_width="40dp"

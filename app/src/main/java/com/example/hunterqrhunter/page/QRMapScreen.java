@@ -205,7 +205,9 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
                         if (SearchList.size() > 0) {
                             mostRecentItem = SearchList.get(SearchList.size() - 1);
                             if (mostRecentItem.equals(code.hashName)) {
-                                System.out.println(code.qid);
+                                Intent intent = new Intent(getApplicationContext(), QRScreen.class);
+                                intent.putExtra("qrCode",code.qid);
+                                startActivity(intent);
                                 break;
                             }
                         }
@@ -215,7 +217,10 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
                 for (int i = 0; i < RealList.size(); i++) {
                     Qrcode code = RealList.get(i);
                     if ((code.location.getLatitude() == position.latitude) && (code.location.getLongitude() == position.longitude)) {
-                        System.out.println(code.qid);
+                        // navigate to the next activity
+                        Intent intent = new Intent(getApplicationContext(), QRScreen.class);
+                        intent.putExtra("qrCode",code.qid);
+                        startActivity(intent);
                         break;
                     }
                 }

@@ -66,17 +66,6 @@ public class MenuScreen extends AppCompatActivity {
             }
         });
 
-        // Set up the click listener for the QR Code button
-        Button QRBtn = (Button) findViewById(R.id.btn_qr);
-        QRBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), QRScreen.class);
-                intent.putExtra("qrCode","9d6510d6-e12e-4e8f-a066-8e2e5420e7a5");
-                startActivity(intent);
-            }
-        });
-
         // Set up the click listener for the Edit Profile button
         ImageButton editProfileButton = findViewById(R.id.edit_profile_button);
         editProfileButton.setOnClickListener(new View.OnClickListener() {

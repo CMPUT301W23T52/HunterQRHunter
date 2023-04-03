@@ -1,5 +1,7 @@
 package com.example.hunterqrhunter.page;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -61,52 +63,84 @@ public class MyQRScreen extends AppCompatActivity {
         HashQR hashQR = new HashQR();
 
         //button for delete the QR
-        Button DeleteButton = findViewById(R.id.QR_delete_button);
         GridView faceList = findViewById(R.id.QRList);
         EditText qrText = findViewById(R.id.NumQR);
         EditText scoreText = findViewById(R.id.UserScore);
         FaceListAdapter adapter = new FaceListAdapter(this, qrList);
 
-        AtomicInteger ItemPostion = new AtomicInteger();
-
         //when the user click any item in the facelist Listview
         faceList.setOnItemClickListener((parent, view, position, id) -> {
-            ItemPostion.set(position);
+            //print id of the QR that the user clicked
+            String qid = qidList.get(position);
+            Intent intent = new Intent(getApplicationContext(), QRScreen.class);
+            intent.putExtra("qrCode",qid);
+            startActivity(intent);
         });
 
-        //delete the qr from the database that the user clicked from ListView QRList
-        DeleteButton.setOnClickListener(v -> {
+        faceList.setOnItemLongClickListener((parent, view, position, id) -> {
             //get the qid of the QR that the user clicked
-            String qid = qidList.get(ItemPostion.get());
-            qidList.remove(ItemPostion.get());
-            qrList.remove(ItemPostion.get());
-            //update the total number of the QRs
-            totalQRs.getAndDecrement();
-            //delete the QR from the database
-            qrRef.whereEqualTo(FieldPath.of("qid"), qid).get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    for (DocumentSnapshot document : task.getResult()) {
-                        //update the total score from database that the user deleted
-                        Object score = document.get("score");
+            String qid = qidList.get(position);
 
-                        //update the total score
-                        totalScore.addAndGet(-Integer.parseInt(score.toString()));
+            // prompt the user to confirm the deletion with a dialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Delete QR");
+            builder.setMessage("Are you sure you want to delete this QR?");
+builder.setPositiveButton("Yes", (dialog, which) -> {
+                //delete the QR from the database
+                qidList.remove(position);
+                qrList.remove(position);
+                //update the total number of the QRs
+                totalQRs.getAndDecrement();
+                qrRef.whereEqualTo(FieldPath.of("qid"), qid).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (DocumentSnapshot document : task.getResult()) {
+                            //update the total score from database that the user deleted
+                            Object score = document.get("score");
 
-                        //delete the QR from the database
-                        document.getReference().delete();
+                            //update the total score
+                            totalScore.addAndGet(-Integer.parseInt(score.toString()));
 
-                        //update the total score
-                        scoreText.setText(totalScore.toString());
+                            //delete the QR from the database
+                            document.getReference().delete();
 
-                        //update the total number of the QRs
-                        qrText.setText(totalQRs.toString());
+                            //update the total score
+                            scoreText.setText(totalScore.toString());
 
-                        //update the ListView
-                        adapter.notifyDataSetChanged();
+                            //update the total number of the QRs
+                            qrText.setText(totalQRs.toString());
+
+                            //update the ListView
+                            adapter.notifyDataSetChanged();
+
+                            // get the user's total score from firebase and deduct the score of the QR that the user deleted
+                            db.collection("User").document(userID).update("Total Score", totalScore.get());
+
+                            // if deleted qr was the highest qr user owned, update the highest score among what's left
+                            if (totalScore.get() == 0) {
+                                db.collection("User").document(userID).update("Highest Unique Score", 0);
+                            } else {
+                                qrRef.whereEqualTo(FieldPath.of("uid"), userID).get().addOnCompleteListener(task2 -> {
+                                    if (task2.isSuccessful()) {
+                                        int highestScore = 0;
+                                        for (DocumentSnapshot document2 : task2.getResult()) {
+                                            int score2 = Integer.parseInt(document2.getData().get("score").toString());
+                                            if (score2 > highestScore) {
+                                                highestScore = score2;
+                                            }
+                                        }
+                                        db.collection("User").document(userID).update("Highest Unique Score", highestScore);
+                                    }
+                                });
+                            }
+                        }
                     }
-                }
+                });
             });
-
+            builder.setNegativeButton("No", (dialog, which) -> {
+                // do nothing
+            });
+            builder.show();
+            return true;
         });
 
         //if userID and qrRef's uid is the same, then get the score of the user
