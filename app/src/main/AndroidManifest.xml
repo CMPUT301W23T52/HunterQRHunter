@@ -35,6 +35,7 @@
         <activity android:name=".page.MyQRScreen" />
         <activity android:name=".page.QRScreen" />
         <activity android:name=".page.AddQRScreen" />
+        <activity android:name=".page.UserQRScreen" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
