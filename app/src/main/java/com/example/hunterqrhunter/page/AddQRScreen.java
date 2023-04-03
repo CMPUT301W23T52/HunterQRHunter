@@ -223,6 +223,13 @@ public class AddQRScreen extends AppCompatActivity {
 
     }
     // Handle camera intent result
+
+    /**
+     * Handle camera intent result
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
