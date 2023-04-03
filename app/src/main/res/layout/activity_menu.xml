@@ -61,7 +61,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/save_button"
-        android:text="My qr"
+        android:text="My Collection"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

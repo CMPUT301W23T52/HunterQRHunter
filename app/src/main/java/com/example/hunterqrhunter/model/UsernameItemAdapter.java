@@ -1,6 +1,7 @@
 package com.example.hunterqrhunter.model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.hunterqrhunter.R;
+import com.example.hunterqrhunter.page.QRScreen;
+import com.example.hunterqrhunter.page.UserQRScreen;
 import com.example.hunterqrhunter.page.UserScoresScreen;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -86,8 +89,9 @@ public class UsernameItemAdapter extends ArrayAdapter<String> {
                             DocumentSnapshot document = task.getResult().getDocuments().get(0);
                             String userId = document.getId();
 
-                            System.out.println("this is were you switch screens. The uid is: " + userId);
-                            Toast.makeText(getContext(), "uid: " + userId, Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getContext(), UserQRScreen.class);
+                            intent.putExtra("userID",userId);
+                            getContext().startActivity(intent);
                         }
                         else {
                             Log.d("Creating Button", "Error getting documents");

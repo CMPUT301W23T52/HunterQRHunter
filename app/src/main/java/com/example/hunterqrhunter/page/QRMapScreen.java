@@ -3,36 +3,23 @@ package com.example.hunterqrhunter.page;
 import static android.app.PendingIntent.getActivity;
 import static android.content.ContentValues.TAG;
 
-import static androidx.test.InstrumentationRegistry.getContext;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.hunterqrhunter.page.Qrcode;
 import com.example.hunterqrhunter.R;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.material.color.utilities.Score;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -52,7 +39,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.hunterqrhunter.databinding.ActivityQrMapBinding;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 /**
  * Displays the map with lowest and highest score differentiated
@@ -169,7 +155,7 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
                             mostRecentItem = SearchList.get(SearchList.size() - 1);
                             if (mostRecentItem.equals(code.hashName)) {
                                 View infoWindow = getLayoutInflater().inflate(R.layout.custom_info_window, null);
-                                TextView title = infoWindow.findViewById(R.id.title);
+                                TextView title = infoWindow.findViewById(R.id.title_text);
                                 title.setText(code.hashName + " score = " + code.score);
                                 return infoWindow;
                             }
@@ -181,7 +167,7 @@ public class QRMapScreen extends FragmentActivity implements OnMapReadyCallback 
                     Qrcode code = RealList.get(i);
                     if ((code.location.getLatitude() == position.latitude) && (code.location.getLongitude() == position.longitude)) {
                         View infoWindow = getLayoutInflater().inflate(R.layout.custom_info_window, null);
-                        TextView title = infoWindow.findViewById(R.id.title);
+                        TextView title = infoWindow.findViewById(R.id.title_text);
                         title.setText(code.hashName + " score = " + code.score);
                         return infoWindow;
                     }
