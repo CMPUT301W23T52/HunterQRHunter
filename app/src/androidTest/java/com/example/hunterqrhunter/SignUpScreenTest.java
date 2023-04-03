@@ -2,6 +2,8 @@ package com.example.hunterqrhunter;
 
 import static org.junit.Assert.assertEquals;
 
+import android.content.Context;
+import android.provider.Settings;
 import android.widget.EditText;
 
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -22,6 +24,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.HashMap;
+
 public class SignUpScreenTest {
     private Solo solo;
     private FirebaseFirestore database;
@@ -36,7 +40,7 @@ public class SignUpScreenTest {
     }
 
     @Test
-    public void testSignUpButtonValidInput() throws Exception { // TODO
+    public void testSignUpButtonValidInput() throws Exception {
 
         // Initialize unique test user info
         String testUsername = "a" + System.currentTimeMillis();
@@ -81,7 +85,11 @@ public class SignUpScreenTest {
                 QuerySnapshot snapshot = task.getResult();
                 assertEquals(1, snapshot.size());
                 DocumentSnapshot document = snapshot.getDocuments().get(0);
-                if (! document.exists()) {
+                if (document.exists()) {
+                    // Test passed, delete document to clear database
+                    usernameCollection.document(testUsername).delete();
+                }
+                else {
                     // Test failed
                     try {
                         throw new Exception("Document does not exist, third query failed");
@@ -111,32 +119,49 @@ public class SignUpScreenTest {
                 }
             }
         });
-        usernameCollection.document(testUsername).delete();
 
 
     }
 
     @Test
-    public void testUniqueUsername() { //TODO
+    public void testUniqueUsernameOnSignUp() {
+        Context context = InstrumentationRegistry.getInstrumentation().getContext();
+        String userID = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        CollectionReference userCollection = database.collection("User");
+        CollectionReference usernameCollection = database.collection("Usernames");
 
         String testUsername = "b" + System.currentTimeMillis();
         String testEmail = System.currentTimeMillis() + "@gmail.com";
 
-        solo.enterText((EditText) solo.getView(R.id.username_sign_up), testUsername);
-        solo.enterText((EditText) solo.getView(R.id.email_sign_up), testEmail);
-        solo.clickOnButton("signup");
-
-
+        HashMap<String, String> fakeUsername= new HashMap<>();
+        fakeUsername.put("username", testUsername);
+        usernameCollection.document(testUsername).set(fakeUsername);
 
         solo.enterText((EditText) solo.getView(R.id.username_sign_up), testUsername);
         solo.enterText((EditText) solo.getView(R.id.email_sign_up), testEmail);
         solo.clickOnButton("signup");
 
+        try {
+            solo.waitForText("Username already exists!");
+        }
+        catch (Exception e) {
+            // Delete document in usernameCollection and userCollection if test fails
+            userCollection.document(userID).delete();
+            usernameCollection.document(testUsername).delete();
+            throw new RuntimeException(e);
+        }
+
+        // Delete document in usernameCollection
+        usernameCollection.document(testUsername).delete();
+
+        solo.assertCurrentActivity("Switched to main menu incorrectly", SignUpScreen.class);
     }
 
 
     @Test
-    public void testValidUsername() {
+    public void testInvalidUsername() {
 
         // Placeholder email
         String testEmail = System.currentTimeMillis() + "@gmail.com";
@@ -189,7 +214,7 @@ public class SignUpScreenTest {
 
 
     @Test
-    public void testValidEmail() {
+    public void testInvalidEmail() {
 
         String testUsername = "c" + System.currentTimeMillis();
         solo.enterText((EditText) solo.getView(R.id.username_sign_up), testUsername);

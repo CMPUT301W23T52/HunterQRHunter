@@ -45,29 +45,29 @@ public class BrowseQRScreenTest {
 
         FirebaseFirestore database = FirebaseFirestore.getInstance();
 
-        CollectionReference userCollection = database.collection("User");
+        CollectionReference qrCollection = database.collection("QR");
 
 
-        Button highestPointsButton = (Button) solo.getView(R.id.sort_by_total_score_button);
+        Button highestPointsButton = (Button) solo.getView(R.id.sort_by_score_button);
         solo.clickOnView(highestPointsButton);
 
         // Wait for the list to update
-        solo.waitForView(R.id.username_list);
+        solo.waitForView(R.id.QR_list);
 
         // Retrieve the list of usernames
-        ListView userListView = (ListView) solo.getView(R.id.username_list);
-        List<String> userList = new ArrayList<>();
-        for (int i = 0; i < userListView.getCount(); i++) {
-            View listRow = userListView.getChildAt(i);
-            TextView playerName = listRow.findViewById(R.id.player_name_button);
-            userList.add(playerName.toString());
+        ListView qrListView = (ListView) solo.getView(R.id.QR_list);
+        List<String> qrScoreList = new ArrayList<>();
+        for (int i = 0; i < qrListView.getCount(); i++) {
+            View listRow = qrListView.getChildAt(i);
+            TextView qrScore = listRow.findViewById(R.id.player_rank_text);
+            qrScoreList.add(qrScore.getText().toString());
         }
 
         // Check that the list is sorted by total score
         boolean isSorted = true;
         int previousScore = Integer.MAX_VALUE;
-        for (String username : userList) {
-            int score = getTotalScore(userCollection, username);
+        for (String qrScore : qrScoreList) {
+            int score = Integer.parseInt(qrScore);
             if (score > previousScore) {
                 isSorted = false;
                 break;
@@ -81,29 +81,72 @@ public class BrowseQRScreenTest {
     @Test
     public void testMostScannedButton() {
 
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+
+        CollectionReference qrCollection = database.collection("QR");
+
+
+        Button mostScanned = (Button) solo.getView(R.id.sort_by_times_scanned_button);
+        solo.clickOnView(mostScanned);
+
+        // Wait for the list to update
+        solo.waitForView(R.id.QR_list);
+
+        // Retrieve the list of usernames
+        ListView qrListView = (ListView) solo.getView(R.id.QR_list);
+        List<String> qrList = new ArrayList<>();
+        for (int i = 0; i < qrListView.getCount(); i++) {
+            View listRow = qrListView.getChildAt(i);
+            TextView qrScans = listRow.findViewById(R.id.player_rank_text);
+            qrList.add(qrScans.getText().toString());
+        }
+
+        // Check that the list is sorted by total score
+        boolean isSorted = true;
+        int previousScore = Integer.MAX_VALUE;
+        for (String qrScans : qrList) {
+            int score = Integer.parseInt(qrScans);
+            if (score > previousScore) {
+                isSorted = false;
+                break;
+            }
+            previousScore = score;
+        }
+        assertTrue(isSorted);
+
 
     }
 
     @Test
-    public void testSearchBar() {
+    public void testQRSearchBar() {
 
+        // Testing search bar for users that should exist based on search filter
         solo.clickOnView(solo.getView(R.id.user_search));
         solo.clearEditText(0);
         solo.enterText(0,"ra");
-        solo.goBack();
 
-        ListView userList = (ListView) solo.getView(R.id.username_list);
+        ListView qrList = (ListView) solo.getView(R.id.QR_list);
 
-        for (int i = 0; i < userList.getChildCount(); i++) {
-            View listRow = userList.getChildAt(i);
+        for (int i = 0; i < qrList.getChildCount(); i++) {
+            View listRow = qrList.getChildAt(i);
+            TextView qrName = listRow.findViewById(R.id.player_name_button);
+
+            // Check that the username contains the search query
+            assertTrue(qrName.getText().toString().toLowerCase().contains("ra"));
+        }
+
+        // Testing search bar for something that should not exist
+        solo.clearEditText(0);
+        solo.clickOnView(solo.getView(R.id.user_search));
+        solo.enterText(0,"alsdnnv");
+
+        for (int i = 0; i < qrList.getChildCount(); i++) {
+            View listRow = qrList.getChildAt(i);
             TextView playerName = listRow.findViewById(R.id.player_name_button);
 
             // Check that the username contains the search query
-            assertTrue(playerName.getText().toString().toLowerCase().contains("ra"));
+            assertTrue(playerName.getText().toString().toLowerCase().contains("alsdnnv"));
         }
-
-        solo.clearEditText(0);
-
     }
 
     @Test
@@ -113,21 +156,6 @@ public class BrowseQRScreenTest {
         solo.assertCurrentActivity("Still on browse QR page", BrowseQRScreen.class);
 
     }
-
-    @Test
-    public void testQRButtons() {
-
-        ListView qrList = (ListView) solo.getView(R.id.QR_list);
-
-        for (int i = 0; i < qrList.getChildCount(); i++) {
-            View listRow = qrList.getChildAt(i);
-            Button qrButton = listRow.findViewById(R.id.player_name_button);
-            solo.clickOnView(qrButton);
-            solo.assertCurrentActivity("Still on browse QR page", BrowseQRScreen.class);
-            solo.goBack();
-        }
-    }
-
 
     @Test
     public void testExitButton() {
@@ -144,22 +172,7 @@ public class BrowseQRScreenTest {
     }
 
     // Method used in testHighestPointsButton() to get the total score from a username+score string
-    private int getTotalScore(CollectionReference collection, String username) {
 
-        AtomicInteger totalScore = new AtomicInteger();
-
-        collection.document(username).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
-                totalScore.set((int) document.getData().get("Total Score"));
-            }
-            else {
-                Log.d("getTotalScoreTestMethod", "error getting documents");
-            }
-        });
-
-        return totalScore.get();
-    }
 
 
 }

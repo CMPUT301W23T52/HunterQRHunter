@@ -57,7 +57,7 @@ public class BrowseQRScreen extends AppCompatActivity {
         // Create an empty list to hold the QR codes
         QRList = new ArrayList<>();
         // Create an adapter to display the QR codes in a ListView
-        QRListAdapter = new UsernameItemAdapter(this, R.layout.username_item, QRList);
+        QRListAdapter = new UsernameItemAdapter(BrowseQRScreen.this, R.layout.username_item, QRList);
         QRListView = findViewById(R.id.QR_list);
 
         // Get references to various UI elements
