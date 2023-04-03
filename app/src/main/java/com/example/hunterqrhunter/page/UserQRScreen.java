@@ -19,6 +19,7 @@ import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -68,6 +69,9 @@ public class UserQRScreen extends AppCompatActivity {
         //arrayList to store the qid
         ArrayList<String> qidList = new ArrayList<>();
 
+        //arrayList to store the scores
+        ArrayList<Integer> scoreList = new ArrayList<>();
+
         //Initialize the HashQR class
         HashQR hashQR = new HashQR();
 
@@ -75,9 +79,20 @@ public class UserQRScreen extends AppCompatActivity {
         GridView faceList = findViewById(R.id.QRList);
         TextView qrText = findViewById(R.id.num_qr_text);
         TextView scoreText = findViewById(R.id.qr_points_text);
-        AtomicReference<Integer> QRscore = null;
-        AtomicReference<Integer> highScore = null;
-        FaceListAdapter adapter = new FaceListAdapter(this, qrList, QRscore, userID, highScore);
+        AtomicReference<Integer> highScore = new AtomicReference<>(0);
+        AtomicReference<Integer> lowScore = new AtomicReference<>(Integer.MAX_VALUE);
+        db.collection("User").document(userID).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    highScore.set(document.getLong("Highest Unique Score").intValue());
+
+                }
+            }
+        });
+
+        FaceListAdapter adapter = new FaceListAdapter(this, qrList, scoreList, userID, highScore, lowScore);
+
 
         //when the user click any item in the facelist Listview
         faceList.setOnItemClickListener((parent, view, position, id) -> {
@@ -98,6 +113,12 @@ public class UserQRScreen extends AppCompatActivity {
 
                     //get the score of the user and add it to the total score
                     Integer score = Integer.parseInt(document.getData().get("score").toString());
+
+                    //update scoreList
+                    scoreList.add(score);
+                    if (score < lowScore.get()) {
+                        lowScore.set(score);
+                    }
 
                     //update the total score
                     totalScore.addAndGet(score);

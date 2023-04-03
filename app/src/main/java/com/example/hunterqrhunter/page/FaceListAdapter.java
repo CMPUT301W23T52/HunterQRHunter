@@ -18,17 +18,19 @@ public class FaceListAdapter extends BaseAdapter {
 
     private Context context;
     private List<Bitmap> faceList;
-    private AtomicReference<Integer> score;
+    private List<Integer> scores;
     private String userID;
     private AtomicReference<Integer> highScore = new AtomicReference<>(0);
+    private AtomicReference<Integer> lowScore = new AtomicReference<>(Integer.MAX_VALUE);
 
 
-    public FaceListAdapter(Context context, List<Bitmap> faceList, AtomicReference<Integer> score, String userID, AtomicReference<Integer> highScore) {
+    public FaceListAdapter(Context context, List<Bitmap> faceList, List<Integer> scores, String userID, AtomicReference<Integer> highScore, AtomicReference<Integer> lowScore) {
         this.context = context;
         this.faceList = faceList;
-        this.score = score;
+        this.scores = scores;
         this.userID = userID;
         this.highScore = highScore;
+        this.lowScore = lowScore;
     }
 
     @Override
@@ -49,20 +51,24 @@ public class FaceListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        //get database reference
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        //if the score is greater than or equal to the highest score, inflate the high_face_item layout
-        if(score.get() >= highScore.get()){
-            // Inflate the layout for this fragment and high_face_item is the layout file
+
+        // Get the score for the current position
+        int currentScore = scores.get(position);
+
+        // If the current score is the highest or lowest, inflate the corresponding layout
+        if (currentScore >= highScore.get()) {
             convertView = inflater.inflate(R.layout.high_face_item, parent, false);
-        }
-        else{
-            // Inflate the layout for this fragment and face_list_item is the layout file
+        } else if (currentScore <= lowScore.get()) {
+            convertView = inflater.inflate(R.layout.low_face_item, parent, false);
+        } else {
             convertView = inflater.inflate(R.layout.face_list_item, parent, false);
         }
+
         ImageView faceImageView = convertView.findViewById(R.id.faceImage);
         faceImageView.setImageBitmap(faceList.get(position));
 
         return convertView;
     }
+
 }

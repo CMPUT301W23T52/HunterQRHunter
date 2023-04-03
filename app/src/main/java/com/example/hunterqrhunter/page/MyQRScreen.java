@@ -63,9 +63,6 @@ public class MyQRScreen extends AppCompatActivity {
         //arrayList to store the scores
         ArrayList<Integer> scoreList = new ArrayList<>();
 
-        //store the score of the QR
-        AtomicReference<Integer> QRscore = new AtomicReference<>(0);
-
         //Initialize the HashQR class
         HashQR hashQR = new HashQR();
 
@@ -83,8 +80,9 @@ public class MyQRScreen extends AppCompatActivity {
                 }
             }
         });
-        FaceListAdapter adapter = new FaceListAdapter(this, qrList, QRscore, userID, highScore);
+        AtomicReference<Integer> lowScore = new AtomicReference<>(Integer.MAX_VALUE);
 
+        FaceListAdapter adapter = new FaceListAdapter(this, qrList, scoreList, userID, highScore, lowScore);
 
         //when the user click any item in the facelist Listview
         faceList.setOnItemClickListener((parent, view, position, id) -> {
@@ -173,8 +171,12 @@ builder.setPositiveButton("Yes", (dialog, which) -> {
                     //get the score of the user and add it to the total score
                     Integer score = Integer.parseInt(document.getData().get("score").toString());
 
-                    //add the score to QRscore
-                    QRscore.set(score);
+                    //update scoreList
+                    scoreList.add(score);
+                    if (score < lowScore.get()) {
+                        lowScore.set(score);
+                    }
+
 
                     //update the total score
                     totalScore.addAndGet(score);
