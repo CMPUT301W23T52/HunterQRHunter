@@ -5,6 +5,7 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -108,6 +109,7 @@ public class EditProfileScreen extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                openMenuScreen();
                 finish();
             }
         });
@@ -219,6 +221,11 @@ public class EditProfileScreen extends AppCompatActivity {
         });
     }
 
+    public void openMenuScreen() {
+        Intent intent = new Intent(this, MenuScreen.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
 
 
 }

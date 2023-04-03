@@ -1,6 +1,7 @@
 package com.example.hunterqrhunter;
 
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -18,8 +19,8 @@ public class EditProfileScreenTest {
     private Solo solo;
 
     @Rule
-    public ActivityTestRule<LoadingScreen> rule =
-            new ActivityTestRule<>(LoadingScreen.class, true, true);
+    public ActivityTestRule<EditProfileScreen> rule =
+            new ActivityTestRule<>(EditProfileScreen.class, true, true);
 
     @Before
     public void setUp() {
@@ -29,22 +30,21 @@ public class EditProfileScreenTest {
     @Test
     public void properCurrentUser() throws Exception{
 
+
+        TextView usernameText = (TextView) solo.getView(R.id.edit_username);
+        TextView emailText = (TextView) solo.getView(R.id.edit_email);
+
+
+
+
     }
 
 
 
     @Test
     public void cancelButton() {
-        if (solo.getCurrentActivity().equals(MainActivity.class)) {
-            solo.enterText((EditText) solo.getView(R.id.username_sign_up), "user1");
-            solo.enterText((EditText) solo.getView(R.id.email_sign_up), "email@gmail.com");
-            solo.clickOnButton("btn_signup");
-        }
-
-        solo.clickOnButton("Edit Profile");
-        solo.assertCurrentActivity("Not EditProfileScreen", EditProfileScreen.class);
         solo.clickOnButton("Cancel");
-        solo.assertCurrentActivity("Not MenuScreen", MenuScreen.class);
+        solo.assertCurrentActivity("Still on edit screen", MenuScreen.class);
     }
 
     @Test

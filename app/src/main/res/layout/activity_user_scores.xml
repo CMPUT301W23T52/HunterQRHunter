@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <!-- Exit button -->
     <Button
         android:id="@+id/sort_by_total_score_button"
         android:layout_width="0dp"
@@ -46,7 +45,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Switch button -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/switch_button"
         android:layout_width="wrap_content"
@@ -59,7 +57,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Scoreboard title -->
     <TextView
         android:id="@+id/scoreboard_text"
         android:layout_width="wrap_content"
@@ -71,12 +68,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Search bar for users -->
-
-    <!-- Linear layout containing buttons for sorting -->
-
-    <!-- List of usernames -->
 
     <ListView
         android:id="@+id/username_list"

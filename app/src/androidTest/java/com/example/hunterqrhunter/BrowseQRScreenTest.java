@@ -29,11 +29,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class UserScoresScreenTest {
+public class BrowseQRScreenTest {
     private Solo solo;
     @Rule
-    public ActivityTestRule<UserScoresScreen> rule =
-            new ActivityTestRule<>(UserScoresScreen.class, true, true);
+    public ActivityTestRule<BrowseQRScreen> rule =
+            new ActivityTestRule<>(BrowseQRScreen.class, true, true);
 
     @Before
     public void setUp() {
@@ -79,7 +79,7 @@ public class UserScoresScreenTest {
     }
 
     @Test
-    public void testHighestQRButton() {
+    public void testMostScannedButton() {
 
 
     }
@@ -89,7 +89,7 @@ public class UserScoresScreenTest {
 
         solo.clickOnView(solo.getView(R.id.user_search));
         solo.clearEditText(0);
-        solo.enterText(0,"doh");
+        solo.enterText(0,"ra");
         solo.goBack();
 
         ListView userList = (ListView) solo.getView(R.id.username_list);
@@ -99,7 +99,7 @@ public class UserScoresScreenTest {
             TextView playerName = listRow.findViewById(R.id.player_name_button);
 
             // Check that the username contains the search query
-            assertTrue(playerName.getText().toString().toLowerCase().contains("doh"));
+            assertTrue(playerName.getText().toString().toLowerCase().contains("ra"));
         }
 
         solo.clearEditText(0);
@@ -110,31 +110,31 @@ public class UserScoresScreenTest {
     public void testSwitchButton() {
 
         solo.clickOnButton("Switch");
-        solo.assertCurrentActivity("Still on user scores page", BrowseQRScreen.class);
+        solo.assertCurrentActivity("Still on browse QR page", BrowseQRScreen.class);
 
     }
 
     @Test
-    public void testUsernameButtons() {
+    public void testQRButtons() {
 
-        ListView userList = (ListView) solo.getView(R.id.username_list);
+        ListView qrList = (ListView) solo.getView(R.id.QR_list);
 
-        for (int i = 0; i < userList.getChildCount(); i++) {
-            View listRow = userList.getChildAt(i);
-            Button usernameButton = listRow.findViewById(R.id.player_name_button);
-            solo.clickOnView(usernameButton);
-            solo.assertCurrentActivity("Still on user scores page", UserQRScreen.class);
+        for (int i = 0; i < qrList.getChildCount(); i++) {
+            View listRow = qrList.getChildAt(i);
+            Button qrButton = listRow.findViewById(R.id.player_name_button);
+            solo.clickOnView(qrButton);
+            solo.assertCurrentActivity("Still on browse QR page", BrowseQRScreen.class);
             solo.goBack();
         }
-
     }
+
 
     @Test
     public void testExitButton() {
 
         solo.clickOnButton("Exit");
 
-        solo.assertCurrentActivity("Still on user scores screen", MenuScreen.class);
+        solo.assertCurrentActivity("Still on browse QR page", MenuScreen.class);
 
     }
 
