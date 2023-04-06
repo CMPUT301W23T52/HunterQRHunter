@@ -18,6 +18,7 @@
         android:contentDescription="@string/common_google_play_services_enable_title" />
     <!-- Username input field -->
     <EditText
+        android:textColor="@color/black"
         android:id="@+id/edit_username"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -38,6 +39,7 @@
 
     <!-- Email input field -->
     <EditText
+        android:textColor="@color/black"
         android:id="@+id/edit_email"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
@@ -71,6 +73,7 @@
         app:layout_constraintHorizontal_bias="0.87"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_email"
+        android:textColor="@color/white"
         app:layout_constraintVertical_bias="0.381" />
 
     <!-- User avatar image (unused) -->

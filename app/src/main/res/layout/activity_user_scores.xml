@@ -15,12 +15,14 @@
         android:background="@drawable/save_button"
         android:scrollbars="none"
         android:text="@string/highest_points"
+        android:textColor="@color/white"
         android:textAllCaps="false"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_search" />
 
     <Button
+        android:textColor="@color/white"
         android:id="@+id/sort_by_highest_uniqueQR_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -34,6 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/user_search" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:textColor="@color/black"
         android:id="@+id/exit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,6 +49,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
+        android:textColor="@color/black"
         android:id="@+id/switch_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,6 +63,7 @@
 
     <TextView
         android:id="@+id/scoreboard_text"
+        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -85,6 +90,7 @@
         app:layout_constraintTop_toBottomOf="@+id/sort_by_total_score_button" />
 
     <SearchView
+        android:textColor="@color/black"
         android:id="@+id/user_search"
         android:layout_width="match_parent"
         android:layout_height="45dp"

@@ -19,11 +19,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:textColor="@color/black"
         android:inputType="textPersonName"
         android:hint="@string/username"
         android:autofillHints="" />
 
     <EditText
+        android:textColor="@color/black"
         android:id="@+id/email_sign_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,10 +38,12 @@
         android:id="@+id/btn_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
         android:text="@string/signup" />
 
     <Button
         android:id="@+id/btn1"
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/next_screen"/>

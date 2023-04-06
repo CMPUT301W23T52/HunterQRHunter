@@ -16,6 +16,7 @@
 
     <!-- EditText for user to enter their username -->
     <EditText
+        android:textColor="@color/black"
         android:id="@+id/username_sign_up"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -29,6 +30,7 @@
 
     <!-- EditText for user to enter their email address -->
     <EditText
+        android:textColor="@color/black"
         android:id="@+id/email_sign_up"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -48,6 +50,7 @@
         android:layout_marginStart="140dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/save_button"
+        android:textColor="@color/black"
         android:text="@string/signup" />
 
 </LinearLayout>

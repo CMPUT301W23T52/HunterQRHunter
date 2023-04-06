@@ -8,6 +8,7 @@
     </item>
 
     <item
+        android:textColor="@color/black"
         android:bottom="10dp"
         android:top="10dp"
         android:left="10dp"

@@ -32,4 +32,5 @@
     <string name="rank_0">Rank 0</string>
     <string name="player">Player</string>
     <string name="total_points">total points</string>
+    <string name="add">add</string>
 </resources>

@@ -33,11 +33,13 @@
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:text="@string/total_points"
+            android:textColor="@color/black"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:textColor="@color/black"
             android:id="@+id/num_qr_text"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
@@ -58,6 +60,7 @@
         android:layout_height="wrap_content">
 
         <GridView
+            android:textColor="@color/black"
             android:id="@+id/QRList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
