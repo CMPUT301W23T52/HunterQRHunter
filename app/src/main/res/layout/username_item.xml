@@ -37,7 +37,7 @@
             android:layout_margin="16dp"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
-            android:background="@drawable/save_button"
+            android:background="@drawable/textview_background"
             android:paddingLeft="0dp"
             android:paddingTop="8dp"
             android:paddingRight="0dp"
