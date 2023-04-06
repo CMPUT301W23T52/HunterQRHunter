@@ -11,7 +11,8 @@
         android:id="@+id/QrCreatureImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        android:contentDescription="@string/common_google_play_services_enable_title" />
 
     <EditText
         android:id="@+id/username_sign_up"
@@ -19,7 +20,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Username" />
+        android:hint="@string/username"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/email_sign_up"
@@ -27,18 +29,20 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:hint="Email" />
+        android:hint="@string/email"
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/btn_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-    android:text="signup" />
-<Button
-android:id="@+id/btn1"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:text="Next Screen"/>
+        android:text="@string/signup" />
+
+    <Button
+        android:id="@+id/btn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next_screen"/>
 
     </LinearLayout>
 

@@ -24,7 +24,7 @@
             android:layout_marginEnd="34dp"
             android:background="@drawable/border_line"
             android:gravity="center"
-            android:text="0"
+            android:text="@string/_0"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -38,7 +38,7 @@
             android:background="@drawable/textview_background"
             android:gravity="center"
             android:padding="2dp"
-            android:text="QR score"
+            android:text="@string/qr_score"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/qr_image_button" />
@@ -52,7 +52,7 @@
             android:background="@drawable/textview_background"
             android:gravity="center"
             android:padding="2dp"
-            android:text="QR name"
+            android:text="@string/qr_name"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView2" />
@@ -66,7 +66,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/border_line" />
+            app:srcCompat="@drawable/border_line"
+            android:contentDescription="@string/face" />
 
         <ImageView
             android:id="@+id/qr_face"
@@ -84,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="20dp"
-            android:text="Image"
+            android:text="@string/image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/qr_scanned_number" />
 

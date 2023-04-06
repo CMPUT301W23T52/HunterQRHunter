@@ -32,7 +32,7 @@
             android:padding="5dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:text="TextView"
+            android:text="@string/total_points"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -47,7 +47,7 @@
             android:padding="5dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:text="number"
+            android:text="@string/number"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -21,9 +22,10 @@
         android:layout_margin="15dp"
         android:background="@drawable/border_line"
         android:ems="10"
-        android:hint="Username"
+        android:hint="@string/username"
         android:inputType="textPersonName"
-        android:paddingStart="20dp" />
+        android:paddingStart="20dp"
+        android:autofillHints="" />
 
     <!-- EditText for user to enter their email address -->
     <EditText
@@ -33,9 +35,10 @@
         android:layout_margin="15dp"
         android:background="@drawable/border_line"
         android:ems="10"
-        android:hint="Email"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
-        android:paddingStart="20dp" />
+        android:paddingStart="20dp"
+        tools:ignore="RtlSymmetry" />
 
     <!-- Button for user to submit their information and sign up -->
     <androidx.appcompat.widget.AppCompatButton
@@ -45,6 +48,6 @@
         android:layout_marginStart="140dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/save_button"
-        android:text="signup" />
+        android:text="@string/signup" />
 
 </LinearLayout>

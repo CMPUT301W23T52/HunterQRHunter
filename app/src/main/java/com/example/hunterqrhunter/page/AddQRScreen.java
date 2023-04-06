@@ -37,19 +37,17 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.auth.User;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Objects;
 import java.util.UUID;
 
 
 public class AddQRScreen extends AppCompatActivity {
 
-    private LocationUtils mLocationUtils;
+    private LocationUtils locationUtils;
     private Bitmap surroundingImage;
     QR qr = new QR();
     //        Initialize Firebase
@@ -80,9 +78,9 @@ public class AddQRScreen extends AppCompatActivity {
 
 
 
-        mLocationUtils = new LocationUtils(this);
-        mLocationUtils.requestLocationPermission();
-        mLocationUtils.getLocation();
+        locationUtils = new LocationUtils(this);
+        locationUtils.requestLocationPermission();
+        locationUtils.getLocation();
 
         String scannedData = getIntent().getStringExtra("SCANNED_DATA");
         byte[] HashedValue = HashQR.hashObject(scannedData);
@@ -128,8 +126,8 @@ public class AddQRScreen extends AppCompatActivity {
 
 
 //        initialize the qr object
-        double longitude = mLocationUtils.getLongitude();
-        double latitude = mLocationUtils.getLatitude();
+        double longitude = locationUtils.getLongitude();
+        double latitude = locationUtils.getLatitude();
         GeoPoint location = new GeoPoint(latitude, longitude);
         String qid = UUID.randomUUID().toString();
         qr.setLocation(location);

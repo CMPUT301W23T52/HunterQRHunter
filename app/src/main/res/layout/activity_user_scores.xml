@@ -14,7 +14,7 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/save_button"
         android:scrollbars="none"
-        android:text="Highest Points"
+        android:text="@string/highest_points"
         android:textAllCaps="false"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/save_button"
-        android:text="Highest QR"
+        android:text="@string/highest_qr"
         android:textAllCaps="false"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +41,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/delete_button"
-        android:text="Exit"
+        android:text="@string/exit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,7 +53,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/blue_button"
-        android:text="Switch"
+        android:text="@string/s_witch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Scoreboard"
+        android:text="@string/scoreboard"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
